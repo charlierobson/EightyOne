@@ -20,7 +20,11 @@ void ringReset(void){}
 int serialAvailable(void){ return 0; }
 void serialInit(int b, int i){} 
 BYTE serialRead(void){ return 0; }
-void serialWrite(BYTE b){}
+void serialWrite(BYTE b){
+        FILE* f = fopen("serial.bin", "a");
+        fwrite((void*)&b,1,1,f);
+        fclose(f);
+}
 void tryProgramCPLD(const char* p){}
 
 zxpand_t::zxpand_t()

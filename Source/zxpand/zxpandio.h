@@ -29,5 +29,9 @@ extern unsigned char LEDs;
 
 #define ACTIVITYSTROBE(x)
 
+#define ppCommandWaiting() false
+#define ppCommand() 0
+#define ppPort() 0
+
 #define _ZXPANDIO
 #endif

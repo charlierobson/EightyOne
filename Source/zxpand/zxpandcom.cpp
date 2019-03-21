@@ -20,7 +20,7 @@ static FIL fil;
 static FILINFO filinfo;
 static FATFS fatfs;
 
-static int sb;
+static int sb = -1;
 
 #define WILD_LEN  16
 static char  WildPattern[WILD_LEN+1];
@@ -57,6 +57,8 @@ extern void serialInit(int, int);
 extern void serialClose(void);
 extern void serialHex(BYTE);
 extern int serialCopy(BYTE*);
+
+void playMidiFile(int(*stopFunc)(void));
 
 extern void delayMillis(short);
 
@@ -1275,7 +1277,7 @@ void comParseBuffer(void)
 
 enum verbs
 {
-    V_OPEN, V_PUT, V_GET, V_CLOSE, V_DELETE, V_RENAME
+    V_OPEN, V_PUT, V_GET, V_CLOSE, V_DELETE, V_RENAME, V_PLAY
 };
 
 rom far char* verbs[] = {
@@ -1285,6 +1287,7 @@ rom far char* verbs[] = {
     (rom far char*)"CLO",
     (rom far char*)"DEL",
     (rom far char*)"REN",
+    (rom far char*)"PLA",
     (rom far char*)NULL
 };
 
@@ -1332,11 +1335,18 @@ int identifyToken(char** p, rom far char** tokens)
 }
 
 
+// callback passed to midi play function. returns nonzero if zxpand command is fired whilst playing
+int midiStop(void) {
+    return ppCommandWaiting() && ppCommand() == 0x01 && ppPort() == 7;
+}
+
+
 void InitRetBlk(char* p)
 {
     zxpandRetblk.address = atoi(p+1);
     zxpandRetblk.op = 2;             // executable
 }
+
 
 /*
 ED 5B 3F 40  ld de,(16447) ; data ptr
@@ -1596,7 +1606,21 @@ void comParseBufferPlus(void)
         retcode = 0x40 | f_rename(p, q);
     }
     break;
+
+    case V_PLAY: {
+        switch (noun)
+        {
+            case N_MIDI: {
+                if (fileOpen(p, FA_OPEN_EXISTING|FA_READ) == 0x40) {
+                    playMidiFile(midiStop);
+                }
+            }
+            break;
+        }
     }
+    break;
+
+    } // switch (verb)
 
     GOOUTPUTMODE;
     LATD = retcode;

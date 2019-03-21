@@ -146,6 +146,7 @@ USEUNIT("BasicLoader\IBasicLoader.cpp");
 USEFORM("BasicLoader\BasicLoaderOptions_.cpp", LoadBasicListingOptionsForm);
 USEFORM("BasicLister\BasicListerOptions_.cpp", SaveBasicListingOptionsForm);
 USEFORM("BasicLister\BasicListingFormatInfo_.cpp", BasicListingFormatInfoForm);
+USEUNIT("zxpand\midiplay.cpp");
 //---------------------------------------------------------------------------
 #include "SplashScreen.h"
 #include "main_.h"
