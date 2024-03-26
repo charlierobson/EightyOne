@@ -93,6 +93,7 @@ void load_config(void)
         machine.aysound=0;
         machine.aytype=0;
         zx81.vsyncsound=0;
+        zx81.parrot=0; // Stroebel modified
         emulator.beepersound=0;
         machine.ts2050=0;
         machine.plus3arabicPagedOut=0;

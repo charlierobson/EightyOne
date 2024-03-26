@@ -103,6 +103,7 @@ __published:	// IDE-managed Components
         TLabel *LabelIDE;
         TLabel *ZXCFLabel;
         TCheckBox *uSpeech;
+        TCheckBox *Parrot; // Stroebel modified
         TCheckBox *ZXPrinter;
         TCheckBox *ZXpand;
         TComboBox *ColourBox;

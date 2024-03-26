@@ -178,6 +178,7 @@ typedef struct
         CFGBYTE chrgen;
         CFGBYTE enableQSchrgen;
         CFGBYTE vsyncsound;
+        CFGBYTE parrot; // Stroebel modified
         int maxireg;
         CFGBYTE zxpand;
         int RAMTOP;

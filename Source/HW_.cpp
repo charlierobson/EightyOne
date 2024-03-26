@@ -248,6 +248,7 @@ void THW::UpdateHardwareSettings(bool reinitialise, bool disableReset)
         zx81.RAM816k = EnableLowRAM->Checked;
         zx81.RAM816kWriteProtected = Form1->WriteProtect8KRAM->Checked;
         zx81.FloatingPointHardwareFix = FloatingPointHardwareFix->Checked;
+        zx81.parrot = Parrot->Checked; // Stroebel modified
 
         Form1->InWaveLoader->Enabled=true;
         Form1->OutWaveLoader->Enabled=true;
@@ -1645,6 +1646,8 @@ void THW::SetupForZX81(void)
         uSpeech->Enabled=false;
         uSpeech->Checked=false;
 
+        Parrot->Enabled=true; // Stroebel modified
+
         uSource->Enabled=false;
         uSource->Checked=false;
 
@@ -1751,6 +1754,9 @@ void THW::SetupForSpectrum(void)
 
         uSpeech->Checked=false;
         uSpeech->Enabled=false;
+
+        Parrot->Enabled=false; // Stroebel modified
+        Parrot->Checked=false; // Stroebel modified
 
         uSource->Checked=false;
         uSource->Enabled=false;
@@ -1893,6 +1899,9 @@ void THW::SetupForQL(void)
 
         uSpeech->Checked=false;
         uSpeech->Enabled=false;
+
+        Parrot->Enabled=false; // Stroebel modified
+        Parrot->Checked=false; // Stroebel modified
 
         uSource->Checked=false;
         uSource->Enabled=false;
@@ -2833,6 +2842,7 @@ void THW::SaveSettings(TIniFile *ini)
         ini->WriteBool("HWARE","TS2050",TS2050->Checked);
         ini->WriteBool("HWARE","Iss2Kb",Issue2->Checked);
         ini->WriteBool("HWARE","KMouse",KMouse->Checked);
+        ini->WriteBool("HWARE","Parrot",Parrot->Checked); // Stroebel modified
         ini->WriteBool("HWARE","divIDEWP",Form1->divIDEJumperEClosed->Checked);
         ini->WriteBool("HWARE","ZXCFWP",Upload->Checked);
         ini->WriteBool("HWARE","MFace",Multiface->Checked);
@@ -3029,6 +3039,7 @@ void THW::LoadSettings(TIniFile *ini)
         TS2050->Checked=ini->ReadBool("HWARE","TS2050",TS2050->Checked);
         Issue2->Checked=ini->ReadBool("HWARE","Iss2Kb",Issue2->Checked);
         KMouse->Checked=ini->ReadBool("HWARE","KMouse",KMouse->Checked);
+        Parrot->Checked=ini->ReadBool("HWARE","Parrot",Parrot->Checked); // Stroebel modified
         Form1->divIDEJumperEClosed->Checked=ini->ReadBool("HWARE","divIDEWP",Form1->divIDEJumperEClosed->Checked);
         Multiface->Checked=ini->ReadBool("HWARE","MFace",Multiface->Checked);
         ZXPrinter->Checked=ini->ReadBool("HWARE","ZXPrinter",ZXPrinter->Checked);

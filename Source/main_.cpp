@@ -62,7 +62,6 @@
 #include "ide.h"
 #include "z80.h"
 #include "parallel.h"
-#include "sp0256.h"
 #include "sound\SoundForm.h"
 #include "ZipFile_.h"
 #include "debug68.h"
@@ -226,8 +225,6 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
         ini = new TIniFile(emulator.inipath);
         ShowSplash = ini->ReadBool("MAIN","ShowSplash", ShowSplash);
         EnableSplashScreen->Checked = ShowSplash;
-
-        SP0256_Init();
 
         iniFileExists = FileExists(emulator.inipath);
         LoadSettings(ini);

@@ -45,6 +45,7 @@
 #include "Chroma\Chroma.h"
 #include "LiveMemoryWindow_.h"
 #include "BasicLister\BasicLister_.h"
+#include "sp0256drv.h" // Stroebel modified
 
 #define LASTINSTNONE  0
 #define LASTINSTINFE  1
@@ -1144,6 +1145,11 @@ void zx81_writeport(int Address, int Data, int *tstates)
         if ((spectrum.HDType==HDPITERSCF) && ((Address&0x3b)==0x2b))
                 ATA_WriteRegister(((Address>>2)&1) | ((Address>>5)&6), Data);
 
+        // Stroebel modified
+        // Note that the Parrot only decodes A7, A5, and A4.
+        //  If these are all 0, then the Parrot performs I/O.
+        if (zx81.parrot && ((Address&0xB0)==0)) sp0256_AL2.Write(Data);
+
         switch(Address&255)
         {
         case 0x01:
@@ -1274,6 +1280,11 @@ BYTE ReadInputPort(int Address, int *tstates)
         {
                 if ((spectrum.HDType==HDPITERSCF || spectrum.HDType==HDPITERS8B) && ((Address&0x3b)==0x2b))
                         return(ATA_ReadRegister(((Address>>2)&1) | ((Address>>5)&6)));
+
+                // Stroebel modified
+                // Note that the Parrot only decodes A7, A5, and A4.
+                //  If these are all 0, then the Parrot performs I/O.
+                if (zx81.parrot && ((Address&0xB0)==0)) return !sp0256_AL2.Busy();
 
                 switch(Address&255)
                 {
