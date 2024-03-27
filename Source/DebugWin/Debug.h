@@ -189,8 +189,6 @@ __published:	// IDE-managed Components
         TLabel *IOPort0Direction;
         TLabel *IOPort2Data;
         TLabel *IOPort1Data;
-        TLabel *Label33;
-        TLabel *Label34;
         TLabel *IOPort3Data;
         TLabel *IOPort3Direction;
         TLabel *IOPort1Direction;
