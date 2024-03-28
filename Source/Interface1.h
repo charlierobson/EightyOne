@@ -89,7 +89,7 @@ __published:	// IDE-managed Components
 private:	// User declarations
         int RS232Port;
         FILE *InFile, *OutFile;
-        bool Baud;
+        int Baud;
         int RxBufSize, TxBufSize;
         int MDVDriveMap, MDVCurDrive;
         bool WriteEnable;

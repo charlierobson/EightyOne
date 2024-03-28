@@ -289,13 +289,13 @@ void zx81BasicLoader::OutputFloatingPointEncoding(double value, int& addressOffs
                         value = -value;
                 }
 
-                exponent = (int)floor(DBL_EPSILON + (log(value) / log(2)));
+                exponent = (int)floor(DBL_EPSILON + (log(value) / log(2.0)));
                 if (exponent < -129 || exponent > 126)
                 {
                         throw out_of_range("Number out of range");
                 }
 
-                double mantissaVal = (value / pow(2, exponent)) - 1;
+                double mantissaVal = (value / pow(2.0, exponent)) - 1;
                 mantissaVal *= 0x80000000;
                 mantissa = (unsigned long)floor(mantissaVal);
 
@@ -454,7 +454,7 @@ unsigned char zx81BasicLoader::AsciiToZX(unsigned char ascii)
                                       
 void zx81BasicLoader::ExtractInverseCharacters()
 {
-        char* pPos = mLineBuffer;
+        unsigned char* pPos = mLineBuffer;
 
         while (*pPos != '\0')
         {
@@ -594,7 +594,7 @@ void zx81BasicLoader::ExtractZxTokenCharacterCodes()
                 zxTokenChars[c] = c + 0x45;
         }
 
-        char* pPos = mLineBuffer;
+        unsigned char* pPos = mLineBuffer;
 
         while (*pPos != '\0')
         {

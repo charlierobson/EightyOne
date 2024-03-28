@@ -95,12 +95,12 @@ private:	// User declarations
 public:		// User declarations
         __fastcall TSerialConfig(TComponent* Owner);
         void Reset(void);
-        void WriteDATA(byte data);
-        void WriteCTRL(byte data);
+        void WriteDATA(BYTE data);
+        void WriteCTRL(BYTE data);
         BYTE ReadDATA(void);
         BYTE ReadCTRL(void);
-        void TSerialConfig::LoadSettings(TIniFile *ini);
-        void TSerialConfig::SaveSettings(TIniFile *ini);
+        void LoadSettings(TIniFile *ini);
+        void SaveSettings(TIniFile *ini);
 };
 
 extern "C" BYTE d8251readCTRL(void);

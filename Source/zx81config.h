@@ -24,7 +24,9 @@
 #define ZX81CONFIG_H
 
 #define CFGBYTE char
+#ifndef BYTE
 #define BYTE unsigned char
+#endif
 
 #define EMUID           0x85
 
@@ -163,8 +165,7 @@ typedef enum
         ZXC1_64K,
         ZXC1_16KPAGEOUT,
         ZXC1_32KPAGEOUT,
-        ZXC1_48KPAGEOUT,
-        ZXC1_64KPAGEOUT
+        ZXC1_48KPAGEOUT
 } ZXC1TYPE;
 
 typedef struct

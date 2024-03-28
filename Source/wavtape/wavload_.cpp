@@ -276,7 +276,7 @@ void TWavLoad::ClockTick(int TStates, bool ZX81, bool MicState)
         if (ScreenCounter<1083333) return;
 
         ScreenCounter=0;
-        ScrollBar->Max=(Wav.NoSamples - ScrollBar->Width) >= 0 ? Wav.NoSamples - ScrollBar->Width : Wav.NoSamples;
+        ScrollBar->Max=((int)Wav.NoSamples - ScrollBar->Width) >= 0 ? Wav.NoSamples - ScrollBar->Width : Wav.NoSamples;
         ScrollBar->Position = TapePos;
         UpdateImage();    Application->ProcessMessages();
         if (Playing) DoCaption("Playing");
@@ -725,7 +725,7 @@ void __fastcall TWavLoad::ConvertNextBlock1Click(TObject *Sender)
         }
 
         TZX->AddBlock(NULL,Silence);
-        if (ByteCount>32) TZX->AddBlock(inbuf, ByteCount);
+        if (ByteCount>32) TZX->AddBlock((char *)inbuf, ByteCount);
         TZX->MergeBlocks();
         TZX->UpdateTable(false);
 
@@ -785,7 +785,7 @@ void __fastcall TWavLoad::StopBtnClick(TObject *Sender)
         if (Recording)
         {
                 ScrollBar->Max = Wav.NoSamples;
-                ScrollBar->Position = (Wav.NoSamples - ScrollBar->Width >= 0) ? Wav.NoSamples - ScrollBar->Width : Wav.NoSamples;
+                ScrollBar->Position = ((int)Wav.NoSamples - ScrollBar->Width >= 0) ? Wav.NoSamples - ScrollBar->Width : Wav.NoSamples;
         }
         else
         {

@@ -451,7 +451,7 @@ bool TTZXFile::SaveT81File(AnsiString FileName)
         if (!f) return(false);
         this->FileName=FileName;
 
-        WriteBytes(f, 4, T81_HEADER_ID);
+        WriteBytes(f, 4, (void *)T81_HEADER_ID);
 
         for(i=0;i<Blocks;i++)
         {
@@ -505,8 +505,8 @@ bool TTZXFile::SavePFile(AnsiString FileName)
         i=0;
         while(i<Blocks && Tape[i].BlockID != TZX_BLOCK_GENERAL) i++;
 
-        p=Tape[i].Data.Data;
-        namelen=ZX81Strlen(p);
+        p=(char *)Tape[i].Data.Data;
+        namelen=ZX81Strlen((unsigned char *)p);
         p+=namelen;
 
         WriteBytes(f, Tape[i].Head.General.DataLen-namelen,p);

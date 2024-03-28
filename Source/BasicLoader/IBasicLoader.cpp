@@ -433,7 +433,7 @@ void IBasicLoader::MaskOutStrings(unsigned char* buffer)
 
         bool withinQuote = false;
 
-        buffer = pQuote;
+        buffer = (unsigned char *)pQuote;
 
         while (*buffer != '\0')
         {
@@ -507,7 +507,7 @@ unsigned char* IBasicLoader::ExtractLineNumber(int& lineNumber)
 {
         unsigned char* pCommand;
 
-        lineNumber = strtol((char*)mLineBuffer, &(char*)pCommand, 10);
+        lineNumber = strtol((const char*)mLineBuffer, (char **)&pCommand, 10);
 
         if (pCommand == mLineBuffer)
         {
@@ -542,12 +542,12 @@ void IBasicLoader::OutputEmbeddedNumber(int& index, int& addressOffset, bool bin
                 value = strtod((char*)(mLineBuffer + index), &pEnd);
         }
 
-        if (pEnd == (mLineBuffer + index))
+        if (pEnd == (char *)(mLineBuffer + index))
         {
                 pEnd++;
         }
 
-        while ((mLineBuffer + index) < pEnd)
+        while ((char *)(mLineBuffer + index) < pEnd)
         {
                 unsigned char chr = mLineBufferOutput[index];
                 OutputByte(addressOffset, chr);
@@ -652,8 +652,8 @@ void IBasicLoader::ExtractZxTokenNumericBlocks()
                         withinBrackets = true;
 
                         *pPos = Blank;
-                        *pPos++;
-                        
+                        pPos++;
+
                         base = ExtractNumericBlockBase(&pPos);
                 }
                 else if (withinBrackets && *pPos != ']')
@@ -735,7 +735,7 @@ unsigned char IBasicLoader::ExtractByteValue(unsigned char** ppPos, int base)
         {
                 char* pEnd;
                 int value = strtol((char*)*ppPos, &pEnd, base);
-                int numberChars = pEnd - *ppPos;
+                int numberChars = pEnd - (char *)*ppPos;
                 if (numberChars == 0)
                 {
                         throw runtime_error("Invalid value in numeric block");
@@ -842,8 +842,8 @@ void IBasicLoader::ReplaceTokenEndCharacters(map<unsigned char, string>& tokens,
 
         for (it = tokens.begin(); it != tokens.end(); it++)
         {
-                const unsigned char* pToken = (it->second).c_str();
-                int lenToken = strlen((char*)pToken);
+                const char* pToken = (it->second).c_str();
+                int lenToken = strlen(pToken);
                 const unsigned char endChar = pToken[lenToken-1];
 
                 if (endChar == oldChar)
@@ -861,8 +861,8 @@ void IBasicLoader::DoTokenise(map<unsigned char, string> tokens)
         for (it = tokens.rbegin(); it != tokens.rend(); it++)
         {
                 unsigned char tokenCode = it->first;
-                const unsigned char* pToken = (it->second).c_str();
-                int lenToken = strlen((char*)pToken);
+                const char* pToken = (it->second).c_str();
+                int lenToken = strlen(pToken);
 
                 unsigned char* pMatch;
                 bool tokenFound;
@@ -888,7 +888,7 @@ void IBasicLoader::DoTokenise(map<unsigned char, string> tokens)
                 
                 do
                 {
-                        pMatch = strstr((char*)mLineBufferTokenised, (char*)pToken);
+                        pMatch = (unsigned char *)strstr((char*)mLineBufferTokenised, (char*)pToken);
                         bool matchFound = (pMatch != NULL);
 
                         bool startOk = matchFound && (tokenBeginsWithSpace || !tokenBeginsWithAlpha || (!tokenBeginsWithSpace && !isalnum(pMatch[-1])));

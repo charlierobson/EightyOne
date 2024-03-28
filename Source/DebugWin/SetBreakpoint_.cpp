@@ -69,7 +69,7 @@ bool TSetBreakpoint::EditBreakpoint(struct breakpoint& bp)
 }
 //---------------------------------------------------------------------------
 
-void ReplaceRegisterName(String& addressValue)
+void ReplaceRegisterName(AnsiString& addressValue)
 {
         if (CompareText(addressValue, "PC") == 0)
         {
@@ -121,7 +121,7 @@ void ReplaceRegisterName(String& addressValue)
         }
 }
 
-bool SanitiseEditBox(String addressValue, int& addr, int minValue, int maxValue, bool symbolLookUp = false)
+bool SanitiseEditBox(AnsiString addressValue, int& addr, int minValue, int maxValue, bool symbolLookUp = false)
 {
         int newAddr = addr;
 

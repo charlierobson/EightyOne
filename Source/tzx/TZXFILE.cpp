@@ -37,7 +37,7 @@
 
 #pragma package(smart_init)
 
-char *HWName[]=
+const char *HWName[]=
 {
         "ZX Spectrum 16k",
         "ZX Spectrum 48k, Plus",
@@ -90,7 +90,7 @@ char *HWName[]=
 struct BLKNAMES
 {
         int id;
-        char *name;
+        const char *name;
 } BlockNames[] =
 {       { 0,                      "Unknown" },
         { TZX_BLOCK_ROM,          "Spectrum ROM" },
@@ -129,7 +129,7 @@ void TTZXFile::EraseAll(void)
 void TTZXFile::NewTZX(void)
 {
         EraseAll();
-        AddTextBlock("Created using the EightyOne emulator");
+        AddTextBlock((char *)"Created using the EightyOne emulator");
         //AddHWTypeBlock(0x00, 0x0c);
         CurBlock=1;
         AutoStart=true;
@@ -182,7 +182,7 @@ AnsiString TTZXFile::GetBlockName(int BlockNo)
         switch(BlockID)
         {
         case 0x10:
-                data=Tape[BlockNo].Data.Data;
+                data=(char *)Tape[BlockNo].Data.Data;
                 if ((data[0]==0) && (Tape[BlockNo].Head.ROM.DataLen==19
                                         || Tape[BlockNo].Head.ROM.DataLen==20))
                 {
@@ -474,7 +474,7 @@ AnsiString TTZXFile::GetFName(int BlockNo)
 
         if (Tape[BlockNo].BlockID != TZX_BLOCK_GENERAL) return("");
 
-        p=Tape[BlockNo].Data.Data;
+        p=(char *)Tape[BlockNo].Data.Data;
 
         do
         {
@@ -543,13 +543,13 @@ void TTZXFile::EditBlock(int Block, int Mx, int My)
         return;
 }
 
-TMonitor* TTZXFile::FindMonitor(int x, int y)
+Forms::TMonitor* TTZXFile::FindMonitor(int x, int y)
 {
         int numberOfMonitors = Screen->MonitorCount;
 
         for (int i = 0; i < numberOfMonitors; i++)
         {
-                TMonitor* monitor = Screen->Monitors[i];
+                Forms::TMonitor* monitor = Screen->Monitors[i];
 
                 if (x >= monitor->Left && x < (monitor->Left + monitor->Width) &&
                     y >= monitor->Top && y < (monitor->Top + monitor->Height))

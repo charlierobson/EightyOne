@@ -94,7 +94,7 @@ void TSerialConfig::WriteDATA(BYTE Data)
 
         if (SendTo==SERIALFILE)
         {
-                if (!File) File=fopen((FileNameBox->Text).c_str()  ,"ab");
+                if (!File) File=fopen((FileNameBox->Text).c_str() ,"ab");
                 if (File) fputc(Data,File);
                 return;
         }

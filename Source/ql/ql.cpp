@@ -40,7 +40,7 @@ extern void add_blank(SCANLINE*, int, BYTE);
 extern "C"
 {
 #include "68000.h"
-extern int CRC32Block(char *memory, int romlen);
+extern int CRC32Block(BYTE *memory, int romlen);
 extern void HWReset(void);
 };
 

@@ -2,20 +2,6 @@
 
 #ifndef HW_H
 #define HW_H
-#include "OffBtn.hpp"
-#include <Classes.hpp>
-#include <ComCtrls.hpp>
-#include <Controls.hpp>
-#include <Dialogs.hpp>
-#include <ImgList.hpp>
-#include <StdCtrls.hpp>
-#include <ExtCtrls.hpp>
-#include <Graphics.hpp>
-#include <vector>
-
-using namespace std;
-
-//---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
@@ -28,8 +14,9 @@ using namespace std;
 #include <Buttons.hpp>
 #include <ImgList.hpp>
 #include <Graphics.hpp>
+#include <vector>
 
-//---------------------------------------------------------------------------
+using namespace std;
 
 struct RomCartridgeEntry
 {
@@ -213,7 +200,7 @@ private:	// User declarations
         void PopulateRomCartridgeTS2068List();
         void PopulateRomCartridgeTC2068List();
         void AddRomCartridgeFile(TComboBox* romCartridgeFileBox, RomCartridgeEntry* romCartridgeEntry, AnsiString fileExt);
-        AnsiString DirectSoundError(int errorCode);
+        AnsiString DirectSoundError(unsigned int errorCode);
         void ConfigureDefaultRamSettings();
         void DisplayTotalRam();
         int UpdateRomCartridgeControls(int machine, int spectrumModel);

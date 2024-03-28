@@ -56,7 +56,7 @@
 
 extern "C"
 {
-        int CRC32Block(char *memory, int romlen);
+        int CRC32Block(BYTE *memory, int romlen);
         void P3DriveMachineHasInitialised(void);
 }
 
@@ -216,7 +216,7 @@ bool interruptPending = false;
 extern int shift_register, shift_reg_inv;
 extern long noise;
 
-extern int font_load(char*, char*,int);
+extern int font_load(const char*, char*,int);
 
 BYTE get_i_reg(void)
 {
@@ -284,7 +284,7 @@ void zx81_initialise()
         romlen=memory_load(romname.c_str(), 0, 65536);
         emulator.romcrc=CRC32Block(memory,romlen);
 
-        if (zx81.extfont) font_load("lambda8300characterset.bin",font,512);
+        if (zx81.extfont) font_load("lambda8300characterset.bin",(char *)font,512);
 
         if ((zx81.chrgen==CHRGENDK) && (!chromaSelected || (chromaSelected && !zx81.RAM816k)))
         {
@@ -1502,14 +1502,14 @@ int zx81_do_scanline(SCANLINE *CurScanLine)
                         }
                         else if (!lambdaSelected)
                         {
-                                if (((nmiLevel > 1) && (z80.pc.w == 0x007A) || (nmiLevel && ((z80.pc.w < 0x0066) || (z80.pc.w > 0x007D)))))
+                                if ((((nmiLevel > 1) && (z80.pc.w == 0x007A)) || (nmiLevel && ((z80.pc.w < 0x0066) || (z80.pc.w > 0x007D)))))
                                 {
                                         nmiLevel--;
                                 }
                         }
                         else
                         {
-                                if (((nmiLevel > 1) && (z80.pc.w == 0x0062) || (nmiLevel && ((z80.pc.w < 0x0059) || (z80.pc.w > 0x006D)))))
+                                if ((((nmiLevel > 1) && (z80.pc.w == 0x0062)) || (nmiLevel && ((z80.pc.w < 0x0059) || (z80.pc.w > 0x006D)))))
                                 {
                                         nmiLevel--;
                                 }
@@ -1525,7 +1525,7 @@ int zx81_do_scanline(SCANLINE *CurScanLine)
                         else
                         {
                                 withinDisplayDriver = ((z80.pc.w >= 0x01ED && z80.pc.w <= 0x020F) || (z80.pc.w >= 0x12C0 && z80.pc.w <= 0x1336) ||
-                                                       (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) ||  withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2));
+                                                       (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) || (withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2)));
                         }
                 }
 
@@ -2109,7 +2109,7 @@ int zx80_do_scanline(SCANLINE *CurScanLine)
                                 else
                                 {
                                         withinDisplayDriver = ((z80.pc.w >= 0x01ED && z80.pc.w <= 0x020F) || (z80.pc.w >= 0x12C0 && z80.pc.w <= 0x1336) ||
-                                                               (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) ||  withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2));
+                                                               (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) || (withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2)));
                                 }
                         }
 

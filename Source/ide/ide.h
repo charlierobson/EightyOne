@@ -65,13 +65,13 @@ typedef struct DriveStruct
 
 typedef struct
 {
-	byte sig[0x06];
-	byte id;
-	byte revision;
-	byte flags;
-	byte data_low;
-	byte data_high;
-	byte reserved[0x0b];
+	BYTE sig[0x06];
+	BYTE id;
+	BYTE revision;
+	BYTE flags;
+	BYTE data_low;
+	BYTE data_high;
+	BYTE reserved[0x0b];
 } HDF_HEADER;
 
 typedef struct
@@ -107,13 +107,13 @@ typedef struct
 	HDF_HEADER hdf;
         VHD_HEADER vhd;
 
-        byte drive_id[512];
+        BYTE drive_id[512];
         int id_len;
 	int cylinders;
 	int heads;
 	int sectors;
-	byte error;
-	byte status;
+	BYTE error;
+	BYTE status;
         unsigned long size;
 
         int read_only;
@@ -123,14 +123,14 @@ typedef struct
 {
 	ATA_DRIVE drive[2];
 
-	byte feature;
-	byte sector_count;
-	byte cylinder_low;
-	byte cylinder_high;
-	byte head;
-        byte sector;
+	BYTE feature;
+	BYTE sector_count;
+	BYTE cylinder_low;
+	BYTE cylinder_high;
+	BYTE head;
+        BYTE sector;
 
-        byte multi_sector;
+        BYTE multi_sector;
 
         int DataHighByte;
 
@@ -141,7 +141,7 @@ typedef struct
 
         int mode;
 
-	byte buffer[512];
+	BYTE buffer[512];
 } ATA_CHANNEL;
 
 extern PHYSDRIVE PhysDrives[];

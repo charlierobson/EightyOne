@@ -37,7 +37,7 @@
 #define SetEarState(State)                                      \
         switch(State)                                           \
         {                                                       \
-        case 0: EarState = EarState; PulseList++; break;        \
+        case 0: PulseList++; break;        \
         case 1: EarState = !EarState; PulseList++; break;       \
         case 2: EarState = 0; PulseList++; break;               \
         case 3: EarState = 1; PulseList++; break;               \

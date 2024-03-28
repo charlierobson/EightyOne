@@ -319,7 +319,7 @@ static int ATA_CalculateSectorNo(void)
                 }
         }
 
-        if (SectorNo<0 || SectorNo>=Drv->size)
+        if (SectorNo>=Drv->size)
         {
                 Drv->status |= ATA_ERR;
                 Drv->error = ATA_ERR_ABRT | ATA_ERR_IDNF;
@@ -768,7 +768,7 @@ int ATA_LoadHDF(int drive, char *FileName)
                         return(1);
                 }
 
-                if (strncmp(Drv->hdf.sig, "RS-IDE", 6) || (Drv->hdf.id != 0x1a))
+                if (strncmp((const char *)Drv->hdf.sig, "RS-IDE", 6) || (Drv->hdf.id != 0x1a))
                 {
                         fclose(f);
                         return(1);

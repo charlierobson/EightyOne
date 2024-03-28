@@ -693,7 +693,7 @@ void __fastcall TBasicLister::ToolButtonSettingsClick(TObject *Sender)
 
         EnableButtons();
 
-        const keepScrollbarPosition = false;
+        const bool keepScrollbarPosition = false;
         Refresh(keepScrollbarPosition);
 }
 

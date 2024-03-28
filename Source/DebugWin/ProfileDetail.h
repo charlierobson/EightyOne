@@ -2,6 +2,7 @@
 #define __profiledetail_h
 
 #include<vector>
+#include<algorithm>
 
 
 class ProfileDetail

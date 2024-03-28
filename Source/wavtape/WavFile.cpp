@@ -98,7 +98,7 @@ bool TWavFile::LoadCSW(AnsiString FName)
         Format.NoChannels=1;
         Data.DataLen=NoSamples;
         if (Data.Data!=NULL) delete[] Data.Data;
-        Data.Data=new char[Data.DataLen];
+        Data.Data=new unsigned char[Data.DataLen];
         MemAllocated=Data.DataLen;
 
         fclose(f);
@@ -174,7 +174,7 @@ bool TWavFile::LoadFile(AnsiString FName)
         else Stereo=true;
 
         if (Data.Data!=NULL) delete[] Data.Data;
-        Data.Data=new char[Data.DataLen];
+        Data.Data=new unsigned char[Data.DataLen];
         MemAllocated=Data.DataLen;
 
         fread(Data.Data, Data.DataLen, 1, f);
@@ -281,7 +281,7 @@ bool TWavFile::NewFile(void)
         Stereo=false;
 
         MemAllocated = (16384*8*140);  // 16k * average of 70 Samples per bit
-        Data.Data = new char[MemAllocated];
+        Data.Data = new unsigned char[MemAllocated];
         Data.Data[0]=128;
 
 
@@ -297,10 +297,10 @@ bool TWavFile::SetSample(unsigned int Pos, int Value)
         {
 
                 int NewMemAllocated;
-                char *NewData;
+                unsigned char *NewData;
 
                 NewMemAllocated = MemAllocated + (16384*8*70);
-                NewData = new char[NewMemAllocated];
+                NewData = new unsigned char[NewMemAllocated];
 
                 if (Data.Data)
                 {

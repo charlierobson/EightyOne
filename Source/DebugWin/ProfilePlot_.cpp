@@ -84,7 +84,7 @@ void TProfilePlot::InitScrollbar()
         ScrollBarHorizontal->Min = 0;
         bool enabled = _pd->SampleCount() > ClientWidth;
         ScrollBarHorizontal->Enabled = enabled;
-        ScrollBarHorizontal->Max = max(_pd->SampleCount() - ClientWidth, ClientWidth);
+        ScrollBarHorizontal->Max = std::max(_pd->SampleCount() - ClientWidth, ClientWidth);
         ScrollBarHorizontal->Position = 0;
 
         Refresh();

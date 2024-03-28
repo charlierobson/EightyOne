@@ -806,7 +806,7 @@ void THW::ConfigureRomCartridge()
         {
                 RomCartridgeCapacity = 0;
                 RomCartridgeBox->ItemIndex = ROMCARTRIDGENONE;
-                LoadDock("");
+                LoadDock((char *)"");
                 *(emulator.romcartridgefilepath) = '\0';
         }
         else
@@ -898,7 +898,7 @@ void THW::ConfigureRomCartridge()
                 }
                 else
                 {
-                        LoadDock("");
+                        LoadDock((char *)"");
                         loadSuccessful = LoadRomCartridgeFile(romCartridgeFilePath.c_str());
                 }
 
@@ -911,7 +911,7 @@ void THW::ConfigureRomCartridge()
                         msg += romCartridgeFilePath;
                         Application->MessageBox(msg.c_str(), "Error", MB_OK | MB_ICONERROR);
 
-                        LoadDock("");
+                        LoadDock((char *)"");
                 }
 
                 ResetRequired=true;
@@ -1404,7 +1404,7 @@ void THW::ConfigureCharacterBitmapFile(AnsiString romBase)
         }
 }
 
-AnsiString THW::DirectSoundError(int errorCode)
+AnsiString THW::DirectSoundError(unsigned int errorCode)
 {
         AnsiString errorText;
         switch (errorCode)

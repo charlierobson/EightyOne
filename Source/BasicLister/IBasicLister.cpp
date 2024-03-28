@@ -16,12 +16,12 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "IBasicLister.h"
-#include "zx81config.h"
 #include <vcl.h>
 #include <sstream>
 #include <iomanip>
 #include <string>
+#include "IBasicLister.h"
+#include "zx81config.h"
 
 using namespace std;
 

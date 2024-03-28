@@ -133,7 +133,7 @@ bool TTZXFile::LoadOldGeneralBlock(FILE *f)
         Tape[CurBlock].Head.General.DataLen=datalen;
 
         Tape[CurBlock].SymDefD=SymDefD;
-        Tape[CurBlock].Data.Data=data;
+        Tape[CurBlock].Data.Data=(unsigned char *)data;
         Tape[CurBlock].SymDefP=NULL;
         Tape[CurBlock].PRLE=NULL;
 
@@ -587,7 +587,7 @@ bool TTZXFile::LoadCustomBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_CUSTOM;
         memcpy(Tape[CurBlock].Head.Custom.IDString, data, 11);
-        Tape[CurBlock].Data.Data=data;
+        Tape[CurBlock].Data.Data=(unsigned char *)data;
         Tape[CurBlock].Head.Custom.Length=len;
 
         return(false);
@@ -623,7 +623,7 @@ bool TTZXFile::LoadTAPFile(AnsiString FileName, bool Insert)
         int HeaderLen;
         int len;
         bool FirstBlock, AddSync, AddChecksum;
-        char data[65536];
+        unsigned char data[65536];
 
         f=fopen(FileName.c_str(), "rb");
         if (!f) return(false);
@@ -668,7 +668,7 @@ bool TTZXFile::LoadTAPFile(AnsiString FileName, bool Insert)
 
                         len+= AddSync+AddChecksum;
 
-                        MoveBlock(AddROMBlock(data, len), CurBlock);
+                        MoveBlock(AddROMBlock((char *)data, len), CurBlock);
                         if (AddSync)
                         {
                                 if (len==27) Tape[CurBlock].Pause=100;
@@ -698,8 +698,8 @@ bool TTZXFile::LoadPFile(AnsiString FileName, bool Insert)
         if (FileNameGetExt(FileName)==".P"
                 || FileNameGetExt(FileName)==".81")
         {
-                ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), tempdata);
-                fnamelen=ZX81Strlen(tempdata);
+                ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), (unsigned char *)tempdata);
+                fnamelen=ZX81Strlen((unsigned char *)tempdata);
         }
         else    fnamelen=0;
 
@@ -750,8 +750,8 @@ void TTZXFile::LoadPFileData(AnsiString FileName, unsigned char* programData, in
         int fnamelen;
         char tempdata[65536+256];
         
-        ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), tempdata);
-        fnamelen = ZX81Strlen(tempdata);
+        ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), (unsigned char *)tempdata);
+        fnamelen = ZX81Strlen((unsigned char *)tempdata);
 
         memcpy(tempdata+fnamelen, (char*)programData, length);
 
@@ -769,7 +769,7 @@ void TTZXFile::LoadTapFileData(AnsiString FileName, unsigned char* programData, 
         int headerLength = programData[headerOffset] + (programData[headerOffset+1] << 8);
         headerOffset += 2;
         unsigned char* headerStart = programData + headerOffset;
-        MoveBlock(AddROMBlock(headerStart, headerLength), CurBlock);
+        MoveBlock(AddROMBlock((char *)headerStart, headerLength), CurBlock);
         Tape[CurBlock].Pause=100;
         CurBlock++;
 
@@ -777,7 +777,7 @@ void TTZXFile::LoadTapFileData(AnsiString FileName, unsigned char* programData, 
         int dataLength = programData[dataOffset] + (programData[dataOffset+1] << 8);
         dataOffset += 2;
         unsigned char* dataStart = programData + dataOffset;
-        MoveBlock(AddROMBlock(dataStart, dataLength), CurBlock);
+        MoveBlock(AddROMBlock((char *)dataStart, dataLength), CurBlock);
         Tape[CurBlock].Pause=5000;
         CurBlock++;
 
@@ -927,7 +927,7 @@ bool TTZXFile::LoadT81File(AnsiString FileName, bool Insert)
 
                         while(length>0 && buffer2[length-1]!=0x80) length--;
 
-                        MoveBlock(AddGeneralBlock(buffer2, length), CurBlock++);
+                        MoveBlock(AddGeneralBlock((char *)buffer2, length), CurBlock++);
                 }
         } while(!feof(fptr));
 

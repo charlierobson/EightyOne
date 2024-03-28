@@ -646,7 +646,7 @@ int AccurateDraw(SCANLINE *Line)
 {
         static int FrameNo=0;
         static int LastVSyncLen=0, Shade=0;
-        register int i,c;
+        int i,c;
 
         if (!dest) return(0);
 
@@ -905,7 +905,7 @@ static void GetPixelColour(int x, int y, unsigned char *r, unsigned char *g, uns
         DWORD c;
         int i;
 
-        p=buffer + x*BPP + y*TVP;
+        p=(char *)(buffer + x*BPP + y*TVP);
         c=*(DWORD *)p;
 
         switch(BPP)

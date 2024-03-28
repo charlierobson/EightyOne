@@ -151,17 +151,14 @@ USEFORM("Interface1.cpp", IF1);
 #include "main_.h"
 //---------------------------------------------------------------------------
 char **CommandLine;
-TSplash *spl;
 bool ShowSplash=true;
 bool Restart=false;
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
 {
         int i;
         char *p, *CmdLineRaw;
         bool quote;
-
-        spl = new TSplash(Splash);
 
         CmdLineRaw=(char *)malloc(strlen(cmdline)+2);
         strcpy(CmdLineRaw,cmdline);
@@ -214,6 +211,9 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
         {
                 Application->Initialize();
                 Application->Title = "EightyOne";
+
+                TSplash *spl = new TSplash(Splash);
+
                 #include "splashImpl.cpp"
 
                 Application->ProcessMessages();

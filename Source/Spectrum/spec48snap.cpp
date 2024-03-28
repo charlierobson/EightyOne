@@ -60,7 +60,7 @@ extern int SPECKb, SPECNextBorder;
 extern int SPECVSync;
 extern int fts;
 
-extern SPECLast1ffd;
+extern BYTE SPECLast1ffd;
 
 int LoadDock(char *Filename)
 {
@@ -99,9 +99,9 @@ int LoadDock(char *Filename)
 
         for(i=0;i<8;i++)
         {
-                if (bank==0) ptr=TimexMem;  // Dock chunk
-                else if (bank==254) ptr=TimexMem+65536;  //ExROM chunk
-                else if (bank==255) ptr=SpecMem;  // Home chunk
+                if (bank==0) ptr=(char *)TimexMem;  // Dock chunk
+                else if (bank==254) ptr=(char *)TimexMem+65536;  //ExROM chunk
+                else if (bank==255) ptr=(char *)SpecMem;  // Home chunk
 
                 if (ptr == NULL) return 0;
                 

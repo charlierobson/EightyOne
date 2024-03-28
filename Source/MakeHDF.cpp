@@ -175,7 +175,7 @@ void __fastcall TCreateHDF::OKClick(TObject *Sender)
         memset(track, 0, tracklen);
         memset(head, 0, 512+16);
 
-        strcpy(head,"RS-IDE");
+        strcpy((char *)head,"RS-IDE");
         head[0x06]=0x1a;
         head[0x07]=0x11;
         head[0x08]=EightBit->Checked ? 1:0;

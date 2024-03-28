@@ -386,13 +386,13 @@ void specBasicLoader::OutputFloatingPointEncoding(double value, int& addressOffs
         }
         else
         {
-                exponent = (int)floor(DBL_EPSILON + (log(value) / log(2)));
+                exponent = (int)floor(DBL_EPSILON + (log(value) / log(2.0)));
                 if (exponent < -129 || exponent > 126)
                 {
                         throw out_of_range("Number out of range");
                 }
 
-                double mantissaVal = (value / pow(2, exponent)) - 1;
+                double mantissaVal = (value / pow(2.0, exponent)) - 1;
                 mantissaVal *= 0x80000000;
                 mantissa = (unsigned long)floor(mantissaVal);
 

@@ -357,7 +357,7 @@ int TIF1::MDVGetNextBlock(int Drive, bool header)
                         count=0;
                         for(i=0;i<14;i++)
                         {
-                                byte = Drives[Drive].data[Drive, MDVPos(Drive, i)];
+                                byte = Drives[Drive].data[MDVPos(Drive, i)];
 
                                 count += byte;
                                 if (count&256) count++;
@@ -454,7 +454,7 @@ void TIF1::MDVLoadFile(int Drive, char *FileName)
                         if (Drives[Drive].changed) MDVSaveFile(Drive);
                         free(Drives[Drive].data);
                 }
-                Drives[Drive].data=data;
+                Drives[Drive].data=(unsigned char *)data;
                 Drives[Drive].length=256*MDVRECSIZE;
                 Drives[Drive].position=0;
                 Drives[Drive].changed=false;
@@ -495,7 +495,7 @@ void TIF1::MDVLoadFile(int Drive, char *FileName)
                         if (Drives[Drive].changed) MDVSaveFile(Drive);
                         free(Drives[Drive].data);
                 }
-                Drives[Drive].data=data;
+                Drives[Drive].data=(unsigned char *)data;
                 Drives[Drive].length=len;
                 Drives[Drive].position=0;
                 Drives[Drive].changed=false;

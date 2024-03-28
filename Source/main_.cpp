@@ -29,6 +29,7 @@
 #include <ctype.h>
 #include <dir.h>
 #include <stdio.h>
+#include <algorithm>
 #include <sys/stat.h>
 
 #pragma hdrstop
@@ -83,9 +84,6 @@
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "ThemeMgr"
-#pragma link "ThemeMgr"
-#pragma link "ThemeMgr"
 #pragma resource "*.dfm"
 
 #define ZXDB(msg) Application->MessageBox(msg, "Debug", MB_OK);
@@ -98,7 +96,7 @@ extern void SpecStartUp(void);
 extern BYTE spec48_getbyte(int Address);
 extern void spec48_LoadRZX(char *FileName);
 extern int AccurateDraw(SCANLINE *Line);
-extern loadFileSymbolsProxy(const char*);
+extern void loadFileSymbolsProxy(const char*);
 
 extern bool ShowSplash;
 extern int frametstates;
@@ -1032,12 +1030,12 @@ void __fastcall TForm1::AppMessage(TMsg &Msg, bool &Handled)
 
         if (Msg.message == WM_DROPFILES)
         {
-                QtyDroppedFiles = DragQueryFile((void *)Msg.wParam, -1,
+                QtyDroppedFiles = DragQueryFile((HDROP)Msg.wParam, -1,
                                                 pDroppedFilename, BufferLength);
 
                 for(FileIndex=0; FileIndex<=(QtyDroppedFiles - 1); FileIndex++)
                 {
-                        DragQueryFile((void *)Msg.wParam, FileIndex, pDroppedFilename, BufferLength);
+                        DragQueryFile((HDROP)Msg.wParam, FileIndex, pDroppedFilename, BufferLength);
 
                         Filename = pDroppedFilename;
                         Ext = GetExt(Filename);
@@ -1085,7 +1083,7 @@ void __fastcall TForm1::AppMessage(TMsg &Msg, bool &Handled)
 
                 }
 
-                DragFinish((void *)Msg.wParam);
+                DragFinish((HDROP)Msg.wParam);
                 Handled = true;
         }
 
@@ -1619,7 +1617,7 @@ void __fastcall TForm1::SaveSnapDialogTypeChange(TObject *Sender)
         AnsiString filter, newext;
         AnsiString Fname;
 
-        THandle *h;
+        HWND h;
         TSaveDialog *d;
 
         filter=SaveSnapDialog->Filter;
@@ -1645,7 +1643,7 @@ void __fastcall TForm1::SaveSnapDialogTypeChange(TObject *Sender)
         Fname = RemovePath(RemoveExt(SaveSnapDialog->FileName) + newext);
 
         d=(TSaveDialog *)Sender;
-        h=(THandle *)GetParent(d->Handle);
+        h=GetParent(d->Handle);
         SendMessage(h, CDM_SETCONTROLTEXT, edt1, (long)(Fname.c_str()));
 
 }

@@ -55,8 +55,8 @@ private:	// User declarations
         FILE *OutFile;
 public:		// User declarations
         __fastcall TParallelPort(TComponent* Owner);
-        void TParallelPort::LoadSettings(TIniFile *ini);
-        void TParallelPort::SaveSettings(TIniFile *ini);
+        void LoadSettings(TIniFile *ini);
+        void SaveSettings(TIniFile *ini);
         void SendData(unsigned char Data);
 };
 //---------------------------------------------------------------------------

@@ -258,8 +258,8 @@ void load_snap_hires(FILE *f)
                         tok = get_token(f);
                         SetComboBox(HW->HiResBox, tok);
                         
-                        if (tok=="G007") HW->EnableLowRAM->Checked=true;
-                        if (tok=="Memotech") HW->ProtectROM->Checked=true;
+                        if (!strcmp(tok,"G007")) HW->EnableLowRAM->Checked=true;
+                        if (!strcmp(tok,"Memotech")) HW->ProtectROM->Checked=true;
                 }
         }
 }
@@ -710,12 +710,12 @@ void InitialiseHardware()
 
         InitialiseChroma();
         
-        SetComboBox(HW->ColourBox, "None");
-        SetComboBox(HW->SoundCardBox, "None");
-        SetComboBox(HW->ChrGenBox, "Sinclair");
-        SetComboBox(HW->HiResBox, "None");
-        SetComboBox(HW->RomCartridgeBox, "None");
-        SetComboBox(HW->ZXC1ConfigurationBox, "32K");
+        SetComboBox(HW->ColourBox, (char *)"None");
+        SetComboBox(HW->SoundCardBox, (char *)"None");
+        SetComboBox(HW->ChrGenBox, (char *)"Sinclair");
+        SetComboBox(HW->HiResBox, (char *)"None");
+        SetComboBox(HW->RomCartridgeBox, (char *)"None");
+        SetComboBox(HW->ZXC1ConfigurationBox, (char *)"32K");
         HW->ZXC1ConfigurationBox->Visible = false;
         HW->RomCartridgeFileBox->Left = 86;
         HW->RomCartridgeFileBox->Width = 281;
@@ -1159,7 +1159,7 @@ int memory_load(char *filename, int address, int length, int secondBank)
         return do_memory_load(file, address, length, secondBank);
 }
 
-int font_load(char *filename, char *address, int length)
+int font_load(const char *filename, char *address, int length)
 {
         int fptr;
         char file[256];
