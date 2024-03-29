@@ -22,7 +22,7 @@
 #include <sstream>
 #include <cctype>
 
-void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardRedundantSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
+void IBasicLoader::LoadBasicFile(ZXString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardRedundantSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
 {
         string result;
 
@@ -46,7 +46,7 @@ void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, 
                         msg << mLines[index].line.substr(0, displayLen);
                         if (truncateLine) msg << "...";
                 }
-                Application->MessageBox(msg.str().c_str(), "Load BASIC Listing", MB_OK | MB_ICONERROR);
+                Application->MessageBox(msg.str().c_str(), _TEXT("Load BASIC Listing"), MB_OK | MB_ICONERROR);
                 return;
         }
 
@@ -72,7 +72,7 @@ void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, 
                         int displayLen = truncateLine ? 256: mLines[i].line.length();
                         msg << mLines[i].line.substr(0, displayLen);
                         if (truncateLine) msg << "...";
-                        Application->MessageBox(msg.str().c_str(), "Load BASIC Listing", MB_OK | MB_ICONERROR);
+                        Application->MessageBox(msg.str().c_str(), _TEXT("Load BASIC Listing"), MB_OK | MB_ICONERROR);
                         return;
                 }
         }
@@ -82,7 +82,7 @@ void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, 
         mProgramLength = addressOffset;
 }
 
-void IBasicLoader::ReadBasicListingFile(AnsiString filename)
+void IBasicLoader::ReadBasicListingFile(ZXString filename)
 {
         if (!FileExists(filename))
         {

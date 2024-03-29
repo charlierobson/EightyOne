@@ -54,13 +54,13 @@ void __fastcall TProfiler::EnableButtons(bool enabled)
         }
 }
 //---------------------------------------------------------------------------
-void __fastcall TProfiler::UpdateItem(TListItem* item, AnsiString tag, ProfileDetail& pd)
+void __fastcall TProfiler::UpdateItem(TListItem* item, ZXString tag, ProfileDetail& pd)
 {
         item->Caption = tag;
         item->SubItems->Strings[START] = symbolstore::addressToSymbolOrHex(pd._start);
         item->SubItems->Strings[END] = symbolstore::addressToSymbolOrHex(pd._end);
-        item->SubItems->Strings[MIN] = pd.Min() == INT_MAX ? "--" : IntToStr(pd.Min()).c_str();
-        item->SubItems->Strings[MAX] = pd.Max() == INT_MIN ? "--" : IntToStr(pd.Max()).c_str();
+        item->SubItems->Strings[MIN] = pd.Min() == INT_MAX ? _TEXT("--") : IntToStr(pd.Min()).c_str();
+        item->SubItems->Strings[MAX] = pd.Max() == INT_MIN ? _TEXT("--") : IntToStr(pd.Max()).c_str();
         item->SubItems->Strings[COUNT] = pd.SampleCount();
 }
 //---------------------------------------------------------------------------
@@ -113,7 +113,7 @@ void __fastcall TProfiler::ButtonDeleteClick(TObject *Sender)
 
         Timer->Enabled = false;
 
-        int ret = Application->MessageBox("Are you sure you wish to delete this entry?", "Delete Profile Entry", MB_YESNO | MB_ICONQUESTION);
+        int ret = Application->MessageBox(_TEXT("Are you sure you wish to delete this entry?"), _TEXT("Delete Profile Entry"), MB_YESNO | MB_ICONQUESTION);
 
         if (ret == IDYES)
         {
@@ -146,7 +146,7 @@ void __fastcall TProfiler::DebugTick(processor* z80)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, AnsiString tag)
+void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, ZXString tag)
 {
         if (!valid) {
                 delete(_newPD);
@@ -175,7 +175,7 @@ void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, AnsiString tag)
         Refresh();
 }
 
-void TProfiler::SampleEditComplete(bool valid, AnsiString tag)
+void TProfiler::SampleEditComplete(bool valid, ZXString tag)
 {
         Profiler->SampleEditCompleteImpl(valid, tag);
 }

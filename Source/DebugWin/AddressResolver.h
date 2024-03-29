@@ -4,9 +4,9 @@
 class AddressResolver
 {
 public:
-        static bool Validate(AnsiString addrString, int& address)
+        static bool Validate(ZXString addrString, int& address)
         {
-                AnsiString addressValue = addrString.Trim();
+				ZXString addressValue = addrString.Trim();
 
                 if (addressValue.Length() == 0)
                         return false;
@@ -28,8 +28,8 @@ public:
                 // which allows us to use a ninja converter.
                 // suddenly 0xABCD, $ABCD, 01234 [octal] and decimal are all valid.
                 //
-                char* endPtr;
-                tempAddress = int(strtol(addressValue.c_str(), &endPtr, 0));
+                _TCHAR* endPtr;
+				tempAddress = int(_tcstol(ZXString(addressValue).c_str(), &endPtr, 0));
                 if (*endPtr != 0)
                 {
                         return false;

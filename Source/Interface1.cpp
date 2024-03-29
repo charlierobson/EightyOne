@@ -395,10 +395,10 @@ int TIF1::MDVGetNextBlock(int Drive, bool header)
         return -2;
 }
 
-void TIF1::MDVLoadFile(int Drive, char *FileName)
+void TIF1::MDVLoadFile(int Drive, _TCHAR *FileName)
 {
         FILE *f;
-        AnsiString Ext;
+        ZXString Ext;
         char *buffer, *data, *secptr;
         int len, sectors, i;
 
@@ -408,7 +408,7 @@ void TIF1::MDVLoadFile(int Drive, char *FileName)
 
         if (Ext==".MDR")
         {
-                f=fopen(FileName, "rb");
+				f=_tfopen(FileName, _TEXT("rb"));
                 if (!f) return;
 
                 buffer=(char *)malloc(MDR_RECORD);
@@ -458,11 +458,11 @@ void TIF1::MDVLoadFile(int Drive, char *FileName)
                 Drives[Drive].length=256*MDVRECSIZE;
                 Drives[Drive].position=0;
                 Drives[Drive].changed=false;
-                strcpy(Drives[Drive].FileName, FileName);
+                _tcscpy(Drives[Drive].FileName, FileName);
         }
         else
         {
-                f=fopen(FileName, "rb");
+				f=_tfopen(FileName, _TEXT("rb"));
                 if (f)
                 {
                         buffer=(char *)malloc(256*1024);
@@ -499,7 +499,7 @@ void TIF1::MDVLoadFile(int Drive, char *FileName)
                 Drives[Drive].length=len;
                 Drives[Drive].position=0;
                 Drives[Drive].changed=false;
-                strcpy(Drives[Drive].FileName, FileName);
+				_tcscpy(Drives[Drive].FileName, FileName);
         }
 }
 
@@ -508,7 +508,7 @@ void TIF1::MDVSaveFile(int Drive)
         unsigned char* buffer;
         int bufferSize;
 
-        AnsiString Ext = GetExt(Drives[Drive].FileName);
+        ZXString Ext = GetExt(Drives[Drive].FileName);
         if (Ext == ".MDR")
         {
                 const int MDR_HEADER_SIZE = 15;
@@ -551,7 +551,7 @@ void TIF1::MDVSaveFile(int Drive)
                 memcpy(buffer, Drives[Drive].data, Drives[Drive].length);
         }
 
-        FILE* f = fopen(Drives[Drive].FileName, "wb");
+        FILE* f = _tfopen(Drives[Drive].FileName, _TEXT("wb"));
         if (f)
         {
                 fwrite(buffer, 1, bufferSize , f);
@@ -559,13 +559,13 @@ void TIF1::MDVSaveFile(int Drive)
         }
 }
 
-char *TIF1::MDVGetFileName(int Drive)
+_TCHAR *TIF1::MDVGetFileName(int Drive)
 {
-        if (Drives[Drive].FileName[0]=='\0') return(NULL);
+		if (Drives[Drive].FileName[0]=='\0') return(NULL);
         return(Drives[Drive].FileName);
 }
 
-void TIF1::MDVSetFileName(int Drive, char *FileName)
+void TIF1::MDVSetFileName(int Drive, _TCHAR *FileName)
 {
         if (!FileName)
         {
@@ -633,26 +633,26 @@ void __fastcall TIF1::OKClick(TObject *Sender)
                 break;
         case 1:
                 RS232Port=PORTFILE;
-                InFile=fopen((InputFileEdit->Text).c_str(), "rb");
-                OutFile=fopen((OutputFileEdit->Text).c_str(), "wb");
+                InFile=_tfopen((InputFileEdit->Text).c_str(), _TEXT("rb"));
+                OutFile=_tfopen((OutputFileEdit->Text).c_str(), _TEXT("wb"));
                 break;
         case 2:
                 RS232Port=PORTTCPIP;
                 ClientSocket->Host = TCPAddress->Text;
-                ClientSocket->Port = atoi((TCPPort->Text).c_str());
+                ClientSocket->Port = _ttoi((TCPPort->Text).c_str());
 
                 if ((ClientSocket->Host != "") && (ClientSocket->Port!=0))
                         ClientSocket->Open();
                 break;
 
         default:
-                AnsiString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
+                ZXString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
 
                 if (Port.SubString(1,3)=="LPT")
                 {
                         RS232Port=PORTFILE;
                         InFile=NULL;
-                        OutFile=fopen(Port.c_str(), "wb");
+						OutFile=_tfopen(Port.c_str(), _TEXT("wb"));
                 }
                 else
                 {
@@ -693,7 +693,7 @@ void __fastcall TIF1::OKClick(TObject *Sender)
                         }
                         else
                         {
-                                Baud=atoi((BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
+                                Baud=_ttoi((BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
                                 ComPort->CustomBaudRate=Baud;
                         }
 
@@ -702,7 +702,7 @@ void __fastcall TIF1::OKClick(TObject *Sender)
                         {
                                 AnsiString Msg = "Could not open port ";
                                 Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
-                                if (Sender) Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+                                if (Sender) Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
                         }
                 }
                 break;
@@ -720,7 +720,7 @@ void __fastcall TIF1::OKClick(TObject *Sender)
 
 void __fastcall TIF1::ComPortListChange(TObject *Sender)
 {
-        AnsiString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
+		ZXString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
 
         PortPanel->Visible=false;
         TCPPanel->Visible=false;
@@ -765,7 +765,7 @@ void __fastcall TIF1::ClientSocketError(TObject *Sender,
       TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
 {
         AnsiString Msg = "Could not open port ";
-        Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+        Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
         ErrorCode=0;
 }
 //---------------------------------------------------------------------------

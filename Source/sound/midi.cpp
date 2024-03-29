@@ -19,7 +19,8 @@
   * emulated machine, reassemble the data then send it to the host midi device
  */
 
- #include <windows.h>
+#include <windows.h>
+#include <vcl.h>
 #include "zx81config.h"
 #include "midi.h"
 

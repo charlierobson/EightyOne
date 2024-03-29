@@ -1,3 +1,4 @@
+#include <tchar.h>
 #include "765.h"
 
 #ifdef __cplusplus
@@ -11,7 +12,7 @@ extern FDRV_PTR p3_drive_null;
 
 void floppy_init(void);
 void floppy_eject(int drive);
-void floppy_setimage(int drive, char *filename);
+void floppy_setimage(int drive, _TCHAR *filename);
 void floppy_ClockTick(int ts);
 void floppy_shutdown(void);
 

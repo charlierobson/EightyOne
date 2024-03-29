@@ -58,7 +58,7 @@ void TEditValue::CentreOn(TForm* parent)
 //
 bool TEditValue::Edit2(int& value, int len, char format)
 {
-        AnsiString NewVal;
+        ZXString NewVal;
 
         maxValue = (1 << (8*len)) - 1;
 
@@ -83,12 +83,12 @@ bool TEditValue::Edit2(int& value, int len, char format)
         return Translate(EditVal->Text, value);
 }
 
-AnsiString TEditValue::IntToDec(int value)
+ZXString TEditValue::IntToDec(int value)
 {
         return Format("%d", ARRAYOFCONST((value)));
 }
 
-AnsiString TEditValue::IntToBin(int value, int digits)
+ZXString TEditValue::IntToBin(int value, int digits)
 {
         char arry[16] = {0};
         
@@ -98,12 +98,12 @@ AnsiString TEditValue::IntToBin(int value, int digits)
                 value >>= 1;
         }
 
-        return AnsiString(arry);
+        return ZXString(arry);
 }
 
-bool TEditValue::Translate(AnsiString text, int& value)
+bool TEditValue::Translate(ZXString text, int& value)
 {
-        AnsiString result = text.Trim();
+        ZXString result = text.Trim();
 
         if (cancelled || result.Length() == 0)
         {
@@ -138,19 +138,19 @@ bool TEditValue::Translate(AnsiString text, int& value)
                 result = result.SubString(2, result.Length() - 1);
         }
 
-        char* endPtr;
+        _TCHAR* endPtr;
         int tval;
         if (hex)
         {
-                tval = int(strtol(result.c_str(), &endPtr, 16));
+				tval = int(_tcstol(result.c_str(), &endPtr, 16));
         }
         else if (binary)
         {
-                tval = int(strtol(result.c_str(), &endPtr, 2));
+				tval = int(_tcstol(result.c_str(), &endPtr, 2));
         }
         else
         {
-                tval = int(strtol(result.c_str(), &endPtr, 10));
+                tval = int(_tcstol(result.c_str(), &endPtr, 10));
         }
 
         if (*endPtr != 0)

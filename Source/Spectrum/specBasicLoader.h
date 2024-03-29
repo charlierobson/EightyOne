@@ -55,7 +55,7 @@ private:
         virtual unsigned char DecodeGraphic(unsigned char chr1, unsigned char chr2);
         virtual void ExtractTokens(bool acceptAlternateKeywordSpelling);
         virtual void OutputLine(int lineNumber, int& addressOffset);
-        virtual void OutputStartOfProgramData(AnsiString filename, int& addressOffset);
+        virtual void OutputStartOfProgramData(ZXString filename, int& addressOffset);
         virtual void OutputEndOfProgramData(int& addressOffset);
         virtual bool SupportUppercaseOnly();
         virtual unsigned char GetEmbbededNumberMark();

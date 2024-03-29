@@ -23,6 +23,16 @@
 #ifndef ZX81CONFIG_H
 #define ZX81CONFIG_H
 
+#ifdef _UNICODE
+#define ZXString UnicodeString
+#else
+#define ZXString AnsiString
+#endif
+
+#ifndef _TCHAR
+#include <tchar.h>
+#endif
+
 #define CFGBYTE char
 #ifndef BYTE
 #define BYTE unsigned char
@@ -202,7 +212,7 @@ typedef struct
         int kmouse;
         int floppytype, autoboot;
         int driveatype, drivebtype;
-        char driveaimg[256], drivebimg[256];
+        _TCHAR driveaimg[256], drivebimg[256];
         int drivebusy;
         int HDType;
         int divIDEJumperEClosed;
@@ -272,7 +282,7 @@ typedef struct
         int scanlines;
         int fps;
         CFGBYTE NTSC;
-        char CurRom[256];
+		_TCHAR CurRom[256];
 
         // Shared Interfaces / facilities
         CFGBYTE zxprinter;
@@ -328,55 +338,55 @@ typedef struct
         CFGBYTE ColouriseZ80Halted;
         CFGBYTE ColouriseUserProgramInstructionStartPositions;
 
-        char ROM80[256];
-        char ROM81[256];
-        char ROMACE[256];
-        char ROMTS1000[256];
-        char ROMTS1500[256];
-        char ROMLAMBDA[256];
-        char ROMTK85[256];
-        char ROM97LE[256];
-        char ROMR470[256];
-        char ROMSP16[256];
-        char ROMSP48[256];
-        char ROMSPP[256];
-        char ROMSP128[256];
-        char ROMSPP2[256];
-        char ROMSPP2A[256];
-        char ROMSPP3[256];
-        char ROMSPP3E[256];
-        char ROMTC2048[256];
-        char ROMTC2068[256];
-        char ROMTS2068[256];
-        char ROMDock[256];
-        char ROMZXCF[256];
-        char ROMZX8BIT[256];
-        char ROMZX16BIT[256];
-        char ROMQL[256];
-        char ROMPLUSD[256];
-        char ROMDISCIPLE[256];
-        char ROMOPUSD[256];
-        char ROMBETADISC[256];
-        char ROMUSPEECH[256];
-        char ROMUSOURCE[256];
-        char ROMMWCFIDE[256];
-        char ROMLARKEN81[256];
-        char ROMDKTRONICS[256];
-        char ROMKAYDE[256];
-        char ROMG007[256];
-        char ROMMEMOTECH[256];
-        char ROMQUICKSILVAHIRES[256];        
-        char ROMMULTIFACE128[256];
-        char ROMMULTIFACE3[256];
-        char ROMINTERFACE1ED1[256];
-        char ROMINTERFACE1ED2[256];
+		_TCHAR ROM80[256];
+        _TCHAR ROM81[256];
+        _TCHAR ROMACE[256];
+        _TCHAR ROMTS1000[256];
+        _TCHAR ROMTS1500[256];
+        _TCHAR ROMLAMBDA[256];
+        _TCHAR ROMTK85[256];
+        _TCHAR ROM97LE[256];
+        _TCHAR ROMR470[256];
+        _TCHAR ROMSP16[256];
+        _TCHAR ROMSP48[256];
+        _TCHAR ROMSPP[256];
+        _TCHAR ROMSP128[256];
+        _TCHAR ROMSPP2[256];
+        _TCHAR ROMSPP2A[256];
+        _TCHAR ROMSPP3[256];
+        _TCHAR ROMSPP3E[256];
+        _TCHAR ROMTC2048[256];
+        _TCHAR ROMTC2068[256];
+        _TCHAR ROMTS2068[256];
+        _TCHAR ROMDock[256];
+        _TCHAR ROMZXCF[256];
+        _TCHAR ROMZX8BIT[256];
+        _TCHAR ROMZX16BIT[256];
+        _TCHAR ROMQL[256];
+        _TCHAR ROMPLUSD[256];
+        _TCHAR ROMDISCIPLE[256];
+        _TCHAR ROMOPUSD[256];
+        _TCHAR ROMBETADISC[256];
+        _TCHAR ROMUSPEECH[256];
+        _TCHAR ROMUSOURCE[256];
+        _TCHAR ROMMWCFIDE[256];
+        _TCHAR ROMLARKEN81[256];
+        _TCHAR ROMDKTRONICS[256];
+        _TCHAR ROMKAYDE[256];
+        _TCHAR ROMG007[256];
+        _TCHAR ROMMEMOTECH[256];
+        _TCHAR ROMQUICKSILVAHIRES[256];
+        _TCHAR ROMMULTIFACE128[256];
+        _TCHAR ROMMULTIFACE3[256];
+        _TCHAR ROMINTERFACE1ED1[256];
+		_TCHAR ROMINTERFACE1ED2[256];
 
-        char cwd[256];
-        char temppath[256];
-        char inipath[256];
-        char configpath[256];
-        char machinename[256];
-        char romcartridgefilepath[256];
+        _TCHAR cwd[256];
+        _TCHAR temppath[256];
+        _TCHAR inipath[256];
+        _TCHAR configpath[256];
+        _TCHAR machinename[256];
+        _TCHAR romcartridgefilepath[256];
 
         int scanlinesPerFrame;
 } EMULATOR;
@@ -410,24 +420,24 @@ extern MOUSE mouse;
 extern ROMCARTRIDGE romcartridge;
 extern EMULATOR emulator;
 
-extern const char* iniFolder;
-extern const char* temporaryFolder;
+extern const _TCHAR* iniFolder;
+extern const _TCHAR* temporaryFolder;
 
-extern const char* romsFolder;
-extern const char* nvMemoryFolder;
-extern const char* examplesDrivesFolder;
-extern const char* documentationFolder;
-extern const char* exampleZX81ProgramsFolder;
-extern const char* fdcRomsFolder;
-extern const char* ideRomsFolder;
-extern const char* interfaceRomsFolder;
-extern const char* graphicRomsFolder;
-extern const char* romCartridgeFolder;
-extern const char* if2RomsFolder;
-extern const char* ts1510RomsFolder;
-extern const char* ts2068RomsFolder;
-extern const char* tc2068RomsFolder;
-extern const char* replacementRomsFolder;
+extern const _TCHAR* romsFolder;
+extern const _TCHAR* nvMemoryFolder;
+extern const _TCHAR* examplesDrivesFolder;
+extern const _TCHAR* documentationFolder;
+extern const _TCHAR* exampleZX81ProgramsFolder;
+extern const _TCHAR* fdcRomsFolder;
+extern const _TCHAR* ideRomsFolder;
+extern const _TCHAR* interfaceRomsFolder;
+extern const _TCHAR* graphicRomsFolder;
+extern const _TCHAR* romCartridgeFolder;
+extern const _TCHAR* if2RomsFolder;
+extern const _TCHAR* ts1510RomsFolder;
+extern const _TCHAR* ts2068RomsFolder;
+extern const _TCHAR* tc2068RomsFolder;
+extern const _TCHAR* replacementRomsFolder;
 
 extern void load_config();
 extern void LoadMachineRoms();

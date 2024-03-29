@@ -403,13 +403,13 @@ void TTZXFile::CountBlocks(int *zx81, int *spec, int *other)
         }
 }
 
-bool TTZXFile::SaveTapFile(AnsiString FileName)
+bool TTZXFile::SaveTapFile(ZXString FileName)
 {
         FILE *f;
         int i;
         bool FirstBlock=true, TrimByte=false;
 
-        f=fopen(FileName.c_str(), "wb");
+		f=_tfopen(FileName.c_str(), _TEXT("wb"));
         if (!f) return(false);
         this->FileName=FileName;
 
@@ -440,14 +440,14 @@ bool TTZXFile::SaveTapFile(AnsiString FileName)
         return(true);
 }
 
-bool TTZXFile::SaveT81File(AnsiString FileName)
+bool TTZXFile::SaveT81File(ZXString FileName)
 {
         FILE *f;
         int i, id;
         char fname[32], flen[16];
-        AnsiString zx81Fname;
+        ZXString zx81Fname;
 
-        f=fopen(FileName.c_str(), "wb");
+		f=_tfopen(FileName.c_str(), _TEXT("wb"));
         if (!f) return(false);
         this->FileName=FileName;
 
@@ -491,14 +491,14 @@ bool TTZXFile::SaveT81File(AnsiString FileName)
         return(true);
 }
 
-bool TTZXFile::SavePFile(AnsiString FileName)
+bool TTZXFile::SavePFile(ZXString FileName)
 {
         FILE *f;
         int i;
         int namelen;
         char *p;
 
-        f=fopen(FileName.c_str(), "wb");
+		f=_tfopen(FileName.c_str(), _TEXT("wb"));
         if (!f) return(false);
         this->FileName=FileName;
 
@@ -514,14 +514,14 @@ bool TTZXFile::SavePFile(AnsiString FileName)
         return(true);
 }
 
-bool TTZXFile::SaveP81File(AnsiString FileName)
+bool TTZXFile::SaveP81File(ZXString FileName)
 {
         FILE *f;
         int i;
         int namelen;
         char *p;
 
-        f=fopen(FileName.c_str(), "wb");
+		f=_tfopen(FileName.c_str(), _TEXT("wb"));
         if (!f) return(false);
         this->FileName=FileName;
 
@@ -533,12 +533,12 @@ bool TTZXFile::SaveP81File(AnsiString FileName)
         return(true);
 }
 
-bool TTZXFile::SaveOFile(AnsiString FileName)
+bool TTZXFile::SaveOFile(ZXString FileName)
 {
         FILE *f;
         int i;
 
-        f=fopen(FileName.c_str(), "wb");
+		f=_tfopen(FileName.c_str(), _TEXT("wb"));
         if (!f) return(false);
         this->FileName=FileName;
 
@@ -550,11 +550,11 @@ bool TTZXFile::SaveOFile(AnsiString FileName)
         return(true);
 }
 
-bool TTZXFile::SaveFile(AnsiString FileName)
+bool TTZXFile::SaveFile(ZXString FileName)
 {
         FILE *f;
         int i, version;
-        AnsiString Ext;
+        ZXString Ext;
 
         Ext=GetExt(FileName);
         if (Ext==".TAP") return(SaveTapFile(FileName));
@@ -568,7 +568,7 @@ bool TTZXFile::SaveFile(AnsiString FileName)
                 if ((Tape[i].BlockID==TZX_BLOCK_GENERAL)
                         || (Tape[i].BlockID==TZX_BLOCK_SETLEVEL)) version=20;
 
-        f=fopen(FileName.c_str(), "wb");
+		f=_tfopen(FileName.c_str(), _TEXT("wb"));
         if (!f) return(false);
         this->FileName=FileName;
 

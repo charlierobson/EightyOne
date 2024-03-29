@@ -51,24 +51,24 @@ void __fastcall TParallelPort::OKClick(TObject *Sender)
                 break;
         case 1:
                 Port=PORTFILE;
-                OutFile=fopen((OutputFileEdit->Text).c_str(), "wb");
+                OutFile=_tfopen((OutputFileEdit->Text).c_str(), _TEXT("wb"));
                 break;
         case 2:
                 Port=PORTTCPIP;
                 ClientSocket->Host = TCPAddress->Text;
-                ClientSocket->Port = atoi((TCPPort->Text).c_str());
+                ClientSocket->Port = _ttoi((TCPPort->Text).c_str());
 
                 if ((ClientSocket->Host != "") && (ClientSocket->Port!=0))
                         ClientSocket->Open();
                 break;
 
         default:
-                AnsiString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
+                ZXString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
 
                 if (Port.SubString(1,3)=="LPT")
                 {
                         Port=PORTFILE;
-                        OutFile=fopen(Port.c_str(), "wb");
+                        OutFile=_tfopen(Port.c_str(), _TEXT("wb"));
                 }
                 else
                 {
@@ -103,14 +103,14 @@ void __fastcall TParallelPort::OKClick(TObject *Sender)
 
                         ComPort->BaudRate=brCustom;
                         if (BaudRate->ItemIndex==0)
-                        ComPort->CustomBaudRate=atoi((BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
+                        ComPort->CustomBaudRate=_ttoi((BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
 
                         try { ComPort->Open(); }
                         catch(EComPort &E)
                         {
                                 AnsiString Msg = "Could not open port ";
                                 Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
-                                if (Sender) Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+                                if (Sender) Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
                         }
                 }
                 break;
@@ -124,7 +124,7 @@ void __fastcall TParallelPort::OKClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TParallelPort::ComPortListChange(TObject *Sender)
 {
-        AnsiString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
+        ZXString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
 
         PortPanel->Visible=false;
         TCPPanel->Visible=false;

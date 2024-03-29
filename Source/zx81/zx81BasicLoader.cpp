@@ -30,7 +30,7 @@ zx81BasicLoader::zx81BasicLoader(bool zxpandEnabled)
         mZxpandEnabled = zxpandEnabled;
 }
 
-void zx81BasicLoader::OutputStartOfProgramData(AnsiString filename, int& addressOffset)
+void zx81BasicLoader::OutputStartOfProgramData(ZXString filename, int& addressOffset)
 {
         // Output the system variables
         OutputByte(addressOffset, 0x00);        //VERSN

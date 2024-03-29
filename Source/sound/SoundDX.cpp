@@ -19,6 +19,7 @@
  */
 
 #include <dsound.h>
+#include <tchar.h>
 #include "sound\SoundDX.h"
 
 CDSnd::CDSnd(void)
@@ -48,8 +49,8 @@ int CDSnd::Initialise(HWND hWnd, int FPS, int BitsPerSample, int SampleRate, int
 	ZeroMemory(&m_WFE, sizeof(m_WFE));
 	m_lpDS = NULL;
 	m_lpDSB = NULL;
-	m_pHEvent[0] = CreateEvent(NULL, FALSE, FALSE, "DSound_Buf_Notify_0");
-	m_pHEvent[1] = CreateEvent(NULL, FALSE, FALSE, "DSound_Buf_Notify_1");
+	m_pHEvent[0] = CreateEvent(NULL, FALSE, FALSE, _TEXT("DSound_Buf_Notify_0"));
+	m_pHEvent[1] = CreateEvent(NULL, FALSE, FALSE, _TEXT("DSound_Buf_Notify_1"));
         m_lpAudioQueue = NULL;
 
         LPVOID lpvAudio1 = NULL, lpvAudio2 = NULL;
@@ -313,12 +314,12 @@ void CDSnd::ThreadFN()
                 SendMessage( m_hWnd, WM_USER, NULL, NULL);
                 if (GetLastError())
                 {
-                        char buf[256];
+                        _TCHAR buf[256];
                         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                                 NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                                 buf, sizeof(buf), NULL);
 
-                       MessageBox(NULL, buf,"Message Sending Error",2);
+					   MessageBox(NULL, buf,_TEXT("Message Sending Error"),2);
                 }
         }
 }

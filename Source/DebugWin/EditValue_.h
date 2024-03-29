@@ -7,6 +7,7 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
+#include "zx81config.h"
 //---------------------------------------------------------------------------
 class TEditValue : public TForm
 {
@@ -21,9 +22,9 @@ __published:	// IDE-managed Components
         void __fastcall EditValChange(TObject *Sender);
 private:	// User declarations
         bool cancelled;
-        bool Translate(AnsiString str, int& value);
-        AnsiString IntToBin(int Value, int digits);
-        AnsiString IntToDec(int value);
+        bool Translate(ZXString str, int& value);
+        ZXString IntToBin(int Value, int digits);
+        ZXString IntToDec(int value);
         int maxValue;
 public:		// User declarations
         __fastcall TEditValue(TComponent* Owner);

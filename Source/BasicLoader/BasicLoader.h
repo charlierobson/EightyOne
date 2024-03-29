@@ -1,6 +1,6 @@
 #include <vcl.h>
 
-extern void LoadZX80Basic(AnsiString filename);
-extern void LoadZX81Basic(AnsiString filename);
-extern void LoadSpectrumBasic(AnsiString filename);
+extern void LoadZX80Basic(ZXString filename);
+extern void LoadZX81Basic(ZXString filename);
+extern void LoadSpectrumBasic(ZXString filename);
 

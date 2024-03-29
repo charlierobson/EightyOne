@@ -7,6 +7,7 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
+#include "zx81config.h"
 //---------------------------------------------------------------------------
 class TProfileSampleEdit : public TForm
 {
@@ -27,14 +28,14 @@ __published:	// IDE-managed Components
 private:	// User declarations
         bool _valid;
         class ProfileDetail* _pd;
-        void (*_completion)(bool, AnsiString);
+        void (*_completion)(bool, ZXString);
         void SetOKButtonStatus();
         int Count();
 
 public:		// User declarations
         __fastcall TProfileSampleEdit(TComponent* Owner);
 
-        void __fastcall EditValues(AnsiString tag, ProfileDetail* pd, void(*)(bool, AnsiString));
+        void __fastcall EditValues(ZXString tag, ProfileDetail* pd, void(*)(bool, ZXString));
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TProfileSampleEdit *ProfileSampleEdit;

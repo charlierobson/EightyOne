@@ -23,7 +23,7 @@ static int check_error(JNIEnv *env, dsk_err_t error)
 	clazz = (*env)->FindClass(env, "uk/co/demon/seasip/libdsk/DskException");
 	if (clazz == NULL) return 0;
 
-	mid = (*env)->GetMethodID(env, clazz, "<init>", "(Ljava/lang/String;I)V");
+	mid = (*env)->GetMethodID(env, clazz, "<init>", "(Ljava/lang/ZXString;I)V");
 	if (mid == NULL) return 0;
 
 	str = (*env)->NewStringUTF(env, dsk_strerror(error));
@@ -245,7 +245,7 @@ static jobject open_or_create
 /*
  * Class:     uk_co_demon_seasip_libdsk_LibDsk
  * Method:    open
- * Signature: (Ljava/lang/String;Ljava/lang/String;)Luk/co/demon/seasip/libdsk/Drive;
+ * Signature: (Ljava/lang/ZXString;Ljava/lang/ZXString;)Luk/co/demon/seasip/libdsk/Drive;
  */
 JNIEXPORT jobject JNICALL Java_uk_co_demon_seasip_libdsk_LibDsk_open
   (JNIEnv *env, jclass clazz, jstring filename, jstring type, jstring comp)
@@ -256,7 +256,7 @@ JNIEXPORT jobject JNICALL Java_uk_co_demon_seasip_libdsk_LibDsk_open
 /*
  * Class:     uk_co_demon_seasip_libdsk_LibDsk
  * Method:    create
- * Signature: (Ljava/lang/String;Ljava/lang/String;)Luk/co/demon/seasip/libdsk/Drive;
+ * Signature: (Ljava/lang/ZXString;Ljava/lang/ZXString;)Luk/co/demon/seasip/libdsk/Drive;
  */
 JNIEXPORT jobject JNICALL Java_uk_co_demon_seasip_libdsk_LibDsk_create
   (JNIEnv *env, jclass clazz, jstring filename, jstring type, jstring comp)
@@ -276,7 +276,7 @@ static void jni_report(const char *s)
 
 	clazz= (*cbEnv)->FindClass(cbEnv, "uk/co/demon/seasip/libdsk/LibDsk");
 	if (!clazz) return;
-	mid = (*cbEnv)->GetStaticMethodID(cbEnv, clazz, "report", "(Ljava/lang/String;)V");
+	mid = (*cbEnv)->GetStaticMethodID(cbEnv, clazz, "report", "(Ljava/lang/ZXString;)V");
 	if (!mid) return;
 	(*cbEnv)->CallStaticVoidMethod(cbEnv, clazz, mid, str);
 }
@@ -860,7 +860,7 @@ JNIEXPORT void JNICALL Java_uk_co_demon_seasip_libdsk_Drive_seek__Luk_co_demon_s
 /*
  * Class:     uk_co_demon_seasip_libdsk_Drive
  * Method:    enumDrivers
- * Signature: (I)Ljava/lang/String;
+ * Signature: (I)Ljava/lang/ZXString;
  */
 JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_enumDrivers
   (JNIEnv *env, jclass clazz, jint index)
@@ -877,7 +877,7 @@ JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_enumDrivers
 /*
  * Class:     uk_co_demon_seasip_libdsk_Drive
  * Method:    getDriverName
- * Signature: ()Ljava/lang/String;
+ * Signature: ()Ljava/lang/ZXString;
  */
 JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getDriverName
   (JNIEnv *env, jobject self)
@@ -893,7 +893,7 @@ JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getDriverName
 /*
  * Class:     uk_co_demon_seasip_libdsk_Drive
  * Method:    getDriverDesc
- * Signature: ()Ljava/lang/String;
+ * Signature: ()Ljava/lang/ZXString;
  */
 JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getDriverDesc
   (JNIEnv *env, jobject self)
@@ -910,7 +910,7 @@ JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getDriverDesc
 /*
  * Class:     uk_co_demon_seasip_libdsk_Drive
  * Method:    getCompressName
- * Signature: ()Ljava/lang/String;
+ * Signature: ()Ljava/lang/ZXString;
  */
 JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getCompressName
   (JNIEnv *env, jobject self)
@@ -926,7 +926,7 @@ JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getCompressName
 /*
  * Class:     uk_co_demon_seasip_libdsk_Drive
  * Method:    getCompressDesc
- * Signature: ()Ljava/lang/String;
+ * Signature: ()Ljava/lang/ZXString;
  */
 JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getCompressDesc
   (JNIEnv *env, jobject self)
@@ -942,7 +942,7 @@ JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getCompressDesc
 /*
  * Class:     uk_co_demon_seasip_libdsk_Drive
  * Method:    getComment
- * Signature: ()Ljava/lang/String;
+ * Signature: ()Ljava/lang/ZXString;
  */
 JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getComment
   (JNIEnv *env, jobject self)
@@ -964,7 +964,7 @@ JNIEXPORT jstring JNICALL Java_uk_co_demon_seasip_libdsk_Drive_getComment
 /*
  * Class:     uk_co_demon_seasip_libdsk_Drive
  * Method:    setComment
- * Signature: (Ljava/lang/String;)V
+ * Signature: (Ljava/lang/ZXString;)V
  */
 JNIEXPORT void JNICALL Java_uk_co_demon_seasip_libdsk_Drive_setComment
   (JNIEnv *env, jobject self, jstring str)
@@ -1193,7 +1193,7 @@ JNIEXPORT void JNICALL Java_uk_co_demon_seasip_libdsk_Geometry_cpm86Geometry
 /*
  * Class:     uk_co_demon_seasip_libdsk_FormatType
  * Method:    stdFormat
- * Signature: (ILuk/co/demon/seasip/libdsk/Geometry;[Ljava/lang/String;)V
+ * Signature: (ILuk/co/demon/seasip/libdsk/Geometry;[Ljava/lang/ZXString;)V
  */
 JNIEXPORT void JNICALL Java_uk_co_demon_seasip_libdsk_FormatType_stdFormat
   (JNIEnv *env, jclass clazz, jint type, jobject jg, jobjectArray descs)

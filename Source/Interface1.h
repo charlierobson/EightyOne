@@ -30,7 +30,7 @@
 //---------------------------------------------------------------------------
 typedef struct
 {
-        char FileName[256];
+        _TCHAR FileName[256];
         unsigned char *data;
         int length, position;
         bool changed;
@@ -122,9 +122,9 @@ public:		// User declarations
         void SaveSettings(TIniFile *ini);
         void LoadSettings(TIniFile *ini);
 
-        char *MDVGetFileName(int Drive);
-        void MDVSetFileName(int Drive, char *FileName);
-        void MDVLoadFile(int Drive, char *FileName);
+        _TCHAR *MDVGetFileName(int Drive);
+		void MDVSetFileName(int Drive, _TCHAR *FileName);
+        void MDVLoadFile(int Drive, _TCHAR *FileName);
         void MDVSaveFile(int Drive);
         bool MotorRunning();
 };

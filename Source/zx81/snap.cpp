@@ -43,8 +43,8 @@ extern int MemotechMode;
 extern int QuicksilvaHiResMode;
 extern BYTE font[1024];
 
-int save_snap_zx81(char* filename);
-int save_snap_ace(char* filename);
+int save_snap_zx81(_TCHAR* filename);
+int save_snap_ace(_TCHAR* filename);
 void load_snap_cpu(FILE *f);
 void load_snap_mem(FILE *f);
 void load_snap_zx81(FILE *f);
@@ -57,17 +57,17 @@ void load_snap_romcartridge(FILE *f);
 void load_snap_interfaces(FILE *f);
 void load_snap_advanced(FILE* f);
 void load_snap_drives(FILE* f);
-void ProcessTag(char* tok, FILE* f);
+void ProcessTag(_TCHAR* tok, FILE* f);
 void InitialiseHardware();
 
 extern void HWSetMachine(int machine, int speccy);
 extern void DebugUpdate();
 
-char *get_token(FILE *f)
+_TCHAR *get_token(FILE *f)
 {
-        static char buffer[256];
+		static _TCHAR buffer[256];
         int buflen;
-        char c;
+		char c;
 
         c=fgetc(f);
         while(isspace(c) && !feof(f)) c=fgetc(f);
@@ -87,7 +87,7 @@ char *get_token(FILE *f)
         return(buffer);
 }
 
-int hex2dec(char *str)
+int hex2dec(_TCHAR *str)
 {
         int num;
 
@@ -104,7 +104,7 @@ int hex2dec(char *str)
         return(num);
 }
 
-void SetComboBox(TComboBox* comboBox, char* text)
+void SetComboBox(TComboBox* comboBox, _TCHAR* text)
 {
         for (int i = 0; i < comboBox->Items->Count; i++)
         {
@@ -118,7 +118,7 @@ void SetComboBox(TComboBox* comboBox, char* text)
 
 void load_snap_cpu(FILE *f)
 {
-        char *tok;
+        _TCHAR *tok;
 
         while(!feof(f))
         {
@@ -129,23 +129,23 @@ void load_snap_cpu(FILE *f)
                         return;
                 }
 
-                if (!strcmp(tok,"PC")) z80.pc.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"SP")) z80.sp.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"HL")) z80.hl.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"DE")) z80.de.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"BC")) z80.bc.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"AF")) z80.af.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"HL_")) z80.hl_.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"DE_")) z80.de_.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"BC_")) z80.bc_.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"AF_")) z80.af_.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"IX")) z80.ix.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"IY")) z80.iy.w = hex2dec(get_token(f));
-                if (!strcmp(tok,"IM")) z80.im = hex2dec(get_token(f));
-                if (!strcmp(tok,"IF1")) z80.iff1 = hex2dec(get_token(f));
-                if (!strcmp(tok,"IF2")) z80.iff2 = hex2dec(get_token(f));
-                if (!strcmp(tok,"HT")) z80.halted = hex2dec(get_token(f));
-                if (!strcmp(tok,"IR"))
+				if (!_tcscmp(tok,_TEXT("PC"))) z80.pc.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("SP"))) z80.sp.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("HL"))) z80.hl.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("DE"))) z80.de.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("BC"))) z80.bc.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("AF"))) z80.af.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("HL_"))) z80.hl_.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("DE_"))) z80.de_.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("BC_"))) z80.bc_.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("AF_"))) z80.af_.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("IX"))) z80.ix.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("IY"))) z80.iy.w = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("IM"))) z80.im = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("IF1"))) z80.iff1 = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("IF2"))) z80.iff2 = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("HT"))) z80.halted = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("IR")))
                 {
                         int a;
 
@@ -162,14 +162,14 @@ void load_snap_sound(FILE *f)
 {
         while(!feof(f))
         {
-                char* tok=get_token(f);
+                _TCHAR* tok=get_token(f);
                 if (tok[0] == '[')
                 {
                         ProcessTag(tok, f);
                         return;
                 }
 
-                if (!strcmp(tok,"TYPE"))
+				if (!_tcscmp(tok,_TEXT("TYPE")))
                 {
                         tok = get_token(f);
                         SetComboBox(HW->SoundCardBox, tok);
@@ -183,14 +183,14 @@ void load_snap_chrgen(FILE *f)
 
         while(!feof(f))
         {
-                char* tok=get_token(f);
+                _TCHAR* tok=get_token(f);
                 if (tok[0] == '[')
                 {
                         ProcessTag(tok, f);
                         return;
                 }
 
-                if (!strcmp(tok,"TYPE"))
+				if (!_tcscmp(tok,_TEXT("TYPE")))
                 {
                         tok = get_token(f);
                         SetComboBox(HW->ChrGenBox, tok);
@@ -202,7 +202,7 @@ void load_snap_chrgen(FILE *f)
                                 Form1->QSChrEnable->Enabled = true;
                         }
                 }
-                else if ((HW->ChrGenBox->Text == "Quicksilva") && !strcmp(tok,"ENABLED"))
+				else if ((HW->ChrGenBox->Text == "Quicksilva") && !_tcscmp(tok,_TEXT("ENABLED")))
                 {
                         zx81.enableQSchrgen = hex2dec(get_token(f));
                         Form1->QSChrEnable->Checked = zx81.enableQSchrgen;
@@ -246,20 +246,20 @@ void load_snap_hires(FILE *f)
 {
         while(!feof(f))
         {
-                char* tok=get_token(f);
-                if (tok[0] == '[')
-                {
+				_TCHAR* tok=get_token(f);
+				if (tok[0] == '[')
+				{
                         ProcessTag(tok, f);
                         return;
                 }
 
-                if (!strcmp(tok,"TYPE"))
+				if (!_tcscmp(tok,_TEXT("TYPE")))
                 {
                         tok = get_token(f);
                         SetComboBox(HW->HiResBox, tok);
                         
-                        if (!strcmp(tok,"G007")) HW->EnableLowRAM->Checked=true;
-                        if (!strcmp(tok,"Memotech")) HW->ProtectROM->Checked=true;
+						if (!_tcscmp(tok,_TEXT("G007"))) HW->EnableLowRAM->Checked=true;
+                        if (!_tcscmp(tok,_TEXT("Memotech"))) HW->ProtectROM->Checked=true;
                 }
         }
 }
@@ -268,29 +268,29 @@ void load_snap_romcartridge(FILE *f)
 {
         while(!feof(f))
         {
-                char* tok=get_token(f);
+				_TCHAR* tok=get_token(f);
                 if (tok[0] == '[')
                 {
                         ProcessTag(tok, f);
                         return;
                 }
 
-                if (!strcmp(tok,"TYPE"))
+				if (!_tcscmp(tok,_TEXT("TYPE")))
                 {
                         tok = get_token(f);
-                        AnsiString type = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
+                        ZXString type = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
                         SetComboBox(HW->RomCartridgeBox, type.c_str());
                 }
-                else if (!strcmp(tok,"PATH"))
+				else if (!_tcscmp(tok,_TEXT("PATH")))
                 {
                         tok = get_token(f);
-                        AnsiString path = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
+                        ZXString path = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
                         HW->RomCartridgeFileBox->Text = path;
                 }
-                else if (!strcmp(tok,"CONFIGURATION"))
+                else if (!_tcscmp(tok,_TEXT("CONFIGURATION")))
                 {
                         tok = get_token(f);
-                        AnsiString config = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
+                        ZXString config = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
                         SetComboBox(HW->ZXC1ConfigurationBox, config.c_str());
                 }
         }
@@ -300,18 +300,18 @@ void load_snap_interfaces(FILE *f)
 {
         while(!feof(f))
         {
-                char* tok=get_token(f);
+				_TCHAR* tok=get_token(f);
                 if (tok[0] == '[')
                 {
                         ProcessTag(tok, f);
                         return;
                 }
 
-                if (!strcmp(tok,"ZXPAND"))
+				if (!_tcscmp(tok,_TEXT("ZXPAND")))
                 {
                         HW->SetZXpandState(hex2dec(get_token(f)),true);
                 }
-                else if (!strcmp(tok,"ZX_PRINTER"))
+                else if (!_tcscmp(tok,_TEXT("ZX_PRINTER")))
                 {
                         HW->ZXPrinter->Checked = hex2dec(get_token(f));
                 }
@@ -321,7 +321,7 @@ void load_snap_interfaces(FILE *f)
 void load_snap_colour(FILE *f)
 {
         int Addr, Count, Chr;
-        char *tok;
+		_TCHAR *tok;
         bool chroma = false;
 
         Addr=0xC000;
@@ -335,7 +335,7 @@ void load_snap_colour(FILE *f)
                         return;
                 }
 
-                if (!strcmp(tok,"TYPE"))
+                if (!_tcscmp(tok,_TEXT("TYPE")))
                 {
                         tok = get_token(f);
                         SetComboBox(HW->ColourBox, tok);
@@ -352,11 +352,11 @@ void load_snap_colour(FILE *f)
                                 machine.colour = COLOURLAMBDA;
                         }
                 }
-                else if (chroma && !strcmp(tok,"CHROMA_MODE"))
+				else if (chroma && !_tcscmp(tok,_TEXT("CHROMA_MODE")))
                 {
                         zx81.chromaMode = hex2dec(get_token(f));
                 }
-                else if (chroma && !strcmp(tok,"COLOUR_ENABLED"))
+                else if (chroma && !_tcscmp(tok,_TEXT("COLOUR_ENABLED")))
                 {
                         zx81.chromaColourSwitchOn = hex2dec(get_token(f));
                         Form1->ChromaColourEnable->Checked = zx81.chromaColourSwitchOn;
@@ -374,9 +374,9 @@ void load_snap_colour(FILE *f)
         }
 }
 
-AnsiString GetMachine()
+ZXString GetMachine()
 {
-        AnsiString machineName;
+        ZXString machineName;
 
         switch(emulator.machine)
         {
@@ -415,7 +415,7 @@ AnsiString GetMachine()
         return machineName;
 }
 
-void SetMachine(AnsiString machine)
+void SetMachine(ZXString machine)
 {
         if (machine == "ZX80") HWSetMachine(MACHINEZX80, NULL);
         else if (machine == "ZX81") HWSetMachine(MACHINEZX81, NULL);
@@ -429,7 +429,7 @@ void SetMachine(AnsiString machine)
 
 void load_snap_machine(FILE *f)
 {
-        char *tok;
+		_TCHAR *tok;
 
         while(!feof(f))
         {
@@ -440,13 +440,13 @@ void load_snap_machine(FILE *f)
                         return;
                 }
 
-                if (!strcmp(tok,"MODEL")) SetMachine(get_token(f));
+                if (!_tcscmp(tok,_TEXT("MODEL"))) SetMachine(get_token(f));
         }
 }
 
 void load_snap_zx81(FILE *f)
 {
-        char *tok;
+		_TCHAR *tok;
 
         while(!feof(f))
         {
@@ -457,19 +457,19 @@ void load_snap_zx81(FILE *f)
                         return;
                 }
 
-                if (!strcmp(tok,"NMI")) nmiGeneratorEnabled = hex2dec(get_token(f));
-                else if (!strcmp(tok,"SYNC")) syncOutputWhite = hex2dec(get_token(f));
-                else if (!strcmp(tok,"LINE")) lineCounter = hex2dec(get_token(f));
-                //Backwards compatibility
-                else if (!strcmp(tok,"HSYNC")) syncOutputWhite = hex2dec(get_token(f));
-                else if (!strcmp(tok,"ROW")) lineCounter = hex2dec(get_token(f));
+				if (!_tcscmp(tok,_TEXT("NMI"))) nmiGeneratorEnabled = hex2dec(get_token(f));
+				else if (!_tcscmp(tok,_TEXT("SYNC"))) syncOutputWhite = hex2dec(get_token(f));
+				else if (!_tcscmp(tok,_TEXT("LINE"))) lineCounter = hex2dec(get_token(f));
+				//Backwards compatibility
+				else if (!_tcscmp(tok,_TEXT("HSYNC"))) syncOutputWhite = hex2dec(get_token(f));
+				else if (!_tcscmp(tok,_TEXT("ROW"))) lineCounter = hex2dec(get_token(f));
         }
 }
 
 void load_snap_mem(FILE *f)
 {
         int Addr, Count, Chr;
-        char *tok;
+		_TCHAR *tok;
 
         Addr=16384;
 
@@ -482,22 +482,22 @@ void load_snap_mem(FILE *f)
                         return;
                 }
 
-                if (!strcmp(tok,"RAM_PACK"))
+				if (!_tcscmp(tok,_TEXT("RAM_PACK")))
                 {
                         tok = get_token(f);
 
                         SetComboBox(HW->RamPackBox, tok);
                 }
-                else if (!strcmp(tok,"MEMRANGE"))
+				else if (!_tcscmp(tok,_TEXT("MEMRANGE")))
                 {
                         Addr=hex2dec(get_token(f));
                         get_token(f);
                 }
-                else if (!strcmp(tok,"8K_RAM_ENABLED"))
+				else if (!_tcscmp(tok,_TEXT("8K_RAM_ENABLED")))
                 {
                         HW->EnableLowRAM->Checked=hex2dec(get_token(f));
                 }
-                else if (!strcmp(tok,"8K_RAM_PROTECTED"))
+                else if (!_tcscmp(tok,_TEXT("8K_RAM_PROTECTED")))
                 {
                         Form1->WriteProtect8KRAM->Checked = hex2dec(get_token(f));
                 }
@@ -516,7 +516,7 @@ void load_snap_mem(FILE *f)
 
 void load_snap_advanced(FILE* f)
 {
-        char *tok;
+		_TCHAR *tok;
 
         while(!feof(f))
         {
@@ -527,29 +527,29 @@ void load_snap_advanced(FILE* f)
                         return;
                 }
 
-                if (!strcmp(tok,"ROM"))
-                {
+				if (!_tcscmp(tok,_TEXT("ROM")))
+				{
                         tok = get_token(f);
-                        AnsiString rom = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
+                        ZXString rom = StringReplace(tok, "_", " ", TReplaceFlags() << rfReplaceAll);
                         HW->RomBox->Text = rom;
                 }
-                else if (!strcmp(tok,"PROTECT_ROM"))
+				else if (!_tcscmp(tok,_TEXT("PROTECT_ROM")))
                 {
                         HW->ProtectROM->Checked = hex2dec(get_token(f));
                 }
-                else if (!strcmp(tok,"M1NOT"))
+				else if (!_tcscmp(tok,_TEXT("M1NOT")))
                 {
                         HW->M1Not->Checked = hex2dec(get_token(f));
                 }
-                else if (!strcmp(tok,"IMPROVED_WAIT"))
+				else if (!_tcscmp(tok,_TEXT("IMPROVED_WAIT")))
                 {
                         HW->ImprovedWait->Checked = hex2dec(get_token(f));
                 }
-                else if (!strcmp(tok,"FLOATING_POINT_FIX"))
+				else if (!_tcscmp(tok,_TEXT("FLOATING_POINT_FIX")))
                 {
                         HW->FloatingPointHardwareFix->Checked = hex2dec(get_token(f));
                 }
-                else if (!strcmp(tok,"FRAME_RATE_60HZ"))
+				else if (!_tcscmp(tok,_TEXT("FRAME_RATE_60HZ")))
                 {
                         HW->NTSC->Checked = hex2dec(get_token(f));
                 }
@@ -558,7 +558,7 @@ void load_snap_advanced(FILE* f)
 
 void load_snap_drives(FILE* f)
 {
-        char *tok;
+		_TCHAR *tok;
 
         while(!feof(f))
         {
@@ -569,31 +569,31 @@ void load_snap_drives(FILE* f)
                         return;
                 }
 
-                if (!strcmp(tok,"FDC"))
-                {
-                        SetComboBox(HW->FDC, get_token(f));
-                }
-                else if (!strcmp(tok,"IDE"))
+				if (!_tcscmp(tok,_TEXT("FDC")))
+				{
+						SetComboBox(HW->FDC, get_token(f));
+				}
+				else if (!_tcscmp(tok,_TEXT("IDE")))
                 {
                         SetComboBox(HW->IDEBox, get_token(f));
                 }
         }
 }
 
-void ProcessTag(char* tok, FILE* f)
+void ProcessTag(_TCHAR* tok, FILE* f)
 {             
-        if (!strcmp(tok, "[CPU]")) load_snap_cpu(f);
-        else if (!strcmp(tok, "[MACHINE]")) load_snap_machine(f);
-        else if (!strcmp(tok, "[MEMORY]")) load_snap_mem(f);
-        else if (!strcmp(tok, "[ZX81]")) load_snap_zx81(f);
-        else if (!strcmp(tok, "[COLOUR]")) load_snap_colour(f);
-        else if (!strcmp(tok, "[SOUND]")) load_snap_sound(f);
-        else if (!strcmp(tok, "[CHR$_GENERATOR]")) load_snap_chrgen(f);
-        else if (!strcmp(tok, "[HIGH_RESOLUTION]")) load_snap_hires(f);
-        else if (!strcmp(tok, "[ROM_CARTRIDGE]")) load_snap_romcartridge(f);
-        else if (!strcmp(tok, "[INTERFACES]")) load_snap_interfaces(f);
-        else if (!strcmp(tok, "[ADVANCED]")) load_snap_advanced(f);
-        else if (!strcmp(tok, "[DRIVES]")) load_snap_drives(f);
+		if (!_tcscmp(tok, _TEXT("[CPU]"))) load_snap_cpu(f);
+		else if (!_tcscmp(tok, _TEXT("[MACHINE]"))) load_snap_machine(f);
+		else if (!_tcscmp(tok, _TEXT("[MEMORY]"))) load_snap_mem(f);
+		else if (!_tcscmp(tok, _TEXT("[ZX81]"))) load_snap_zx81(f);
+		else if (!_tcscmp(tok, _TEXT("[COLOUR]"))) load_snap_colour(f);
+		else if (!_tcscmp(tok, _TEXT("[SOUND]"))) load_snap_sound(f);
+		else if (!_tcscmp(tok, _TEXT("[CHR$_GENERATOR]"))) load_snap_chrgen(f);
+		else if (!_tcscmp(tok, _TEXT("[HIGH_RESOLUTION]"))) load_snap_hires(f);
+		else if (!_tcscmp(tok, _TEXT("[ROM_CARTRIDGE]"))) load_snap_romcartridge(f);
+		else if (!_tcscmp(tok, _TEXT("[INTERFACES]"))) load_snap_interfaces(f);
+		else if (!_tcscmp(tok, _TEXT("[ADVANCED]"))) load_snap_advanced(f);
+		else if (!_tcscmp(tok, _TEXT("[DRIVES]"))) load_snap_drives(f);
 }
 
 void load_snap_ace(FILE *f)
@@ -631,7 +631,7 @@ void load_snap_ace(FILE *f)
         zx81.RAMTOP = ramTop-1;
         if (zx81.RAMTOP == -1) zx81.RAMTOP=65535;
 
-        AnsiString ramPackText = IntToStr(ramPackSize) + "K";
+        ZXString ramPackText = IntToStr(ramPackSize) + "K";
         SetComboBox(HW->RamPackBox, ramPackText.c_str());
 
         memptr=0x2100;
@@ -656,19 +656,19 @@ void load_snap_ace(FILE *f)
         z80.r = memory[memptr];
 }
 
-int do_load_snap(char *filename, bool resetHardware)
+int do_load_snap(TCHAR *filename, bool resetHardware)
 {
-        char *p;
-        FILE *f;
+		_TCHAR *p;
+		FILE *f;
 
-        p=filename+strlen(filename)-4;
+		p=filename+_tcslen(filename)-4;
 
-        if (strcmp(p,".Z81") && strcmp(p,".z81")
-                && strcmp(p,".ace") && strcmp(p,".ACE") ) return(0);
+		if (_tcscmp(p,_TEXT(".Z81")) && _tcscmp(p,_TEXT(".z81"))
+				&& _tcscmp(p,_TEXT(".ace")) && _tcscmp(p,_TEXT(".ACE")) ) return(0);
 
-        if (!strcmp(p,".ace") || !strcmp(p,".ACE"))
+		if (!_tcscmp(p,_TEXT(".ace")) || !_tcscmp(p,_TEXT(".ACE")))
         {
-                f=fopen(filename,"rb");
+				f=_tfopen(filename,_TEXT("rb"));
                 if (!f)
                 {
                         ShowMessage("Snapshot load failed.");
@@ -686,12 +686,12 @@ int do_load_snap(char *filename, bool resetHardware)
         {
                 if (resetHardware) machine.initialise();
 
-                f=fopen(filename,"rt");
+				f=_tfopen(filename,_TEXT("rt"));
                 if (!f) return(0);
 
                 while(!feof(f))
                 {
-                        char* tok = get_token(f);
+                        _TCHAR* tok = get_token(f);
                         if (tok[0] == '[')
                         {
                                 ProcessTag(tok, f);
@@ -710,12 +710,12 @@ void InitialiseHardware()
 
         InitialiseChroma();
         
-        SetComboBox(HW->ColourBox, (char *)"None");
-        SetComboBox(HW->SoundCardBox, (char *)"None");
-        SetComboBox(HW->ChrGenBox, (char *)"Sinclair");
-        SetComboBox(HW->HiResBox, (char *)"None");
-        SetComboBox(HW->RomCartridgeBox, (char *)"None");
-        SetComboBox(HW->ZXC1ConfigurationBox, (char *)"32K");
+		SetComboBox(HW->ColourBox, (_TCHAR *)_TEXT("None"));
+		SetComboBox(HW->SoundCardBox, (_TCHAR *)_TEXT("None"));
+		SetComboBox(HW->ChrGenBox, (_TCHAR *)_TEXT("Sinclair"));
+		SetComboBox(HW->HiResBox, (_TCHAR *)_TEXT("None"));
+		SetComboBox(HW->RomCartridgeBox, (_TCHAR *)_TEXT("None"));
+        SetComboBox(HW->ZXC1ConfigurationBox, (_TCHAR *)_TEXT("32K"));
         HW->ZXC1ConfigurationBox->Visible = false;
         HW->RomCartridgeFileBox->Left = 86;
         HW->RomCartridgeFileBox->Width = 281;
@@ -756,7 +756,7 @@ void InitialiseHardware()
         zx81.chromaColourSwitchOn = false;
 }
 
-int load_snap(char *filename)
+int load_snap(_TCHAR *filename)
 {
         // Read in the snapshot into memory and settings (this also resets the computer)
         int ret = do_load_snap(filename, true);
@@ -770,26 +770,26 @@ int load_snap(char *filename)
         return true;
 }
 
-int save_snap(char *filename)
+int save_snap(_TCHAR *filename)
 {
-        char *p;
+		_TCHAR *p;
         int f;
 
-        p=filename+strlen(filename)-4;
+		p=filename+_tcslen(filename)-4;
 
-        if (strcmp(p,".Z81") && strcmp(p,".z81")
-                && strcmp(p,".ace") && strcmp(p,".ACE") ) return(0);
+		if (_tcscmp(p,_TEXT(".Z81")) && _tcscmp(p,_TEXT(".z81"))
+				&& _tcscmp(p,_TEXT(".ace")) && _tcscmp(p,_TEXT(".ACE")) ) return(0);
 
-        if (!strcmp(p,".ace") || !strcmp(p,".ACE"))
+		if (!_tcscmp(p,_TEXT(".ace")) || !_tcscmp(p,_TEXT(".ACE")))
         {
-                f = save_snap_ace(filename);
+				f = save_snap_ace(filename);
         }
         else
         {
                 f = save_snap_zx81(filename);
         }
 
-        if (f)
+		if (f)
         {
                 ShowMessage("Save snapshot failed.");
         }
@@ -797,19 +797,19 @@ int save_snap(char *filename)
         return(0);
 }
 
-int save_snap_zx81(char *filename)
+int save_snap_zx81(_TCHAR *filename)
 {
         FILE *f;
         int Addr, Count, Chr;
 
-	f=fopen(filename,"wt");
+	f=_tfopen(filename,_TEXT("wt"));
 	if (!f)
 	{
 	        return -1;
 	}
 
 	fprintf(f,"[MACHINE]\n");
-	fprintf(f,"MODEL %s\n", GetMachine().c_str());
+	fprintf(f,"MODEL %S\n", GetMachine().c_str());
 
 	fprintf(f,"\n[CPU]\n");
 	fprintf(f,"PC %04X    SP  %04X\n", z80.pc.w,z80.sp.w);
@@ -828,7 +828,7 @@ int save_snap_zx81(char *filename)
 	fprintf(f,"LINE %03X\n", lineCounter);
 
 	fprintf(f,"\n[MEMORY]\n");
-	fprintf(f,"RAM_PACK %s\n", HW->RamPackBox->Text.c_str());
+	fprintf(f,"RAM_PACK %S\n", HW->RamPackBox->Text.c_str());
 	fprintf(f,"8K_RAM_ENABLED %02X\n", zx81.RAM816k);
 	fprintf(f,"8K_RAM_PROTECTED %02X\n", zx81.RAM816kWriteProtected);
 
@@ -856,8 +856,8 @@ int save_snap_zx81(char *filename)
 	fprintf(f, "\n");
 
 	fprintf(f,"\n[ADVANCED]\n");
-	AnsiString rom = StringReplace(HW->RomBox->Text, " ", "_", TReplaceFlags() << rfReplaceAll);
-	fprintf(f,"ROM %s\n", rom.c_str());
+	ZXString rom = StringReplace(HW->RomBox->Text, " ", "_", TReplaceFlags() << rfReplaceAll);
+	fprintf(f,"ROM %S\n", rom.c_str());
 	fprintf(f,"PROTECT_ROM %02X\n", machine.protectROM);
 	fprintf(f,"M1NOT %02X\n", (zx81.m1not == 0xC000));
 	fprintf(f,"IMPROVED_WAIT %02X\n", zx81.improvedWait);
@@ -865,11 +865,11 @@ int save_snap_zx81(char *filename)
 	fprintf(f,"FRAME_RATE_60HZ %02X\n", machine.NTSC);
 
 	fprintf(f,"\n[SOUND]\n");
-	fprintf(f,"TYPE %s\n", HW->SoundCardBox->Text.c_str());
+	fprintf(f,"TYPE %S\n", HW->SoundCardBox->Text.c_str());
 
 	// Must output this before the Chr$ Generator section
 	fprintf(f,"\n[COLOUR]\n");
-	fprintf(f,"TYPE %s\n", HW->ColourBox->Text.c_str());
+	fprintf(f,"TYPE %S\n", HW->ColourBox->Text.c_str());
 
 	if (machine.colour == COLOURCHROMA)
 	{
@@ -894,7 +894,7 @@ int save_snap_zx81(char *filename)
 	}
 
 	fprintf(f,"\n[CHR$_GENERATOR]\n");
-	fprintf(f,"TYPE %s\n", HW->ChrGenBox->Text.c_str());
+	fprintf(f,"TYPE %S\n", HW->ChrGenBox->Text.c_str());
 
 	if (zx81.chrgen == CHRGENQS)
 	{
@@ -919,18 +919,18 @@ int save_snap_zx81(char *filename)
 	}
 
 	fprintf(f,"\n[HIGH_RESOLUTION]\n");
-	fprintf(f,"TYPE %s\n", HW->HiResBox->Text.c_str());
+	fprintf(f,"TYPE %S\n", HW->HiResBox->Text.c_str());
 
 	fprintf(f,"\n[ROM_CARTRIDGE]\n");
-        AnsiString type = StringReplace(HW->RomCartridgeBox->Text, " ", "_", TReplaceFlags() << rfReplaceAll);
-	fprintf(f,"TYPE %s\n", type.c_str());
+        ZXString type = StringReplace(HW->RomCartridgeBox->Text, " ", "_", TReplaceFlags() << rfReplaceAll);
+	fprintf(f,"TYPE %S\n", type.c_str());
 	if (HW->RomCartridgeBox->Text != "None")
 	{
-	        AnsiString path = StringReplace(HW->RomCartridgeFileBox->Text, " ", "_", TReplaceFlags() << rfReplaceAll);
-		fprintf(f,"PATH %s\n", path.c_str());
+	        ZXString path = StringReplace(HW->RomCartridgeFileBox->Text, " ", "_", TReplaceFlags() << rfReplaceAll);
+		fprintf(f,"PATH %S\n", path.c_str());
 		if (HW->RomCartridgeBox->Text == "ZXC1")
 		{
-		        fprintf(f,"CONFIGURATION %s\n", HW->ZXC1ConfigurationBox->Text.c_str());
+		        fprintf(f,"CONFIGURATION %S\n", HW->ZXC1ConfigurationBox->Text.c_str());
 		}
 	}
 
@@ -939,8 +939,8 @@ int save_snap_zx81(char *filename)
 	fprintf(f,"ZXPAND %02X\n", zx81.zxpand);
 
 	fprintf(f,"\n[DRIVES]\n");
-	fprintf(f,"FDC %s\n", HW->FDC->Text.c_str());
-	fprintf(f,"IDE %s\n", HW->IDEBox->Text.c_str());
+	fprintf(f,"FDC %S\n", HW->FDC->Text.c_str());
+	fprintf(f,"IDE %S\n", HW->IDEBox->Text.c_str());
 
         fprintf(f,"\n[EOF]\n");
 	fclose(f);
@@ -948,12 +948,12 @@ int save_snap_zx81(char *filename)
         return 0;
 }
 
-int save_snap_ace(char *filename)
+int save_snap_ace(_TCHAR *filename)
 {
 	FILE *f;
         int Addr, Count, Chr, memptr;
 
-	f=fopen(filename,"wb");
+	f=_tfopen(filename,_TEXT("wb"));
 	if (!f)
 	{
 	        ShowMessage("Save snapshot failed.");
@@ -1049,28 +1049,28 @@ int save_snap_ace(char *filename)
 	return 0;
 }
 
-int memoryLoadToAddress(char *filename, void* destAddress, int length)
+int memoryLoadToAddress(_TCHAR *filename, void* destAddress, int length)
 {
         int fptr;
-        char file[256];
+		_TCHAR file[256];
         int len;
 
-        if (strchr(filename, '\\') || strchr(filename, '/'))
+        if (_tcschr(filename, '\\') || _tcschr(filename, '/'))
         {
-                strcpy(file, filename);
+				_tcscpy(file, filename);
         }
         else
         {
-                strcpy(file, emulator.cwd);
-                strcat(file, romsFolder);
-                strcat(file, filename);
+				_tcscpy(file, emulator.cwd);
+				_tcscat(file, romsFolder);
+				_tcscat(file, filename);
         }
 
-        fptr=open(file, O_RDONLY | O_BINARY);
+		fptr=_topen(file, O_RDONLY | O_BINARY);
         if (fptr<1)
         {
                 int err=errno;
-                AnsiString errMsg = "ROM load to address failed:\n" + AnsiString(filename);
+				ZXString errMsg = "ROM load to address failed:\n" + ZXString(filename);
                 ShowMessage(errMsg);
                 return(err);
         }
@@ -1079,7 +1079,7 @@ int memoryLoadToAddress(char *filename, void* destAddress, int length)
         {
                 int err=errno;
                 close(fptr);
-                AnsiString errMsg = "ROM load to address failed:\n" + AnsiString(filename);
+                ZXString errMsg = "ROM load to address failed:\n" + ZXString(filename);
                 ShowMessage(errMsg);
                 return(err);
         }
@@ -1089,16 +1089,16 @@ int memoryLoadToAddress(char *filename, void* destAddress, int length)
         return(len);
 }
 
-int do_memory_load(char *file, int address, int length, int secondBank)
+int do_memory_load(_TCHAR *file, int address, int length, int secondBank)
 {
         int fptr;
         int len;
 
-        fptr=open(file, O_RDONLY | O_BINARY);
+		fptr=_topen(file, O_RDONLY | O_BINARY);
         if (fptr<1)
         {
                 int err=errno;
-                AnsiString errMsg = "ROM load failed:\n" + AnsiString(file);
+                ZXString errMsg = "ROM load failed:\n" + ZXString(file);
                 ShowMessage(errMsg);
                 return(err);
         }
@@ -1107,7 +1107,7 @@ int do_memory_load(char *file, int address, int length, int secondBank)
         {
                 int err=errno;
                 close(fptr);
-                AnsiString errMsg = "ROM load failed:\n" + AnsiString(file);
+                ZXString errMsg = "ROM load failed:\n" + ZXString(file);
                 ShowMessage(errMsg);
                 return(err);
         }
@@ -1118,7 +1118,7 @@ int do_memory_load(char *file, int address, int length, int secondBank)
                 {
                         int err=errno;
                         close(fptr);
-                        AnsiString errMsg = "ROM load failed:\n" + AnsiString(file);
+                        ZXString errMsg = "ROM load failed:\n" + ZXString(file);
                         ShowMessage(errMsg);
                         return(err);
                 }
@@ -1129,54 +1129,54 @@ int do_memory_load(char *file, int address, int length, int secondBank)
         return(len);
 }
 
-int memory_device_rom_load(char *filename, int address, int length)
+int memory_device_rom_load(_TCHAR *filename, int address, int length)
 {
-        char file[256];
+		_TCHAR file[256];
 
-        strcpy(file, emulator.cwd);
-        strcat(file, filename);
+		_tcscpy(file, emulator.cwd);
+		_tcscat(file, filename);
 
         return do_memory_load(file, address, length, 0);
 }
 
-int memory_load(char *filename, int address, int length, int secondBank)
+int memory_load(_TCHAR *filename, int address, int length, int secondBank)
 {
         int fptr;
-        char file[256];
+        _TCHAR file[256];
         int len;
 
-        if (strchr(filename, '\\') || strchr(filename, '/'))
-        {
-                strcpy(file, filename);
+		if (_tcschr(filename, '\\') || _tcschr(filename, '/'))
+		{
+				_tcscpy(file, filename);
         }
-        else
+		else
         {
-                strcpy(file, emulator.cwd);
-                strcat(file, romsFolder);
-                strcat(file, filename);
+				_tcscpy(file, emulator.cwd);
+				_tcscat(file, romsFolder);
+				_tcscat(file, filename);
         }
 
-        return do_memory_load(file, address, length, secondBank);
+		return do_memory_load(file, address, length, secondBank);
 }
 
-int font_load(const char *filename, char *address, int length)
+int font_load(const _TCHAR *filename, char *address, int length)
 {
         int fptr;
-        char file[256];
+        _TCHAR file[256];
         int len;
 
-        strcpy(file, emulator.cwd);
-        strcat(file, romsFolder);
-        strcat(file, filename);
+        _tcscpy(file, emulator.cwd);
+		_tcscat(file, romsFolder);
+		_tcscat(file, filename);
 
-        fptr=open(file, O_RDONLY | O_BINARY);
+        fptr=_topen(file, O_RDONLY | O_BINARY);
         if (fptr<1) return(errno);
 
         if ((len=read(fptr, address, length))==-1)
         {
                 int err=errno;
                 close(fptr);
-                AnsiString errMsg = "Font load failed:\n" + AnsiString(filename);
+				ZXString errMsg = "Font load failed:\n" + ZXString(filename);
                 ShowMessage(errMsg);
                 return(err);
         }

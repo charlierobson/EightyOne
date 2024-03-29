@@ -32,7 +32,7 @@ specBasicLoader::specBasicLoader(bool spec128, bool if1)
         mIF1 = if1;
 }
 
-void specBasicLoader::OutputStartOfProgramData(AnsiString filename, int& addressOffset)
+void specBasicLoader::OutputStartOfProgramData(ZXString filename, int& addressOffset)
 {
         // Header block
 
@@ -40,7 +40,7 @@ void specBasicLoader::OutputStartOfProgramData(AnsiString filename, int& address
         OutputByte(addressOffset, 0x00);   //Flag: 00=Header
         OutputByte(addressOffset, 0x00);   //Type: 00=Program
 
-        AnsiString name = RemoveExt(RemovePath(filename));
+        ZXString name = RemoveExt(RemovePath(filename));
         name += "         ";
 
         for (int n = 1; n <= 10; n++)

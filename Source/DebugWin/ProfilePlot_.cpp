@@ -91,7 +91,7 @@ void TProfilePlot::InitScrollbar()
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TProfilePlot::PlotTGraph(ProfileDetail* pd, AnsiString caption)
+void __fastcall TProfilePlot::PlotTGraph(ProfileDetail* pd, ZXString caption)
 {
         _pd = pd;
         Caption = "Profiler - " + caption;
@@ -109,7 +109,7 @@ void TProfilePlot::UpdateMinMax(ProfileDetail* pd)
                 max = _pd->Max();
         }
 
-        AnsiString minmax = "Min: ---- Max: ----";
+        ZXString minmax = "Min: ---- Max: ----";
         if (_pd) {
                 minmax = "Min: ";
                 minmax += min;
@@ -144,8 +144,8 @@ void __fastcall TProfilePlot::FormMouseMove(TObject *Sender,
                 sample += ScrollBarHorizontal->Position;
         }
 
-        AnsiString cur = "Current: ----";
-        AnsiString sam = "Sample: ----";
+        ZXString cur = "Current: ----";
+        ZXString sam = "Sample: ----";
 
         if (_pd) {
                 cur = "Current: ";

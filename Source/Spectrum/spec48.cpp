@@ -85,7 +85,7 @@ extern void LogInAccess(int address, BYTE data);
 extern void ResetLastIOAccesses();
 extern void DebugUpdate(void);
 extern void add_blank(SCANLINE *line, int tstates, BYTE colour);
-extern void LoadDock(char *filename);
+extern void LoadDock(_TCHAR *filename);
 
 extern long noise;
 extern int SelectAYReg;
@@ -404,7 +404,7 @@ void spec48_initialise()
 
         if (spectrum.floppytype==FLOPPYIF1)
         {
-                AnsiString romPath;
+                ZXString romPath;
 
                 if (IF1->RomEdition->Text == "Edition 2")
                 {
@@ -453,7 +453,7 @@ void spec48_initialise()
                 memcpy(MFMem,memory,romlen);
         }
 
-        if (strlen(emulator.ROMDock)) LoadDock(emulator.ROMDock);
+		if (_tcslen(emulator.ROMDock)) LoadDock(emulator.ROMDock);
 
         SPECTopBorder= (machine.NTSC) ? 32:56;
         SPECLeftBorder=1+37*2;

@@ -257,18 +257,18 @@ void TBasicLister::HighlightEntry(int index)
 
         mLastHighlightedEntryIndex = index;
 
-        AnsiString lineDetails = "";
+        ZXString lineDetails = "";
 
         if (index != -1)
         {
                 int lineNumber = (*mLines)[index].lineNumber;
-                lineDetails += "Line " + AnsiString(lineNumber) + ": ";
+                lineDetails += "Line " + ZXString(lineNumber) + ": ";
 
                 int startAddress = (*mLines)[index].address;
-                lineDetails += "$" + AnsiString::IntToHex(startAddress, 4);
+                lineDetails += "$" + ZXString::IntToHex(startAddress, 4);
 
                 int endAddress = startAddress + (*mLines)[index].lineLength - 1;
-                lineDetails += "-$" + AnsiString::IntToHex(endAddress, 4);
+                lineDetails += "-$" + ZXString::IntToHex(endAddress, 4);
         }
 
         StatusBar->Panels->Items[PanelLineInfo]->Text = lineDetails;
@@ -424,20 +424,20 @@ void TBasicLister::ConfigureScrollBar()
 
 void TBasicLister::ConfigureStatusBar()
 {
-        AnsiString programDetails;
+        ZXString programDetails;
 
         if (mBasicLister != NULL)
         {
-                programDetails += "Lines " + AnsiString(mLines->size());
+                programDetails += "Lines " + ZXString(mLines->size());
 
                 int programSize = ProgramSize();
                 if (programSize > 0)
                 {
                         int basicStart = mBasicLister->GetProgramStartAddress();
                         programDetails += ": $";
-                        programDetails += AnsiString::IntToHex(basicStart, 4);
+                        programDetails += ZXString::IntToHex(basicStart, 4);
                         programDetails += "-$";
-                        programDetails += AnsiString::IntToHex(basicStart + programSize - 1, 4);
+                        programDetails += ZXString::IntToHex(basicStart + programSize - 1, 4);
                 }
         }
 
@@ -582,15 +582,15 @@ void TBasicLister::SaveListingToFile()
         bool programLoaded = (ProgramSize() > 0);
         if (!programLoaded)
         {
-                Application->MessageBox("There is no BASIC program loaded.", "Save BASIC Listing", MB_OK | MB_ICONERROR);
+                Application->MessageBox(_TEXT("There is no BASIC program loaded."), _TEXT("Save BASIC Listing"), MB_OK | MB_ICONERROR);
                 return;
         }
 
-        AnsiString machineName = mBasicLister->GetMachineName();
-        AnsiString basicFileExtension = mBasicLister->GetBasicFileExtension();
+        ZXString machineName = mBasicLister->GetMachineName();
+        ZXString basicFileExtension = mBasicLister->GetBasicFileExtension();
         bool zxTokenFormatSupported = mBasicLister->ZxTokenSupported();
 
-        AnsiString filter = machineName + " ZxText2P BASIC File (*." + basicFileExtension + ")|*." + basicFileExtension;
+        ZXString filter = machineName + " ZxText2P BASIC File (*." + basicFileExtension + ")|*." + basicFileExtension;
         if (zxTokenFormatSupported)
         {
                 filter += "|" + machineName + " ZxToken BASIC File (*." + basicFileExtension + ")|*." + basicFileExtension;
@@ -621,7 +621,7 @@ void TBasicLister::SaveListingToFile()
                 ofs.open(SaveDialog->FileName.c_str());
                 for (std::vector<LineInfo>::iterator it = mLines->begin(); it != mLines->end(); it++)
                 {
-                        AnsiString lineText = mBasicLister->RenderLineAsText(*it, mOutputRemTokensAsCharacterCodes, mOutputStringTokensAsCharacterCodes, mOutputNonAsciiAsCharacterCodes, mOutputVariableNamesInLowercase, outputInZxTokenFormat, mLimitLineLengths, mOutputFullWidthLineNumbers);
+                        ZXString lineText = mBasicLister->RenderLineAsText(*it, mOutputRemTokensAsCharacterCodes, mOutputStringTokensAsCharacterCodes, mOutputNonAsciiAsCharacterCodes, mOutputVariableNamesInLowercase, outputInZxTokenFormat, mLimitLineLengths, mOutputFullWidthLineNumbers);
                         ofs << lineText.c_str() << '\n';
                 }
 
@@ -709,7 +709,7 @@ void TBasicLister::GetSaveOptions()
 
 void __fastcall TBasicLister::ToolButtonInfoClick(TObject *Sender)
 {
-        AnsiString machine = mBasicLister->GetMachineName();
+        ZXString machine = mBasicLister->GetMachineName();
         if (machine == "ZX80")
         {
                 BasicListingFormatInfoForm->SetActivePage(0);

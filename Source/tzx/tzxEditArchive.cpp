@@ -44,7 +44,7 @@ void TEditArchiveInfo::Go(int BlockNo, int Mx, int My)
 {
         unsigned char *p, c;
         int i, j, type, len, nstrings;
-        AnsiString text;
+        ZXString text;
 
         Top = My - Height/2;
         Left = Mx - Width/2;

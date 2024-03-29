@@ -58,12 +58,12 @@ void delayMillis(short x)
 
 void saveEEPROM(void)
 {
-   char file[256];
-   strcpy(file, emulator.cwd);
-   strcat(file, nvMemoryFolder);
-   strcat(file, "zxpand-eeprom.bin");
+   _TCHAR file[256];
+   _tcscpy(file, emulator.cwd);
+   _tcscat(file, nvMemoryFolder);
+   _tcscat(file, _TEXT("zxpand-eeprom.bin"));
 
-   FILE* eep = fopen(file,"wb");
+   FILE* eep = _tfopen(file,_TEXT("wb"));
    if (eep)
    {
       fwrite(eeprom, 1, 256, eep);
@@ -74,12 +74,12 @@ void saveEEPROM(void)
 
 void LoadEEPROM(void)
 {
-   char file[256];
-   strcpy(file, emulator.cwd);
-   strcat(file, nvMemoryFolder);
-   strcat(file, "zxpand-eeprom.bin");
+   _TCHAR file[256];
+   _tcscpy(file, emulator.cwd);
+   _tcscat(file, nvMemoryFolder);
+   _tcscat(file, _TEXT("zxpand-eeprom.bin"));
 
-   FILE* eep = fopen(file,"rb");
+   FILE* eep = _tfopen(file,_TEXT("rb"));
    if (eep)
    {
       fread(eeprom, 1, 256, eep);
@@ -88,7 +88,7 @@ void LoadEEPROM(void)
    else
    {
       memset(eeprom, 255, 256);
-      eep = fopen(file,"wb");
+	  eep = _tfopen(file,_TEXT("wb"));
       if (eep != NULL)
       {
         fwrite(eeprom, 1, 256, eep);

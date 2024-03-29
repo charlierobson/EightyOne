@@ -38,7 +38,7 @@ __fastcall TMemoryWindow::TMemoryWindow(TComponent* Owner)
 
         SetViewMode(MWVM_TRADITIONAL);
 
-        mCharSize = Canvas->TextExtent(AnsiString("0"));
+        mCharSize = Canvas->TextExtent(ZXString("0"));
        	mHeadingHeight = mCharSize.cy + (mCharSize.cy / 2);
 }
 
@@ -109,11 +109,11 @@ void RowRenderer::AddressOut(void)
         SetTextColor(mCHDC, GetSysColor(COLOR_WINDOWTEXT));
         if (mAddress >= 0)
         {
-                TextOut(mCHDC, 0, mY, AnsiString::IntToHex(mAddress,4).c_str(), 4);
+                TextOut(mCHDC, 0, mY, ZXString::IntToHex(mAddress,4).c_str(), 4);
         }
         else
         {
-                TextOut(mCHDC, 0, mY, AnsiString::IntToHex(65536 + mAddress,4).c_str(), 4);
+                TextOut(mCHDC, 0, mY, ZXString::IntToHex(65536 + mAddress,4).c_str(), 4);
         }
 }
 
@@ -220,7 +220,7 @@ void ByteRowRenderer::RenderRow(void)
                         int val = getbyte(mAddress);
 
                         TextOut(mCHDC, x * mCellWidth + mLMargin + mKern, mY,
-                                AnsiString::IntToHex(val ,2).c_str(), 2);
+                                ZXString::IntToHex(val ,2).c_str(), 2);
 
                         if (mSelectedAddress == mAddress)
                         {
@@ -262,7 +262,7 @@ void WordRowRenderer::RenderRow(void)
                         int val = b1 + 256 * b2;
 
                         TextOut(mCHDC, x * mCellWidth + mLMargin + mKern, mY,
-                                AnsiString::IntToHex(val ,4).c_str(), 4);
+                                ZXString::IntToHex(val ,4).c_str(), 4);
 
                         if (mSelectedAddress == mAddress)
                         {
@@ -296,7 +296,7 @@ void DecimalRowRenderer::RenderRow(void)
                         }
 
                         int val = getbyte(mAddress);
-                        AnsiString value = Format("%.3d", ARRAYOFCONST((val)));
+                        ZXString value = Format("%.3d", ARRAYOFCONST((val)));
 
                         TextOut(mCHDC, x * mCellWidth + mLMargin + mKern, mY,
                                 value.c_str(), 3);
@@ -380,7 +380,7 @@ void TraditionalRowRenderer::RenderRow(void)
                         }
 
                         TextOut(mCHDC, x * mCellWidth + mLMargin + mKern, mY,
-                                AnsiString::IntToHex(by, 2).c_str(), 2);
+                                ZXString::IntToHex(by, 2).c_str(), 2);
 
                         if (mSelectedAddress == mAddress)
                         {
@@ -437,7 +437,7 @@ void RowRenderer::RenderColumnHeadings(const TSize& charSize)
 
         for (int x = 0; x < mDisplayCellsPerRow; ++x)
         {
-		AnsiString heading = AnsiString::IntToHex(x, 2);
+		ZXString heading = ZXString::IntToHex(x, 2);
                 TextOut(mCHDC, (x * mCellWidth) + columnInset, 0, heading.c_str(), 2);
         }
 }
@@ -687,12 +687,12 @@ void __fastcall TMemoryWindow::FormMouseMove(TObject *Sender,
       TShiftState Shift, int X, int Y)
 {
         int address;
-        AnsiString t;
+        ZXString t;
         mSelectedAddress = -1;
 
         if (xyToAddress(X,Y,address))
         {
-                t = "$" + AnsiString::IntToHex(address,4);
+                t = "$" + ZXString::IntToHex(address,4);
                 mSelectedAddress = address;
         }
 
@@ -716,7 +716,7 @@ void __fastcall TMemoryWindow::FormMouseDown(TObject *Sender,
                 // indirect address
 
                 address = getbyte(address) + 256 * getbyte(address + 1);
-                JumpTo1->Caption += " $" + AnsiString::IntToHex(address,4);
+                JumpTo1->Caption += " $" + ZXString::IntToHex(address,4);
                 JumpTo1->Tag = address;
          }
         else
@@ -769,7 +769,7 @@ void __fastcall TMemoryWindow::GlueButtonsToStatusBar()
 void __fastcall TMemoryWindow::ButtonChangeMouseMove(TObject *Sender,
       TShiftState Shift, int X, int Y)
 {
-        const AnsiString btnDescs[] =
+		const ZXString btnDescs[] =
         {
                 "First", "Previous", "Next", "Last"
         };

@@ -52,9 +52,9 @@ BYTE GetMem(int Addr)
 	return byteVal;
 }
 
-AnsiString TDbg::StrRep(AnsiString Text, int Pos, int Len, AnsiString NewText)
+ZXString TDbg::StrRep(ZXString Text, int Pos, int Len, ZXString NewText)
 {
-        AnsiString t="";
+        ZXString t="";
 
         if (Pos>1) t=Text.SubString(1,Pos-1);
         t+=NewText;
@@ -63,7 +63,7 @@ AnsiString TDbg::StrRep(AnsiString Text, int Pos, int Len, AnsiString NewText)
         return(t);
 }
                            
-AnsiString TDbg::Disassemble(int addr, BYTE* bytes)
+ZXString TDbg::Disassemble(int addr, BYTE* bytes)
 {
 	readFromMemory = false;
 	instructionAddress = addr;
@@ -72,26 +72,26 @@ AnsiString TDbg::Disassemble(int addr, BYTE* bytes)
 	return DisassembleAddress(&addr);
 }
 
-AnsiString TDbg::Disassemble(int *Ad)
+ZXString TDbg::Disassemble(int *Ad)
 {
 	readFromMemory = true;
 
 	return DisassembleAddress(Ad);
 }
 
-AnsiString TDbg::DisassembleAddress(int* Ad)
+ZXString TDbg::DisassembleAddress(int* Ad)
 {
         int Addr = *Ad;
         int Opcode;
         int p;
         int Offset;
 
-        AnsiString StrAddr;
-        AnsiString StrCode;
-        AnsiString StrText;
+        ZXString StrAddr;
+        ZXString StrCode;
+        ZXString StrText;
 
         Opcode = GetMem(Addr);
-        StrAddr = "$"+AnsiString::IntToHex(Addr,4);
+        StrAddr = "$"+ZXString::IntToHex(Addr,4);
         StrCode += Hex8(Opcode);
         Addr++;
 
@@ -1452,47 +1452,47 @@ AnsiString TDbg::DisassembleAddress(int* Ad)
         case 0xff: StrText="RST 38"; break;
         }
 
-        p=StrText.AnsiPos("nnnn");
-        if (p)
+		p=StrText.Pos("nnnn");
+		if (p)
         {
                 int lowByte = GetMem(Addr);
                 int highByte = GetMem(Addr+1);
                 int absadd = lowByte + 256*highByte;
-                AnsiString nnnn = symbolstore::addressToSymbolOrHex(absadd);
+                ZXString nnnn = symbolstore::addressToSymbolOrHex(absadd);
                 StrText=StrRep(StrText,p,4,nnnn);
                 StrCode += Hex8(lowByte);
                 StrCode += Hex8(highByte);
                 Addr+=2;
         }
 
-        p=StrText.AnsiPos("fz");
+		p=StrText.Pos("fz");
         if (p)
         {
                 int offset=GetMem(Addr);
                 if (offset>127) offset=offset-256;
 
-                AnsiString nnnn = symbolstore::addressToSymbolOrHex(Addr + 1 + offset);
+                ZXString nnnn = symbolstore::addressToSymbolOrHex(Addr + 1 + offset);
                 StrText=StrRep(StrText,p,2,nnnn);
                 StrCode += Hex8(GetMem(Addr++));
         }
 
-        p=StrText.AnsiPos("+dd");
-        if (p)
-        {
-                int i=GetMem(Addr);
-                if (i>=128) StrText=StrRep(StrText,p,3,"-$"+Hex8(256-i));
-                else StrText=StrRep(StrText,p,3,"+$" + Hex8(i));
-                StrCode += Hex8(GetMem(Addr++));
-        }
+		p=StrText.Pos("+dd");
+		if (p)
+		{
+				int i=GetMem(Addr);
+				if (i>=128) StrText=StrRep(StrText,p,3,"-$"+Hex8(256-i));
+				else StrText=StrRep(StrText,p,3,"+$" + Hex8(i));
+				StrCode += Hex8(GetMem(Addr++));
+		}
 
-        p=StrText.AnsiPos("nn");
-        if (p)
-        {
-                StrText=StrRep(StrText,p,2,"$"+Hex8(GetMem(Addr)));
-                StrCode += Hex8(GetMem(Addr++));
-        }
+		p=StrText.Pos("nn");
+		if (p)
+		{
+				StrText=StrRep(StrText,p,2,"$"+Hex8(GetMem(Addr)));
+				StrCode += Hex8(GetMem(Addr++));
+		}
 
-        p=StrText.AnsiPos("+DD");
+		p=StrText.Pos("+DD");
         if (p)
         {
                 int i=Offset;
@@ -1500,8 +1500,8 @@ AnsiString TDbg::DisassembleAddress(int* Ad)
                 else StrText=StrRep(StrText,p,3,"+$" + Hex8(i));
         }
 
-        AnsiString lab("");
-        symbolstore::addressToSymbol(*Ad, lab);
+		ZXString lab("");
+		symbolstore::addressToSymbol(*Ad, lab);
 
         lab += "             ";
         lab.SetLength(12);

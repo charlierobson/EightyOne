@@ -123,11 +123,11 @@ void add_blank(SCANLINE *CurScanLine, int tstates, BYTE colour)
 // DirectDraw Functions
 // -----------------------------------------------------------------------------
 
-bool DDError(bool result, AnsiString Message)
+bool DDError(bool result, ZXString Message)
 {
         if (result)
-                MessageBoxA(NULL,
-                "Count not initialise DirectDraw.\nPlease ensure DirectX 7 or greater is installed",
+				MessageBox(NULL,
+                _TEXT("Count not initialise DirectDraw.\nPlease ensure DirectX 7 or greater is installed"),
                 Message.c_str(),
                 MB_OK);
 
@@ -930,7 +930,7 @@ static void GetPixelColour(int x, int y, unsigned char *r, unsigned char *g, uns
         *b=0;
 }
 
-void SaveScreenShot(AnsiString Filename)
+void SaveScreenShot(ZXString Filename)
 {
         FILE *f;
         int w,h,x,y,Pw;
@@ -950,7 +950,7 @@ void SaveScreenShot(AnsiString Filename)
 
         size = ((Pw+pad)*h)+54;
 
-        f=fopen(Filename.c_str(),"wb");
+        f=_tfopen(Filename.c_str(),_TEXT("wb"));
 
         fwrite("BM", 1, 2, f);
         b32=size; fwrite(&b32, 1, 4, f);

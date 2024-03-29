@@ -156,74 +156,70 @@ USEUNIT("SP0256\sp0256_012.cpp");
 #include "SplashScreen.h"
 #include "main_.h"
 //---------------------------------------------------------------------------
-char **CommandLine;
+_TCHAR **CommandLine;
 bool ShowSplash=true;
 bool Restart=false;
 //---------------------------------------------------------------------------
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
+int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR cmdline, int)
 {
-        int i;
-        char *p, *CmdLineRaw;
-        bool quote;
+		int i;
+		_TCHAR *p, *CmdLineRaw;
+		bool quote;
 
-        CmdLineRaw=(char *)malloc(strlen(cmdline)+2);
-        strcpy(CmdLineRaw,cmdline);
+		CmdLineRaw=(_TCHAR *)malloc(_tcslen(cmdline)+2);
+		_tcscpy(CmdLineRaw,cmdline);
 
-        p=CmdLineRaw;
-        quote=false;
+		p=CmdLineRaw;
+		quote=false;
 
-        while(*p)
-        {
-                if (*p=='\"') quote=!quote;
-                if ((*p==' ') && (quote==false)) *p=0;
-                p++;
-        }
-        *++p=0;
+		while(*p)
+		{
+				if (*p=='\"') quote=!quote;
+				if ((*p==' ') && (quote==false)) *p=0;
+				p++;
+		}
+		*++p=0;
 
-        i=0;
-        p=CmdLineRaw;
-        while(strlen(p))
-        {
-                i++;
-                p+=strlen(p)+1;
-        }
-        i++;
+		i=0;
+		p=CmdLineRaw;
+		while(_tcslen(p))
+		{
+				i++;
+				p+=_tcslen(p)+1;
+		}
+		i++;
 
-        CommandLine=(char **)malloc(i*sizeof(char *));
+		CommandLine=(_TCHAR **)malloc(i*sizeof(_TCHAR *));
 
-        p=CmdLineRaw;
-        i=0;
-        while(strlen(p))
-        {
-                CommandLine[i++]=p;
-                p+=strlen(p)+1;
-        }
-        CommandLine[i]=NULL;
+		p=CmdLineRaw;
+		i=0;
+		while(_tcslen(p))
+		{
+				CommandLine[i++]=p;
+				p+=_tcslen(p)+1;
+		}
+		CommandLine[i]=NULL;
 
-        i=0;
-        while(CommandLine[i])
-        {
-                p=CommandLine[i];
+		i=0;
+		while(CommandLine[i])
+		{
+				p=CommandLine[i];
 
-                if ((p[0]=='\"') && (p[strlen(p)-1]=='\"'))
-                {
-                        p[strlen(p)-1]=0;
-                        CommandLine[i]++;
-                }
-                i++;
-        }
+				if ((p[0]=='\"') && (p[_tcslen(p)-1]=='\"'))
+				{
+						p[_tcslen(p)-1]=0;
+						CommandLine[i]++;
+				}
+				i++;
+		}
 
-        try
-        {
-                Application->Initialize();
-                Application->Title = "EightyOne";
-
-                TSplash *spl = new TSplash(Splash);
-
-                #include "splashImpl.cpp"
-
-                Application->ProcessMessages();
-                delete spl;
+		try
+		{
+				Application->Initialize();
+				Application->Title = "EightyOne";
+				TSplash *spl = new TSplash(Application);
+				#include "splashImpl.cpp"
+				delete spl;
 
                 Form1->GatherWindowsIfRequired();
                 Form1->Caption = "EightyOne";
@@ -235,8 +231,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
 
                 if (Restart)
                 {
-                        AnsiString exeFile = Application->ExeName;
-                        ShellExecute(NULL, "open", exeFile.c_str(), NULL, NULL, SW_SHOWNORMAL);
+                        ZXString exeFile = Application->ExeName;
+						ShellExecute(NULL, _TEXT("open"), exeFile.c_str(), NULL, NULL, SW_SHOWNORMAL);
                 }
         }
         catch (Exception &exception)

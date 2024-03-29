@@ -10,6 +10,7 @@
 #include <ComCtrls.hpp>
 #include <Grids.hpp>
 #include <Menus.hpp>
+#include "zx81config.h"
 //---------------------------------------------------------------------------
 class TSymbolBrowser : public TForm
 {
@@ -22,7 +23,7 @@ __published:	// IDE-managed Components
         void __fastcall ListBox1KeyPress(TObject *Sender, char &Key);
         void __fastcall ListBox1DblClick(TObject *Sender);
 private:	// User declarations
-        AnsiString _searchString;
+        ZXString _searchString;
         DWORD _lastTick;
 
 public:		// User declarations

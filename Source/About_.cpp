@@ -35,9 +35,9 @@ TAbout *About;
 
 //---------------------------------------------------------------------------
 
-static AnsiString ExtractPart(AnsiString versionNumber, int& s, int&e)
+static ZXString ExtractPart(ZXString versionNumber, int& s, int&e)
 {
-        AnsiString part;
+        ZXString part;
 
         while (e <= versionNumber.Length())
         {
@@ -62,9 +62,9 @@ bool GetVersionNumber(int& versionNumberMajor, int& versionNumberMinor, int& ver
         versionNumberPart3 = 0;
         versionNumberPart4 = 0;
         
-        AnsiString versionNumber = "";
+		ZXString versionNumber = "";
 
-        AnsiString fileName = Application->ExeName;
+		ZXString fileName = Application->ExeName;
 
 	// Get the size of the version information buffer
 	DWORD dwHandle = 0;
@@ -103,7 +103,7 @@ bool GetVersionNumber(int& versionNumberMajor, int& versionNumberMinor, int& ver
         VS_FIXEDFILEINFO fileInfo;
 	LPVOID lpInfo;
 	UINT cch;
-	if (VerQueryValue(lpvMem, "\\", &lpInfo, &cch))
+	if (VerQueryValue(lpvMem, _TEXT("\\"), &lpInfo, &cch))
         {
                 ZeroMemory((void*)(&fileInfo), sizeof(fileInfo));
                 CopyMemory((void*)&fileInfo, (const void*)lpInfo, sizeof(fileInfo));
@@ -116,9 +116,9 @@ bool GetVersionNumber(int& versionNumberMajor, int& versionNumberMinor, int& ver
 	}
 
 	// Get translation information
-        AnsiString langID;
-        AnsiString charset;
-        if (VerQueryValue(lpvMem, TEXT("\\VarFileInfo\\Translation"), &lpInfo, &cch))
+		ZXString langID;
+		ZXString charset;
+		if (VerQueryValue(lpvMem, _TEXT("\\VarFileInfo\\Translation"), &lpInfo, &cch))
         {
     	        WORD wLangID = ((WORD*)lpInfo)[0];
                 WORD wCharsetID = ((WORD*)lpInfo)[1];
@@ -135,21 +135,21 @@ bool GetVersionNumber(int& versionNumberMajor, int& versionNumberMinor, int& ver
 	// Fetch the version information
 	TCHAR key[80];
 
-	lstrcpy(key, TEXT("\\StringFileInfo\\"));
-   	AnsiString versionInfoLangID(langID + charset);
-        lstrcat(key, versionInfoLangID.c_str());
-	lstrcat(key, "\\");
-	lstrcat(key, TEXT("FileVersion"));
+	lstrcpy(key, _TEXT("\\StringFileInfo\\"));
+	ZXString versionInfoLangID(langID + charset);
+		lstrcat(key, versionInfoLangID.c_str());
+	lstrcat(key, _TEXT("\\"));
+	lstrcat(key, _TEXT("FileVersion"));
 
 	if (VerQueryValue(lpvMem, key, &lpInfo, &cch))
         {
-                versionNumber = (char*)lpInfo;
+                versionNumber = (TCHAR*)lpInfo;
                 versionNumber += ".";
         }
         else
         {
   		GlobalUnlock(hMem);
-  		GlobalFree(hMem);
+		GlobalFree(hMem);
   		return false;
   	}
         
@@ -227,7 +227,7 @@ void __fastcall TAbout::Label15Click(TObject *Sender)
 {
         //  Original = http://www.chuntey.com/eightyone/
         
-        ShellExecute(0,NULL, "https://sourceforge.net/projects/eightyone-sinclair-emulator/", NULL, NULL, SW_NORMAL);
+		ShellExecute(0,NULL, _TEXT("https://sourceforge.net/projects/eightyone-sinclair-emulator/"), NULL, NULL, SW_NORMAL);
 }
 //---------------------------------------------------------------------------
 

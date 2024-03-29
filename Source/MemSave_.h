@@ -29,6 +29,7 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <Dialogs.hpp>
+#include "zx81config.h"
 //---------------------------------------------------------------------------
 class TMemSave : public TForm
 {
@@ -51,7 +52,7 @@ public:		// User declarations
         __fastcall TMemSave(TComponent* Owner);
         void SaveMem(void);
         void LoadMem(void);
-        int Hex2Dec(AnsiString num);
+        int Hex2Dec(ZXString num);
 
 };
 //---------------------------------------------------------------------------

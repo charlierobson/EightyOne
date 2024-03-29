@@ -281,7 +281,7 @@ void IBasicLister::RenderLine(HDC hdc, HDC cshdc, int& y, LineInfo& lineInfo)
 
 void IBasicLister::RenderLineNumber(HDC hdc, HDC cshdc, int& x, int& y, int lineNumber)
 {
-        AnsiString formattedLineNumber = FormatLineNumber(lineNumber);
+        ZXString formattedLineNumber = FormatLineNumber(lineNumber);
 
         for (signed int i = 2; i <= formattedLineNumber.Length(); i++)
         {
@@ -429,13 +429,13 @@ void IBasicLister::RenderCharacter(HDC hdc, HDC cshdc, int& x, int& y, unsigned 
         }
 }
 
-AnsiString IBasicLister::RenderLineAsText(LineInfo& lineInfo, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool limitLineLengths, bool outputFullWidthLineNumbers)
+ZXString IBasicLister::RenderLineAsText(LineInfo& lineInfo, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool limitLineLengths, bool outputFullWidthLineNumbers)
 {
-        AnsiString lineText = "";
+        ZXString lineText = "";
 
-        AnsiString lineNumber = FormatLineNumber(lineInfo.lineNumber, outputFullWidthLineNumbers);
+        ZXString lineNumber = FormatLineNumber(lineInfo.lineNumber, outputFullWidthLineNumbers);
         int startPos = (lineNumber[1] != ' ') ? 1 : 2;
-        int length = strlen(lineNumber.c_str()) - (startPos - 1);
+        int length = _tcsclen(lineNumber.c_str()) - (startPos - 1);
         lineText += lineNumber.SubString(startPos, length);
         bool requiresInitialSpace = RequiresInitialSpace();
         if (requiresInitialSpace)
@@ -446,7 +446,7 @@ AnsiString IBasicLister::RenderLineAsText(LineInfo& lineInfo, bool outputRemToke
         int address = lineInfo.addressContent;
         int lengthRemaining = lineInfo.contentLength;
         bool lastKeywordEndedWithSpace = requiresInitialSpace;
-        AnsiString zxCharacter;
+        ZXString zxCharacter;
 
         mEscapeCharacter = AnsiChar(GetEscapeCharacter());
 
@@ -483,7 +483,7 @@ AnsiString IBasicLister::RenderLineAsText(LineInfo& lineInfo, bool outputRemToke
         return lineText;
 }
 
-bool IBasicLister::RenderTokenAsText(int& address, int& lengthRemaining, bool& lastKeywordEndedWithSpace, AnsiString& zxCharacter, bool& outputLineAsControlCodes, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool& withinQuotes, bool& withinRem)
+bool IBasicLister::RenderTokenAsText(int& address, int& lengthRemaining, bool& lastKeywordEndedWithSpace, ZXString& zxCharacter, bool& outputLineAsControlCodes, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool& withinQuotes, bool& withinRem)
 {
         unsigned char c = (unsigned char)getbyte(address);
         address++;
@@ -600,14 +600,14 @@ bool IBasicLister::RenderTokenAsText(int& address, int& lengthRemaining, bool& l
         return true;
 }
 
-AnsiString IBasicLister::FormatLineNumber(int lineNumber, bool outputFullWidthLineNumbers)
+ZXString IBasicLister::FormatLineNumber(int lineNumber, bool outputFullWidthLineNumbers)
 {
         std::ostringstream ss;
 
         ss << std::setfill(' ');
         ss << std::setw(5);
         ss << lineNumber;
-        AnsiString lineNum = ss.str().c_str();
+        ZXString lineNum = ss.str().c_str();
 
         if (!outputFullWidthLineNumbers && (lineNum[1] != ' '))
         {

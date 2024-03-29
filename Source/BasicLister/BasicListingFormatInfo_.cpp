@@ -38,5 +38,5 @@ void __fastcall TBasicListingFormatInfoForm::Weblink3Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void TBasicListingFormatInfoForm::OpenWebsite()
 {
-        ShellExecute(NULL, "open", "http://freestuff.grok.co.uk/zxtext2p/index.html", NULL, NULL, SW_SHOW );
+		ShellExecute(NULL, _TEXT("open"), _TEXT("http://freestuff.grok.co.uk/zxtext2p/index.html"), NULL, NULL, SW_SHOW );
 }

@@ -60,7 +60,7 @@ void TEditDataForm::DecodeData(int BlockNo)
         unsigned char ZX80CharSet[]=" \"..........£$:?()-+*/=><;,.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ................................................................";
         unsigned char c;
 
-        AnsiString text1, text2;
+        ZXString text1, text2;
         int i,j,DataLen;
         unsigned char *p;
 
@@ -165,7 +165,7 @@ void TEditDataForm::DecodeData(int BlockNo)
 
 void TEditDataForm::Go(int BlockNo, int Mx, int My)
 {
-        AnsiString text;
+        ZXString text;
 
         if (CharSet->ItemIndex == -1) CharSet->ItemIndex=1;
 

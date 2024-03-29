@@ -294,10 +294,10 @@ private:
         int LoopBlockStart, LoopBlockCounter;
         bool BlockInProgress;
 
-        void ValidateFile(AnsiString FileName, char* tempdata, int len);
-        bool LoadT81File(AnsiString FileName, bool Insert);
-        bool LoadPFile(AnsiString FileName, bool Insert);
-        bool LoadTAPFile(AnsiString FileName, bool Insert);
+        void ValidateFile(ZXString FileName, char* tempdata, int len);
+        bool LoadT81File(ZXString FileName, bool Insert);
+        bool LoadPFile(ZXString FileName, bool Insert);
+        bool LoadTAPFile(ZXString FileName, bool Insert);
         bool LoadROMBlock(FILE *f);
         bool LoadTurboBlock(FILE *f);
         bool LoadToneBlock(FILE *f);
@@ -324,11 +324,11 @@ private:
         bool LoadGlueBlock(FILE *f);
         bool LoadUnknownBlock(FILE *f, int BlockID);
 
-        bool SaveTapFile(AnsiString FileName);
-        bool SaveT81File(AnsiString FileName);
-        bool SavePFile(AnsiString FileName);
-        bool SaveP81File(AnsiString FileName);
-        bool SaveOFile(AnsiString FileName);
+        bool SaveTapFile(ZXString FileName);
+        bool SaveT81File(ZXString FileName);
+        bool SavePFile(ZXString FileName);
+        bool SaveP81File(ZXString FileName);
+        bool SaveOFile(ZXString FileName);
         void WriteByte(FILE *f, unsigned char a);
         void WriteWord(FILE *f, int c);
         void WriteDWord(FILE *f, int c);
@@ -383,12 +383,12 @@ private:
         void ReadBytes(FILE *f, int len, void *buf);
 
         void LoadOFileData(unsigned char* programData, int length, bool Insert);
-        void LoadPFileData(AnsiString FileName, unsigned char* programData, int length, bool Insert);
-        void LoadTapFileData(AnsiString FileName, unsigned char* programData, int length, bool Insert);
+        void LoadPFileData(ZXString FileName, unsigned char* programData, int length, bool Insert);
+        void LoadTapFileData(ZXString FileName, unsigned char* programData, int length, bool Insert);
 
 public:
         struct TZXBlock Tape[TZX_MAX_BLOCKS];
-        AnsiString FileName;
+        ZXString FileName;
         int Blocks, CurBlock;
         int CurBlockLen, CurBlockProgress;
         int Pause;
@@ -397,9 +397,9 @@ public:
         bool Playing;
         bool Stopping;
 
-        void LoadFileData(AnsiString FileName, unsigned char* programData, int length, bool Insert);
-        bool LoadFile(AnsiString FileName, bool Insert);
-        bool SaveFile(AnsiString FileName);
+        void LoadFileData(ZXString FileName, unsigned char* programData, int length, bool Insert);
+        bool LoadFile(ZXString FileName, bool Insert);
+        bool SaveFile(ZXString FileName);
         void EraseBlock(int BlockNo);
         void InsertBlock(int Position);
         void EraseAll(void);
@@ -421,10 +421,10 @@ public:
 
         void NewTZX(void);
 
-        AnsiString GetBlockName(int BlockNo);
-        AnsiString GetBlockType(int BlockNo);
-        AnsiString GetBlockLength(int BlockNo);
-        AnsiString GetFName(int BlockNo);
+        ZXString GetBlockName(int BlockNo);
+        ZXString GetBlockType(int BlockNo);
+        ZXString GetBlockLength(int BlockNo);
+        ZXString GetFName(int BlockNo);
         unsigned char *GetBlockData(int Block);
         int GetGroup(int Block);
         bool ClockTick(int Tstates);

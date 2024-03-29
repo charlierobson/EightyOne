@@ -79,7 +79,7 @@ void __fastcall TMemSave::FormShow(TObject *Sender)
         Top=y;
 }
 //---------------------------------------------------------------------------
-int TMemSave::Hex2Dec(AnsiString num)
+int TMemSave::Hex2Dec(ZXString num)
 {
         int val=0;
         int i;
@@ -95,7 +95,7 @@ int TMemSave::Hex2Dec(AnsiString num)
 }
 void __fastcall TMemSave::SaveClick(TObject *Sender)
 {
-        AnsiString AddrStr, LenStr, FileName, Ext;
+        ZXString AddrStr, LenStr, FileName, Ext;
         int addr,len;
         FILE *f;
 
@@ -104,12 +104,12 @@ void __fastcall TMemSave::SaveClick(TObject *Sender)
 
         if (AddrStr.Length() < 1) return;
         if (AddrStr[1]=='$') addr=Hex2Dec(AddrStr);
-        else addr=atoi(AddrStr.c_str());
+		else addr=_ttoi(AddrStr.c_str());
         len=0;
         if (LenStr.Length())
         {
                 if (LenStr[1]=='$') len=Hex2Dec(LenStr);
-                else len=atoi(LenStr.c_str());
+				else len=_ttoi(LenStr.c_str());
         }
         if (addr<0 || addr>65535) return;
 
@@ -118,7 +118,7 @@ void __fastcall TMemSave::SaveClick(TObject *Sender)
                 if (!len) return;
                 FileName=Fname->Text;
 
-                f=fopen(FileName.c_str(), "wb");
+				f=_tfopen(FileName.c_str(), _TEXT("wb"));
                 if (f)
                 {
                         int i=0;
@@ -140,8 +140,8 @@ void __fastcall TMemSave::SaveClick(TObject *Sender)
                 FileName=Fname->Text;
                 Ext=FileNameGetExt(FileName);
 
-                f=fopen(FileName.c_str(), "rb");
-                if (f)
+				f=_tfopen(FileName.c_str(), _TEXT("rb"));
+				if (f)
                 {
                         int len,i;
                         char *p = memory+addr;
@@ -179,7 +179,7 @@ void __fastcall TMemSave::SaveClick(TObject *Sender)
 
 void __fastcall TMemSave::BrowseClick(TObject *Sender)
 {
-        AnsiString Ext, Path;
+        ZXString Ext, Path;
 
         if (Save->Caption=="Save File...")
         {

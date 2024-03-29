@@ -60,7 +60,7 @@ void TEditGeneralForm::DecodeData(int BlockNo)
 {
         unsigned char c;
 
-        AnsiString text1, text2;
+        ZXString text1, text2;
         unsigned short *pulses;
         int i,j;
         bool eol;
@@ -236,7 +236,7 @@ void __fastcall TEditGeneralForm::ButtonSaveClick(TObject *Sender)
 void __fastcall TEditGeneralForm::SaveZX81File()
 {
         byte *px = pbuffer;
-        AnsiString fn;
+        ZXString fn;
         // extract the original filename from the first few bytes of the tape
         while(1)
         {
@@ -250,8 +250,8 @@ void __fastcall TEditGeneralForm::SaveZX81File()
         if (SaveDialog1->Execute())
         {
                 int filterIndex = SaveDialog1->FilterIndex;
-                AnsiString filename = SaveDialog1->FileName;
-                AnsiString extension = FileNameGetExt(filename);
+                ZXString filename = SaveDialog1->FileName;
+                ZXString extension = FileNameGetExt(filename);
                 if (filterIndex == 1)
                 {
                         if (extension!=".P") filename += ".p";
@@ -262,7 +262,7 @@ void __fastcall TEditGeneralForm::SaveZX81File()
                         if (extension!=".P81") filename += ".p81";
                         px=pbuffer;
                 }
-                FILE* pee = fopen(filename.c_str(), "wb");
+				FILE* pee = _tfopen(filename.c_str(), _TEXT("wb"));
                 if (pee)
                 {
                         fwrite(px, 1, nx, pee);
@@ -281,11 +281,11 @@ void __fastcall TEditGeneralForm::SaveZX80File()
         SaveDialog1->FileName = "";
         if (SaveDialog1->Execute())
         {
-                AnsiString filename = SaveDialog1->FileName;
-                AnsiString extension = FileNameGetExt(filename);
+                ZXString filename = SaveDialog1->FileName;
+                ZXString extension = FileNameGetExt(filename);
                 if (extension!=".O") filename += ".o";
 
-                FILE* pee = fopen(filename.c_str(), "wb");
+				FILE* pee = _tfopen(filename.c_str(), _TEXT("wb"));
                 if (pee)
                 {
                         fwrite(pbuffer, 1, nx, pee);

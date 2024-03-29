@@ -59,7 +59,7 @@ typedef struct DriveStruct
         int Sectors;
         unsigned long Size;
         int Type;
-        char Path[32];
+		_TCHAR Path[32];
         int ReadOnly;
 } PHYSDRIVE;
 
@@ -98,7 +98,7 @@ typedef struct
 
 typedef struct
 {
-	char filename[256];
+	_TCHAR filename[256];
 	FILE *f;
         HANDLE h;
 	int data;
@@ -157,8 +157,8 @@ extern "C" {
 #define ATA_MODE_16BIT_WRSWAP 3
 
 void ATA_Init(void);
-char *ATA_GetHDF(int drive);
-int ATA_LoadHDF(int drive, char *FileName);
+_TCHAR *ATA_GetHDF(int drive);
+int ATA_LoadHDF(int drive, _TCHAR *FileName);
 void ATA_EjectHDF(int drive);
 void ATA_Reset(void);
 int ATA_ReadRegister(int Register);
