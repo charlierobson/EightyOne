@@ -21,10 +21,10 @@ namespace symbolstore
         // if you want to do special processing on each symbol/value pair as
         // they're parsed, pass in a munger.
         //
-		bool loadROMSymbols(const char* filename);
+        bool loadROMSymbols(const char* filename);
 
-		bool loadSymFileSymbols(const char* filename);
-		bool loadZ88FileSymbols(const char* filename);
+        bool loadSymFileSymbols(const char* filename);
+        bool loadZ88FileSymbols(const char* filename);
 
         // check if symbols are loaded
         //
@@ -48,7 +48,7 @@ namespace symbolstore
         // query the content
         //
         void beginenumeration(void);
-		bool enumerate(ZXString& sym, int& addr, char& type);
+        bool enumerate(ZXString& sym, int& addr, char& type);
 };
 
 #endif // _symbolstore_h_

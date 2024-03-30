@@ -104,12 +104,12 @@ void __fastcall TMemSave::SaveClick(TObject *Sender)
 
         if (AddrStr.Length() < 1) return;
         if (AddrStr[1]=='$') addr=Hex2Dec(AddrStr);
-		else addr=_ttoi(AddrStr.c_str());
+        else addr=_ttoi(AddrStr.c_str());
         len=0;
         if (LenStr.Length())
         {
                 if (LenStr[1]=='$') len=Hex2Dec(LenStr);
-				else len=_ttoi(LenStr.c_str());
+                else len=_ttoi(LenStr.c_str());
         }
         if (addr<0 || addr>65535) return;
 
@@ -118,7 +118,7 @@ void __fastcall TMemSave::SaveClick(TObject *Sender)
                 if (!len) return;
                 FileName=Fname->Text;
 
-				f=_tfopen(FileName.c_str(), _TEXT("wb"));
+                f=_tfopen(FileName.c_str(), _TEXT("wb"));
                 if (f)
                 {
                         int i=0;
@@ -140,8 +140,8 @@ void __fastcall TMemSave::SaveClick(TObject *Sender)
                 FileName=Fname->Text;
                 Ext=FileNameGetExt(FileName);
 
-				f=_tfopen(FileName.c_str(), _TEXT("rb"));
-				if (f)
+                f=_tfopen(FileName.c_str(), _TEXT("rb"));
+                if (f)
                 {
                         int len,i;
                         char *p = memory+addr;

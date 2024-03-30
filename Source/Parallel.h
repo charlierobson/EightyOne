@@ -12,7 +12,11 @@
 #include <ExtCtrls.hpp>
 #include "CPort.hpp"
 #include <Dialogs.hpp>
+#if __CODEGEARC__ >= 0x0620
+#include <System.Win.ScktComp.hpp>
+#else
 #include <ScktComp.hpp>
+#endif
 #include <IniFiles.hpp>
 #include <stdio.h>
 //---------------------------------------------------------------------------

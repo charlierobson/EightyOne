@@ -126,7 +126,7 @@ void add_blank(SCANLINE *CurScanLine, int tstates, BYTE colour)
 bool DDError(bool result, ZXString Message)
 {
         if (result)
-				MessageBox(NULL,
+                MessageBox(NULL,
                 _TEXT("Count not initialise DirectDraw.\nPlease ensure DirectX 7 or greater is installed"),
                 Message.c_str(),
                 MB_OK);
@@ -412,7 +412,11 @@ void DDAccurateUpdateDisplay(bool singlestep)
 
         DDFrame->Unlock(NULL);
 
-        POINT p = {0, 0};
+#if __CODEGEARC__ >= 0x0620
+        TPoint p={0,0};
+#else
+        POINT p={0,0};
+#endif
         if(!Form1->FullScreen) p=Form1->ClientToScreen(p);
 
         rDest=rcdest;

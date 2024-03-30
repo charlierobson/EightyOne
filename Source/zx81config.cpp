@@ -195,10 +195,10 @@ void load_config(void)
         _tcscpy(emulator.ROMG007, g007Rom.c_str());
         ZXString memotechRom = graphicRomsFolder + ZXString("memotechhrg.rom");
         _tcscpy(emulator.ROMMEMOTECH, memotechRom.c_str());
-		ZXString QuicksilvaHiResRom = graphicRomsFolder + ZXString("quicksilvahires.rom");
+        ZXString QuicksilvaHiResRom = graphicRomsFolder + ZXString("quicksilvahires.rom");
         _tcscpy(emulator.ROMQUICKSILVAHIRES, QuicksilvaHiResRom.c_str());
 
-		_tcscpy(emulator.machinename, _TEXT("EightyOne"));
+        _tcscpy(emulator.machinename, _TEXT("EightyOne"));
         *(emulator.romcartridgefilepath) = '\0';
 
         zx97.bankswitch=0;
@@ -238,28 +238,28 @@ void load_config(void)
 
 void LoadMachineRoms()
 {
-		_tcscpy(emulator.ROM80, _TEXT("zx80.rom"));
-		_tcscpy(emulator.ROM81, _TEXT("zx81.edition3.rom"));
-		_tcscpy(emulator.ROMSP16, _TEXT("spectrum48.rom"));
-		_tcscpy(emulator.ROMSP48, _TEXT("spectrum48.rom"));
-		_tcscpy(emulator.ROMSPP, _TEXT("spectrum48.rom"));
-		_tcscpy(emulator.ROMSP128, _TEXT("spectrum128.rom"));
-		_tcscpy(emulator.ROMQL, _TEXT("ql.js.rom"));
+        _tcscpy(emulator.ROM80, _TEXT("zx80.rom"));
+        _tcscpy(emulator.ROM81, _TEXT("zx81.edition3.rom"));
+        _tcscpy(emulator.ROMSP16, _TEXT("spectrum48.rom"));
+        _tcscpy(emulator.ROMSP48, _TEXT("spectrum48.rom"));
+        _tcscpy(emulator.ROMSPP, _TEXT("spectrum48.rom"));
+        _tcscpy(emulator.ROMSP128, _TEXT("spectrum128.rom"));
+        _tcscpy(emulator.ROMQL, _TEXT("ql.js.rom"));
 
-		_tcscpy(emulator.ROMSPP2, _TEXT("spectrum+2.rom"));
-		_tcscpy(emulator.ROMSPP2A, _TEXT("spectrum+3.version4-1.rom"));
-		_tcscpy(emulator.ROMSPP3, _TEXT("spectrum+3.version4-1.rom"));
+        _tcscpy(emulator.ROMSPP2, _TEXT("spectrum+2.rom"));
+        _tcscpy(emulator.ROMSPP2A, _TEXT("spectrum+3.version4-1.rom"));
+        _tcscpy(emulator.ROMSPP3, _TEXT("spectrum+3.version4-1.rom"));
 
-		_tcscpy(emulator.ROMTS1000, _TEXT("zx81.edition3.rom"));
-		_tcscpy(emulator.ROMTS1500, _TEXT("ts1500.rom"));
-		_tcscpy(emulator.ROMTC2048, _TEXT("tc2048.rom"));
-		_tcscpy(emulator.ROMTC2068, _TEXT("ts2068.rom"));
-		_tcscpy(emulator.ROMTS2068,_TEXT( "ts2068.rom"));
+        _tcscpy(emulator.ROMTS1000, _TEXT("zx81.edition3.rom"));
+        _tcscpy(emulator.ROMTS1500, _TEXT("ts1500.rom"));
+        _tcscpy(emulator.ROMTC2048, _TEXT("tc2048.rom"));
+        _tcscpy(emulator.ROMTC2068, _TEXT("ts2068.rom"));
+        _tcscpy(emulator.ROMTS2068,_TEXT( "ts2068.rom"));
 
-		_tcscpy(emulator.ROMLAMBDA, _TEXT("lambda8300colour.rom"));
-		_tcscpy(emulator.ROMR470, _TEXT("ringo470.rom"));
-		_tcscpy(emulator.ROMTK85, _TEXT("tk85.rom"));
-		_tcscpy(emulator.ROMACE, _TEXT("jupiterace.rom"));
+        _tcscpy(emulator.ROMLAMBDA, _TEXT("lambda8300colour.rom"));
+        _tcscpy(emulator.ROMR470, _TEXT("ringo470.rom"));
+        _tcscpy(emulator.ROMTK85, _TEXT("tk85.rom"));
+        _tcscpy(emulator.ROMACE, _TEXT("jupiterace.rom"));
 
-		_tcscpy(emulator.ROM97LE, _TEXT("zx97.rom"));
+        _tcscpy(emulator.ROM97LE, _TEXT("zx97.rom"));
 }

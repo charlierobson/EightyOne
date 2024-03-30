@@ -46,7 +46,13 @@ void IBasicLoader::LoadBasicFile(ZXString filename, bool tokeniseRemContents, bo
                         msg << mLines[index].line.substr(0, displayLen);
                         if (truncateLine) msg << "...";
                 }
-                Application->MessageBox(msg.str().c_str(), _TEXT("Load BASIC Listing"), MB_OK | MB_ICONERROR);
+#if __CODEGEARC__ >= 0x0620
+                wchar_t temp[512];
+                mbstowcs(temp, msg.str().c_str(),512);
+                Application->MessageBox(temp, L"Load BASIC Listing", MB_OK | MB_ICONERROR);
+#else
+                Application->MessageBox(msg.str().c_str(), "Load BASIC Listing", MB_OK | MB_ICONERROR);
+#endif
                 return;
         }
 
@@ -72,7 +78,13 @@ void IBasicLoader::LoadBasicFile(ZXString filename, bool tokeniseRemContents, bo
                         int displayLen = truncateLine ? 256: mLines[i].line.length();
                         msg << mLines[i].line.substr(0, displayLen);
                         if (truncateLine) msg << "...";
-                        Application->MessageBox(msg.str().c_str(), _TEXT("Load BASIC Listing"), MB_OK | MB_ICONERROR);
+#if __CODEGEARC__ >= 0x0620
+                        wchar_t temp[512];
+                        mbstowcs(temp, msg.str().c_str(),512);
+                        Application->MessageBox(temp, L"Load BASIC Listing", MB_OK | MB_ICONERROR);
+#else
+                        Application->MessageBox(msg.str().c_str(), "Load BASIC Listing", MB_OK | MB_ICONERROR);
+#endif
                         return;
                 }
         }
@@ -88,17 +100,17 @@ void IBasicLoader::ReadBasicListingFile(ZXString filename)
         {
                 stringstream msg;
                 msg << "File not found:" << endl << endl;
-                msg << filename.c_str() << endl;
+                msg << AnsiString(filename).c_str() << endl;
 
                 throw runtime_error(msg.str());
         }
 
-        ifstream basicFile(filename.c_str());
+        ifstream basicFile(AnsiString(filename).c_str());
         if (basicFile.fail())
         {
                 stringstream msg;
                 msg << "Failed to load file:" << endl << endl;
-                msg << filename.c_str() << endl;
+                msg << AnsiString(filename).c_str() << endl;
 
                 throw runtime_error(msg.str());
         }

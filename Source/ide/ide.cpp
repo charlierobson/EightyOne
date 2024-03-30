@@ -13,8 +13,8 @@ static int PhysDriveID(unsigned char *buffer, int buflen, int *cyls, int *heads,
 void DetectPhysDrives(void)
 {
         int i, drive;
-		unsigned long size, size1, size2;
-		_TCHAR path[256];
+        unsigned long size, size1, size2;
+        _TCHAR path[256];
         unsigned char buffer[512];
         HANDLE hDevice;               // handle to the drive to be examined
         BOOL bResult;                 // results flag
@@ -30,7 +30,7 @@ void DetectPhysDrives(void)
         i=0;
         for(drive=0;drive<255;drive++)
         {
-				_stprintf(path,_TEXT("\\\\.\\PhysicalDrive%d"),drive);
+                _stprintf(path,_TEXT("\\\\.\\PhysicalDrive%d"),drive);
 
                 memset(buffer, 0 , 512);
                 hDevice = CreateFile(path,  // drive to open
@@ -107,13 +107,13 @@ void DetectPhysDrives(void)
                                 PhysDrives[i].Sectors=secs;
                                 PhysDrives[i].Size = size;
                                 PhysDrives[i].ReadOnly=ReadOnly;
-								_tcscpy(PhysDrives[i].Path, path);
+                                _tcscpy(PhysDrives[i].Path, path);
 
                                 i++;
                         }
                         CloseHandle(hDevice);
                 }
-		}
+        }
 }
 
 static int PhysDriveID(unsigned char *buffer, int buflen, int *cyls, int *heads, int *secs)
@@ -642,9 +642,9 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
 
                 while(PhysDrives[i].Drive!=-1)
                 {
-						if (!_tcscmp(FileName,PhysDrives[i].Path))
+                        if (!_tcscmp(FileName,PhysDrives[i].Path))
                         {
-								Drv->h = CreateFile(FileName,  // drive to open
+                                Drv->h = CreateFile(FileName,  // drive to open
                                                 GENERIC_READ|GENERIC_WRITE,
                                                 FILE_SHARE_READ | // share mode
                                                 FILE_SHARE_WRITE,
@@ -663,7 +663,7 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
                                 Drv->heads = PhysDrives[i].Heads;
                                 Drv->sectors = PhysDrives[i].Sectors;
                                 Drv->size = PhysDrives[i].Size;
-								_tcscpy(Drv->filename, FileName);
+                                _tcscpy(Drv->filename, FileName);
                                 Drv->data = 0;
                                 Drv->sector_size = 512;
                                 Drv->AccessMode=ACCESS_PHY;
@@ -696,19 +696,19 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
                 return(1);
         }
 
-		len=_tcslen(FileName);
-		if ( (!_tcscmp(FileName+len-4,_TEXT(".vhd")))
+        len=_tcslen(FileName);
+        if ( (!_tcscmp(FileName+len-4,_TEXT(".vhd")))
                 || (!_tcscmp(FileName+len-4,_TEXT(".VHD"))) )
         {
                 char ModelName[]="iEhgtynO eiVtrauPl C                    ";
-				f=_tfopen(FileName,_TEXT("rb+"));
+                f=_tfopen(FileName,_TEXT("rb+"));
                 if (!f) return(1);
 
                 //len=sizeof(VHD_HEADER);
 
 
                 fseek(f, -512, SEEK_END);
-				len=fread( &(Drv->vhd), 1, sizeof(VHD_HEADER), f);
+                len=fread( &(Drv->vhd), 1, sizeof(VHD_HEADER), f);
                 if (len!=sizeof(VHD_HEADER))
                 {
                         fclose(f);
@@ -749,7 +749,7 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
                 for(i=0;i<40;i++) Drv->drive_id[54+i]=ModelName[i];
 
                 Drv->f = f;
-				_tcscpy(Drv->filename, FileName);
+                _tcscpy(Drv->filename, FileName);
 
                 Drv->AccessMode=ACCESS_HDF;
                 ATA_Reset();
@@ -807,7 +807,7 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
                 }
 
                 Drv->f = f;
-				_tcscpy(Drv->filename, FileName);
+                _tcscpy(Drv->filename, FileName);
 
                 Drv->AccessMode=ACCESS_HDF;
                 ATA_Reset();

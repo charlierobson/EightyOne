@@ -68,7 +68,7 @@ bool TWavFile::LoadCSW(ZXString FName)
         unsigned int size;
         int i,c,current;
 
-		f=_tfopen(FName.c_str(), _TEXT("rb"));
+        f=_tfopen(FName.c_str(), _TEXT("rb"));
 
         fread(&csw,0x20,1,f);
 
@@ -102,7 +102,7 @@ bool TWavFile::LoadCSW(ZXString FName)
         MemAllocated=Data.DataLen;
 
         fclose(f);
-		f=_tfopen(FName.c_str(), _TEXT("rb"));
+        f=_tfopen(FName.c_str(), _TEXT("rb"));
         fread(&csw,0x20,1,f);
 
         size=0;
@@ -129,7 +129,7 @@ bool TWavFile::LoadFile(ZXString FName)
 
         if (FileNameGetExt(FName)==".CSW") return(LoadCSW(FName));
 
-		f=_tfopen(FName.c_str(), _TEXT("rb"));
+        f=_tfopen(FName.c_str(), _TEXT("rb"));
 
         Head.Head[0]='\0';
         Format.Head[0]='\0';

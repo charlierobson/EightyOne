@@ -313,7 +313,7 @@ ZXString RemovePath(ZXString Str)
         {
                 p=Str.Pos("\\");
 
-				if (p)
+                if (p)
                 {
                         p++;
                         Str = Str.SubString(p, 1+Str.Length()-p);
@@ -330,7 +330,7 @@ ZXString RemovePath(ZXString Str)
 int EnumeratePorts(TStrings *List, ZXString Type)
 {
         int i;
-		ZXString PortName;
+        ZXString PortName;
         bool Success;
         HANDLE Port;
 

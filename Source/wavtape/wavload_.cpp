@@ -157,7 +157,7 @@ void TWavLoad::LoadFile(ZXString FName)
         Extension=FileNameGetExt(FName);
         if (Extension == ".ZIP")
         {
-                FName=ZipFile->ExpandZIP(FName, LoadWavDialog->Filter);
+                FName=ZipFile->ExpandZIP(FName, ZXString(LoadWavDialog->Filter));
                 if (FName=="") return;
                 Extension = FileNameGetExt(FName);
         }

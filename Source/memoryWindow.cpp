@@ -437,7 +437,7 @@ void RowRenderer::RenderColumnHeadings(const TSize& charSize)
 
         for (int x = 0; x < mDisplayCellsPerRow; ++x)
         {
-		ZXString heading = ZXString::IntToHex(x, 2);
+                ZXString heading = ZXString::IntToHex(x, 2);
                 TextOut(mCHDC, (x * mCellWidth) + columnInset, 0, heading.c_str(), 2);
         }
 }
@@ -769,7 +769,7 @@ void __fastcall TMemoryWindow::GlueButtonsToStatusBar()
 void __fastcall TMemoryWindow::ButtonChangeMouseMove(TObject *Sender,
       TShiftState Shift, int X, int Y)
 {
-		const ZXString btnDescs[] =
+        const ZXString btnDescs[] =
         {
                 "First", "Previous", "Next", "Last"
         };

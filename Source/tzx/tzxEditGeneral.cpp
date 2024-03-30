@@ -262,7 +262,7 @@ void __fastcall TEditGeneralForm::SaveZX81File()
                         if (extension!=".P81") filename += ".p81";
                         px=pbuffer;
                 }
-				FILE* pee = _tfopen(filename.c_str(), _TEXT("wb"));
+                FILE* pee = _tfopen(filename.c_str(), _TEXT("wb"));
                 if (pee)
                 {
                         fwrite(px, 1, nx, pee);
@@ -285,7 +285,7 @@ void __fastcall TEditGeneralForm::SaveZX80File()
                 ZXString extension = FileNameGetExt(filename);
                 if (extension!=".O") filename += ".o";
 
-				FILE* pee = _tfopen(filename.c_str(), _TEXT("wb"));
+                FILE* pee = _tfopen(filename.c_str(), _TEXT("wb"));
                 if (pee)
                 {
                         fwrite(pbuffer, 1, nx, pee);

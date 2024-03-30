@@ -453,7 +453,7 @@ void spec48_initialise()
                 memcpy(MFMem,memory,romlen);
         }
 
-		if (_tcslen(emulator.ROMDock)) LoadDock(emulator.ROMDock);
+        if (_tcslen(emulator.ROMDock)) LoadDock(emulator.ROMDock);
 
         SPECTopBorder= (machine.NTSC) ? 32:56;
         SPECLeftBorder=1+37*2;

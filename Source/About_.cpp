@@ -61,10 +61,10 @@ bool GetVersionNumber(int& versionNumberMajor, int& versionNumberMinor, int& ver
         versionNumberMinor = 0;
         versionNumberPart3 = 0;
         versionNumberPart4 = 0;
-        
-		ZXString versionNumber = "";
 
-		ZXString fileName = Application->ExeName;
+        ZXString versionNumber = "";
+
+        ZXString fileName = Application->ExeName;
 
 	// Get the size of the version information buffer
 	DWORD dwHandle = 0;
@@ -116,9 +116,9 @@ bool GetVersionNumber(int& versionNumberMajor, int& versionNumberMinor, int& ver
 	}
 
 	// Get translation information
-		ZXString langID;
-		ZXString charset;
-		if (VerQueryValue(lpvMem, _TEXT("\\VarFileInfo\\Translation"), &lpInfo, &cch))
+        ZXString langID;
+        ZXString charset;
+        if (VerQueryValue(lpvMem, _TEXT("\\VarFileInfo\\Translation"), &lpInfo, &cch))
         {
     	        WORD wLangID = ((WORD*)lpInfo)[0];
                 WORD wCharsetID = ((WORD*)lpInfo)[1];
@@ -132,18 +132,18 @@ bool GetVersionNumber(int& versionNumberMajor, int& versionNumberMinor, int& ver
   		return false;
   	}
 
-	// Fetch the version information
-	TCHAR key[80];
+    // Fetch the version information
+    _TCHAR key[80];
 
-	lstrcpy(key, _TEXT("\\StringFileInfo\\"));
-	ZXString versionInfoLangID(langID + charset);
-		lstrcat(key, versionInfoLangID.c_str());
-	lstrcat(key, _TEXT("\\"));
-	lstrcat(key, _TEXT("FileVersion"));
+    _tcscpy(key, _TEXT("\\StringFileInfo\\"));
+    ZXString versionInfoLangID(langID + charset);
+    _tcscat(key, versionInfoLangID.c_str());
+    _tcscat(key, _TEXT("\\"));
+    _tcscat(key, _TEXT("FileVersion"));
 
-	if (VerQueryValue(lpvMem, key, &lpInfo, &cch))
+    if (VerQueryValue(lpvMem, key, &lpInfo, &cch))
         {
-                versionNumber = (TCHAR*)lpInfo;
+                versionNumber = (_TCHAR*)lpInfo;
                 versionNumber += ".";
         }
         else
@@ -227,7 +227,7 @@ void __fastcall TAbout::Label15Click(TObject *Sender)
 {
         //  Original = http://www.chuntey.com/eightyone/
         
-		ShellExecute(0,NULL, _TEXT("https://sourceforge.net/projects/eightyone-sinclair-emulator/"), NULL, NULL, SW_NORMAL);
+        ShellExecute(0,NULL, _TEXT("https://sourceforge.net/projects/eightyone-sinclair-emulator/"), NULL, NULL, SW_NORMAL);
 }
 //---------------------------------------------------------------------------
 

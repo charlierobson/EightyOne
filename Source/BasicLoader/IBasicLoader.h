@@ -98,7 +98,7 @@ protected:
         virtual unsigned char AsciiToZX(unsigned char ascii) { return '\0'; }
         virtual void ExtractTokens(bool acceptAlternateKeywordSpelling) {}
         virtual void OutputLine(int lineNumber, int& address) {}
-		virtual void OutputStartOfProgramData(ZXString filename, int& addressOffset) {}
+        virtual void OutputStartOfProgramData(ZXString filename, int& addressOffset) {}
         virtual void OutputEndOfProgramData(int& addressOffset) {}
         virtual bool SupportUppercaseOnly() { return false; }
         virtual void ExtractInverseCharacters() {}

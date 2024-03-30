@@ -88,7 +88,11 @@ void __fastcall TSymbolBrowser::ListBox1KeyPress(TObject *Sender,
         if (!isPrintable) {
                 if (0x03 == Key) {
                         // ctrl-c ... copy string to clipboard
+#if __CODEGEARC__ >= 0x0620
+                        UnicodeString x = ListBox1->Items->Strings[ListBox1->ItemIndex].SubString(5,24).Trim();
+#else
                         AnsiString x = ListBox1->Items->Strings[ListBox1->ItemIndex].SubString(5,24).Trim();
+#endif
                         Clipboard()->SetTextBuf(x.c_str());
                 }
                 return;
@@ -100,8 +104,13 @@ void __fastcall TSymbolBrowser::ListBox1KeyPress(TObject *Sender,
         for (int i = 0; i < ListBox1->Items->Count; ++i)
         {
                 int idx = (startidx + i) % ListBox1->Items->Count;
+#if __CODEGEARC__ >= 0x0620
+                UnicodeString x = ListBox1->Items->Strings[idx].SubString(5,_searchString.Length());
+                if (x.CompareIC(_searchString) == 0)
+#else
                 AnsiString x = ListBox1->Items->Strings[idx].SubString(5,_searchString.Length());
                 if (x.AnsiCompareIC(_searchString) == 0)
+#endif
                 {
                        ListBox1->ItemIndex = idx;
                        return;

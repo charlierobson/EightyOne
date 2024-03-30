@@ -42,7 +42,11 @@
 #include "CPort.hpp"
 #include <Dialogs.hpp>
 #include <ExtCtrls.hpp>
+#if __CODEGEARC__ >= 0x0620
+#include <System.Win.ScktComp.hpp>
+#else
 #include <ScktComp.hpp>
+#endif
 //---------------------------------------------------------------------------
 class TSerialConfig : public TForm
 {

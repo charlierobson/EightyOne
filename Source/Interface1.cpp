@@ -408,7 +408,7 @@ void TIF1::MDVLoadFile(int Drive, _TCHAR *FileName)
 
         if (Ext==".MDR")
         {
-				f=_tfopen(FileName, _TEXT("rb"));
+                f=_tfopen(FileName, _TEXT("rb"));
                 if (!f) return;
 
                 buffer=(char *)malloc(MDR_RECORD);
@@ -462,7 +462,7 @@ void TIF1::MDVLoadFile(int Drive, _TCHAR *FileName)
         }
         else
         {
-				f=_tfopen(FileName, _TEXT("rb"));
+                f=_tfopen(FileName, _TEXT("rb"));
                 if (f)
                 {
                         buffer=(char *)malloc(256*1024);
@@ -499,7 +499,7 @@ void TIF1::MDVLoadFile(int Drive, _TCHAR *FileName)
                 Drives[Drive].length=len;
                 Drives[Drive].position=0;
                 Drives[Drive].changed=false;
-				_tcscpy(Drives[Drive].FileName, FileName);
+                _tcscpy(Drives[Drive].FileName, FileName);
         }
 }
 
@@ -561,7 +561,7 @@ void TIF1::MDVSaveFile(int Drive)
 
 _TCHAR *TIF1::MDVGetFileName(int Drive)
 {
-		if (Drives[Drive].FileName[0]=='\0') return(NULL);
+        if (Drives[Drive].FileName[0]=='\0') return(NULL);
         return(Drives[Drive].FileName);
 }
 
@@ -633,13 +633,13 @@ void __fastcall TIF1::OKClick(TObject *Sender)
                 break;
         case 1:
                 RS232Port=PORTFILE;
-                InFile=_tfopen((InputFileEdit->Text).c_str(), _TEXT("rb"));
-                OutFile=_tfopen((OutputFileEdit->Text).c_str(), _TEXT("wb"));
+                InFile=_tfopen(ZXString(InputFileEdit->Text).c_str(), _TEXT("rb"));
+                OutFile=_tfopen(ZXString(OutputFileEdit->Text).c_str(), _TEXT("wb"));
                 break;
         case 2:
                 RS232Port=PORTTCPIP;
                 ClientSocket->Host = TCPAddress->Text;
-                ClientSocket->Port = _ttoi((TCPPort->Text).c_str());
+                ClientSocket->Port = _ttoi(ZXString(TCPPort->Text).c_str());
 
                 if ((ClientSocket->Host != "") && (ClientSocket->Port!=0))
                         ClientSocket->Open();
@@ -652,7 +652,7 @@ void __fastcall TIF1::OKClick(TObject *Sender)
                 {
                         RS232Port=PORTFILE;
                         InFile=NULL;
-						OutFile=_tfopen(Port.c_str(), _TEXT("wb"));
+                        OutFile=_tfopen(Port.c_str(), _TEXT("wb"));
                 }
                 else
                 {
@@ -693,16 +693,22 @@ void __fastcall TIF1::OKClick(TObject *Sender)
                         }
                         else
                         {
-                                Baud=_ttoi((BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
+                                Baud=_ttoi(ZXString(BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
                                 ComPort->CustomBaudRate=Baud;
                         }
 
                         try { ComPort->Open(); }
                         catch(EComPort &E)
                         {
+#if __CODEGEARC__ >= 0x0620
+                                UnicodeString Msg = "Could not open port ";
+                                Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
+                                if (Sender) Application->MessageBox(Msg.c_str(),L"Error", MB_OK | MB_ICONERROR);
+#else
                                 AnsiString Msg = "Could not open port ";
                                 Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
-                                if (Sender) Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
+                                if (Sender) Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+#endif
                         }
                 }
                 break;
@@ -720,7 +726,7 @@ void __fastcall TIF1::OKClick(TObject *Sender)
 
 void __fastcall TIF1::ComPortListChange(TObject *Sender)
 {
-		ZXString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
+        ZXString Port=ComPortList->Items->Strings[ComPortList->ItemIndex];
 
         PortPanel->Visible=false;
         TCPPanel->Visible=false;
@@ -764,8 +770,13 @@ void __fastcall TIF1::ComPortTxEmpty(TObject *Sender)
 void __fastcall TIF1::ClientSocketError(TObject *Sender,
       TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
 {
+#if __CODEGEARC__ >= 0x0620
+        UnicodeString Msg = "Could not open port ";
+        Application->MessageBox(Msg.c_str(),L"Error", MB_OK | MB_ICONERROR);
+#else
         AnsiString Msg = "Could not open port ";
-        Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
+        Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+#endif
         ErrorCode=0;
 }
 //---------------------------------------------------------------------------

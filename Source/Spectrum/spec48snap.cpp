@@ -66,19 +66,19 @@ int LoadDock(_TCHAR *Filename)
 {
         FILE *f;
         int i,bank, chunks[8];
-		BYTE *ptr = NULL;
+        BYTE *ptr = NULL;
 
         if (spectrum.model!=SPECCYTC2048 && spectrum.model!=SPECCYTS2068 && spectrum.model!=SPECCYTC2068)
                 return(0);
 
-		if (!_tcslen(Filename))
+        if (!_tcslen(Filename))
         {
                 for(i=0;i<((64+64)*1024);i++) TimexMem[i]=255;
                 emulator.ROMDock[0]='\0';
                 return(1);
         }
 
-		f=_tfopen(Filename, _TEXT("rb"));
+        f=_tfopen(Filename, _TEXT("rb"));
         if (!f) return(0);
 
         bank=fgetc(f);
@@ -99,8 +99,8 @@ int LoadDock(_TCHAR *Filename)
 
         for(i=0;i<8;i++)
         {
-				if (bank==0) ptr=TimexMem;  // Dock chunk
-				else if (bank==254) ptr=TimexMem+65536;  //ExROM chunk
+                if (bank==0) ptr=TimexMem;  // Dock chunk
+                else if (bank==254) ptr=TimexMem+65536;  //ExROM chunk
                 else if (bank==255) ptr=SpecMem;  // Home chunk
 
                 if (ptr == NULL) return 0;
@@ -110,7 +110,7 @@ int LoadDock(_TCHAR *Filename)
         }
         fclose(f);
         _tcscpy(emulator.ROMDock, Filename);
-		return(1);
+        return(1);
 }
 
 unsigned char *z80expandSpectra(unsigned char *in, int OutAddr, int Count)

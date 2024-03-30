@@ -120,7 +120,7 @@ public:		// User declarations
         __fastcall TP3Drive(TComponent* Owner);
         void LoadSettings(TIniFile *ini);
         void SaveSettings(TIniFile *ini);
-		void InsertFile(ZXString Filename);
+        void InsertFile(ZXString Filename);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TP3Drive *P3Drive;

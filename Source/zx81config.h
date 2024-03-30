@@ -282,7 +282,7 @@ typedef struct
         int scanlines;
         int fps;
         CFGBYTE NTSC;
-		_TCHAR CurRom[256];
+        _TCHAR CurRom[256];
 
         // Shared Interfaces / facilities
         CFGBYTE zxprinter;
@@ -338,7 +338,7 @@ typedef struct
         CFGBYTE ColouriseZ80Halted;
         CFGBYTE ColouriseUserProgramInstructionStartPositions;
 
-		_TCHAR ROM80[256];
+        _TCHAR ROM80[256];
         _TCHAR ROM81[256];
         _TCHAR ROMACE[256];
         _TCHAR ROMTS1000[256];
@@ -379,7 +379,7 @@ typedef struct
         _TCHAR ROMMULTIFACE128[256];
         _TCHAR ROMMULTIFACE3[256];
         _TCHAR ROMINTERFACE1ED1[256];
-		_TCHAR ROMINTERFACE1ED2[256];
+        _TCHAR ROMINTERFACE1ED2[256];
 
         _TCHAR cwd[256];
         _TCHAR temppath[256];

@@ -126,7 +126,7 @@ public:		// User declarations
         void StartRec();
         void DoCaption(ZXString Message);
         bool IsWav(ZXString FileName);
-		void LoadFile(ZXString FileName);
+        void LoadFile(ZXString FileName);
         void LoadSettings(TIniFile *ini);
         void SaveSettings(TIniFile *ini);
         void EncodeBlock(char *Data, int Len);

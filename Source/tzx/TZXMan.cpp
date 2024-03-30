@@ -209,7 +209,7 @@ void TTZX::LoadFile(ZXString Filename, bool Insert)
         Extension=FileNameGetExt(Filename);
         if (Extension == ".ZIP")
         {
-                Filename=ZipFile->ExpandZIP(Filename, OpenDialog->Filter);
+                Filename=ZipFile->ExpandZIP(Filename, ZXString(OpenDialog->Filter));
                 if (Filename=="") return;
                 Extension = FileNameGetExt(Filename);
         }
@@ -395,7 +395,6 @@ void TTZX::LoadSettings(TIniFile *ini)
         Width = ini->ReadInteger("TZXMAN","Width",Width);
 
         OpenDialog->FileName = ini->ReadString("TZXMAN","Filename",OpenDialog->FileName);
-        OpenDialog->InitialDir = ini->ReadString("TZXMAN","Dir",OpenDialog->InitialDir);
 
         FlashLoadBtn->Down = ini->ReadBool("TZXMAN","FlashLoad",FlashLoadBtn->Down);
         AutoStartBtn->Down = ini->ReadBool("TZXMAN","AutoStart",AutoStartBtn->Down);
@@ -418,7 +417,6 @@ void TTZX::SaveSettings(TIniFile *ini)
         ini->WriteInteger("TZXMAN","Width",Width);
 
         ini->WriteString("TZXMAN","Filename",OpenDialog->FileName);
-        ini->WriteString("TZXMAN","Dir",OpenDialog->InitialDir);
         ini->WriteBool("TZXMAN","FlashLoad",FlashLoadBtn->Down);
         ini->WriteBool("TZXMAN","AutoStart",AutoStartBtn->Down);
         ini->WriteBool("TZXMAN","AutoLoad",AutoLoadBtn->Down);
@@ -752,7 +750,7 @@ void __fastcall TTZX::ExtractBlock1Click(TObject *Sender)
 
         if (!ExtractDialog1->Execute()) return;
 
-        f=_tfopen(ExtractDialog1->FileName.c_str(), _TEXT("wb"));
+        f=_tfopen(ZXString(ExtractDialog1->FileName).c_str(), _TEXT("wb"));
         if (!f) return;
 
         fwrite(p, 1, DataLen - (p-Data), f);

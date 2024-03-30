@@ -159,11 +159,11 @@ bool SanitiseEditBox(ZXString addressValue, int& addr, int minValue, int maxValu
         _TCHAR* endPtr;
         if (hex)
         {
-				newAddr = int(_tcstol(addressValue.c_str(), &endPtr, 16));
+                newAddr = int(_tcstol(addressValue.c_str(), &endPtr, 16));
         }
         else
         {
-				newAddr = int(_tcstol(addressValue.c_str(), &endPtr, 10));
+                newAddr = int(_tcstol(addressValue.c_str(), &endPtr, 10));
         }
 
         if (*endPtr != 0)

@@ -13,7 +13,11 @@
 #include <ExtCtrls.hpp>
 #include "CPort.hpp"
 #include <stdio.h>
+#if __CODEGEARC__ >= 0x0620
+#include <System.Win.ScktComp.hpp>
+#else
 #include <ScktComp.hpp>
+#endif
 #include <Dialogs.hpp>
 #include <IniFiles.hpp>
 
@@ -123,7 +127,7 @@ public:		// User declarations
         void LoadSettings(TIniFile *ini);
 
         _TCHAR *MDVGetFileName(int Drive);
-		void MDVSetFileName(int Drive, _TCHAR *FileName);
+        void MDVSetFileName(int Drive, _TCHAR *FileName);
         void MDVLoadFile(int Drive, _TCHAR *FileName);
         void MDVSaveFile(int Drive);
         bool MotorRunning();

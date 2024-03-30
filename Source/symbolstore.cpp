@@ -136,17 +136,17 @@ void symbolstore::reset(void)
 static bool loadSymbols(const char* filename, VAL2SYM& v2s, SYM2VAL& s2v,
         symbolstore::SYMBOLSPLITTER splitter)
 {
-		FILE* symfile = fopen(filename, "r");
-		if (!symfile)
-		{
-				return false;
-		}
+        FILE* symfile = fopen(filename, "r");
+        if (!symfile)
+        {
+                return false;
+        }
 
-		char buf[128];
-		ZXString sym, val;
+        char buf[128];
+        ZXString sym, val;
 
-		while(fgets(buf, 128, symfile))
-		{
+        while(fgets(buf, 128, symfile))
+        {
                 if (!splitter(buf, sym, val))
                 {
                         continue;
@@ -170,7 +170,7 @@ static bool loadSymbols(const char* filename, VAL2SYM& v2s, SYM2VAL& s2v,
 bool symbolstore::loadROMSymbols(const char* filename)
 {
         clearROMSymbols();
-		return loadSymbols(filename, romV2S, romS2V, symSplitter);
+        return loadSymbols(filename, romV2S, romS2V, symSplitter);
 }
 
 bool symbolstore::loadSymFileSymbols(const char* filename)

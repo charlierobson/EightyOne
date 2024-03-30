@@ -94,7 +94,7 @@ void TSerialConfig::WriteDATA(BYTE Data)
 
         if (SendTo==SERIALFILE)
         {
-                if (!File) File=_tfopen((FileNameBox->Text).c_str()  ,_TEXT("ab"));
+                if (!File) File=_tfopen(ZXString(FileNameBox->Text).c_str()  ,_TEXT("ab"));
                 if (File) fputc(Data,File);
                 return;
         }
@@ -289,7 +289,7 @@ void __fastcall TSerialConfig::OKClick(TObject *Sender)
         {
                 SendTo=SERIALTCPOUT;
                 ClientSocket->Host = TCPOutboundAddress->Text;
-                ClientSocket->Port = _ttoi((TCPOutboundPort->Text).c_str());
+                ClientSocket->Port = _ttoi(ZXString(TCPOutboundPort->Text).c_str());
 
                 if (( ClientSocket->Host == "") || (ClientSocket->Port==0))
                         Enabled->Checked=false;
@@ -306,9 +306,15 @@ void __fastcall TSerialConfig::OKClick(TObject *Sender)
                         try { ComPort1->Open(); }
                         catch(EComPort &E)
                         {
+#if __CODEGEARC__ >= 0x0620
+                                UnicodeString Msg = "Could not open port ";
+                                Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
+                                if (Sender) Application->MessageBox(Msg.c_str(),L"Error", MB_OK | MB_ICONERROR);
+#else
                                 AnsiString Msg = "Could not open port ";
                                 Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
-                                if (Sender) Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
+                                if (Sender) Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+#endif
                                 Enabled->Checked=false;
                                 Sender=NULL;
                         }
@@ -405,9 +411,15 @@ void __fastcall TSerialConfig::BrowseClick(TObject *Sender)
 void __fastcall TSerialConfig::ClientSocketError(TObject *Sender,
       TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
 {
-        AnsiString Msg = "Could not open port ";
-        Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
+#if __CODEGEARC__ >= 0x0620
+        UnicodeString Msg = "Could not open port ";
+        Application->MessageBox(Msg.c_str(),L"Error", MB_OK | MB_ICONERROR);
         Enabled->Checked=false;
+#else
+        AnsiString Msg = "Could not open port ";
+        Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+        Enabled->Checked=false;
+#endif
         ErrorCode=0;
 }
 //---------------------------------------------------------------------------

@@ -46,7 +46,7 @@ __fastcall TFSSettings::TFSSettings(TComponent* Owner)
                 //if (r==1) r=60;
                 if (c>8)
                 {
-						Text.sprintf(_TEXT("%d x %d (%d bit)"), w,h,c);
+                        Text.sprintf(_TEXT("%d x %d (%d bit)"), w,h,c);
 
                         added=false;
                         for(j=0;j<ModeList->Items->Count;j++)
@@ -64,8 +64,8 @@ __fastcall TFSSettings::TFSSettings(TComponent* Owner)
         for(i=0;i<modes-1;i++)
                 for(j=i;j<modes;j++)
                 {
-                        x1= _ttoi(ModeList->Items->Strings[i].c_str());
-                        x2= _ttoi(ModeList->Items->Strings[j].c_str());
+                        x1= _ttoi(ZXString(ModeList->Items->Strings[i]).c_str());
+                        x2= _ttoi(ZXString(ModeList->Items->Strings[j]).c_str());
 
                         if (x2<x1) ModeList->Items->Exchange(i,j);
                 }
@@ -89,13 +89,13 @@ void __fastcall TFSSettings::ModeListChange(TObject *Sender)
 
         Txt = ModeList->Items->Strings[ModeList->ItemIndex];
 
-		FScreen.Width = _ttoi(Txt.c_str());
+        FScreen.Width = _ttoi(Txt.c_str());
         while (isnum(Txt[1])) Txt = Txt.SubString(2,Txt.Length()-1);
         while (!isnum(Txt[1])) Txt = Txt.SubString(2,Txt.Length()-1);
-		FScreen.Height = _ttoi(Txt.c_str());
+        FScreen.Height = _ttoi(Txt.c_str());
         while (isnum(Txt[1])) Txt = Txt.SubString(2,Txt.Length()-1);
         while (!isnum(Txt[1])) Txt = Txt.SubString(2,Txt.Length()-1);
-		FScreen.Bpp = _ttoi(Txt.c_str());
+        FScreen.Bpp = _ttoi(Txt.c_str());
         FScreen.Stretch = Stretch->Checked;
         FScreen.WhiteLetterbox = White->Checked;
 

@@ -88,7 +88,7 @@ void LoadEEPROM(void)
    else
    {
       memset(eeprom, 255, 256);
-	  eep = _tfopen(file,_TEXT("wb"));
+      eep = _tfopen(file,_TEXT("wb"));
       if (eep != NULL)
       {
         fwrite(eeprom, 1, 256, eep);

@@ -319,7 +319,7 @@ void CDSnd::ThreadFN()
                                 NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                                 buf, sizeof(buf), NULL);
 
-					   MessageBox(NULL, buf,_TEXT("Message Sending Error"),2);
+                        MessageBox(NULL, buf,_TEXT("Message Sending Error"),2);
                 }
         }
 }

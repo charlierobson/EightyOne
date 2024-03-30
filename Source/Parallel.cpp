@@ -51,12 +51,12 @@ void __fastcall TParallelPort::OKClick(TObject *Sender)
                 break;
         case 1:
                 Port=PORTFILE;
-                OutFile=_tfopen((OutputFileEdit->Text).c_str(), _TEXT("wb"));
+                OutFile=_tfopen(ZXString(OutputFileEdit->Text).c_str(), _TEXT("wb"));
                 break;
         case 2:
                 Port=PORTTCPIP;
                 ClientSocket->Host = TCPAddress->Text;
-                ClientSocket->Port = _ttoi((TCPPort->Text).c_str());
+                ClientSocket->Port = _ttoi(ZXString(TCPPort->Text).c_str());
 
                 if ((ClientSocket->Host != "") && (ClientSocket->Port!=0))
                         ClientSocket->Open();
@@ -103,14 +103,20 @@ void __fastcall TParallelPort::OKClick(TObject *Sender)
 
                         ComPort->BaudRate=brCustom;
                         if (BaudRate->ItemIndex==0)
-                        ComPort->CustomBaudRate=_ttoi((BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
+                        ComPort->CustomBaudRate=_ttoi(ZXString(BaudRate->Items->Strings[BaudRate->ItemIndex]).c_str());
 
                         try { ComPort->Open(); }
                         catch(EComPort &E)
                         {
+#if __CODEGEARC__ >= 0x0620
+                                UnicodeString Msg = "Could not open port ";
+                                Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
+                                if (Sender) Application->MessageBox(Msg.c_str(),L"Error", MB_OK | MB_ICONERROR);
+#else
                                 AnsiString Msg = "Could not open port ";
                                 Msg += ComPortList->Items->Strings[ComPortList->ItemIndex];
-                                if (Sender) Application->MessageBox(Msg.c_str(),_TEXT("Error"), MB_OK | MB_ICONERROR);
+                                if (Sender) Application->MessageBox(Msg.c_str(),"Error", MB_OK | MB_ICONERROR);
+#endif
                         }
                 }
                 break;

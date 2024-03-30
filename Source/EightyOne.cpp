@@ -232,7 +232,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR cmdline, int)
                 if (Restart)
                 {
                         ZXString exeFile = Application->ExeName;
-						ShellExecute(NULL, _TEXT("open"), exeFile.c_str(), NULL, NULL, SW_SHOWNORMAL);
+                        ShellExecute(NULL, _TEXT("open"), exeFile.c_str(), NULL, NULL, SW_SHOWNORMAL);
                 }
         }
         catch (Exception &exception)

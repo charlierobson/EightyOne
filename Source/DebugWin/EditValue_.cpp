@@ -142,11 +142,11 @@ bool TEditValue::Translate(ZXString text, int& value)
         int tval;
         if (hex)
         {
-				tval = int(_tcstol(result.c_str(), &endPtr, 16));
+                tval = int(_tcstol(result.c_str(), &endPtr, 16));
         }
         else if (binary)
         {
-				tval = int(_tcstol(result.c_str(), &endPtr, 2));
+                tval = int(_tcstol(result.c_str(), &endPtr, 2));
         }
         else
         {
