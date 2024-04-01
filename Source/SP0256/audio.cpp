@@ -28,7 +28,7 @@
 #include "Win32Audio.h"
 #include "types.h"
 
-#include "cstdio.h"
+#include <cstdio>
 
 #define USE_AUDIO 1
 
