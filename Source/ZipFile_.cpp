@@ -175,6 +175,11 @@ ZXString TZipFile::ExpandZIP(ZXString Path, ZXString DialogueFilter)
                 // Create a path in the temp directory to extract to
 
                 _tcscpy(FileName, emulator.temppath);
+                int position = File.LastDelimiter("/\\");
+                if (position > 0)
+                {
+                        File = File.SubString(position + 1, 256);
+                }
                 _tcscat(FileName, File.c_str());
 
                 // Open file for writing, then extract the contents.
