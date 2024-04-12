@@ -737,7 +737,10 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
         RenderEnd();
 
 #if __CODEGEARC__ >= 0x0620
-        TDirectory::Delete(emulator.temppath, true);
+        if (TDirectory::Exists(emulator.temppath))
+        {
+                TDirectory::Delete(emulator.temppath, true);
+        }
 #else
         if ((dir = opendir(emulator.temppath)) != NULL)
         {

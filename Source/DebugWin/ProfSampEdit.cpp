@@ -28,6 +28,7 @@ void __fastcall TProfileSampleEdit::ButtonOKClick(TObject *Sender)
 
         _pd->_start = start;
         _pd->_end = end;
+        _pd->_tag = EditTag->Text;
 
         _valid = true;
 
@@ -37,14 +38,13 @@ void __fastcall TProfileSampleEdit::ButtonOKClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TProfileSampleEdit::EditValues(ZXString tag,
-        ProfileDetail* pd,
-                void (*completion)(bool, ZXString))
+void __fastcall TProfileSampleEdit::EditValues(ProfileDetail* pd,
+                void (*completion)(bool))
 {
         _pd = pd;
         _completion = completion;
 
-        EditTag->Text = tag;
+        EditTag->Text = pd->_tag;
         EditStart->Text = symbolstore::addressToSymbolOrHex(pd->_start);
         EditEnd->Text = symbolstore::addressToSymbolOrHex(pd->_end);
 
@@ -64,7 +64,7 @@ void __fastcall TProfileSampleEdit::EditDblClick(TObject *Sender)
 void __fastcall TProfileSampleEdit::FormClose(TObject *Sender,
       TCloseAction &Action)
 {
-        _completion(_valid, EditTag->Text);
+        _completion(_valid);
 }
 //---------------------------------------------------------------------------
 

@@ -41,8 +41,8 @@ __published:	// IDE-managed Components
         void __fastcall FormShow(TObject *Sender);
         void __fastcall AutoRefreshClick(TObject *Sender);
 private:	// User declarations
-        void __fastcall UpdateItem(TListItem* item, ZXString tag, class ProfileDetail& pd);
-        void __fastcall SampleEditCompleteImpl(bool valid, ZXString tag);
+        void __fastcall UpdateItem(TListItem* item, class ProfileDetail& pd);
+        void __fastcall SampleEditCompleteImpl(bool valid);
         int Count();
 
         std::vector<class ProfileDetail> _profileDetails;
@@ -54,7 +54,7 @@ public:		// User declarations
         void __fastcall EnableButtons(bool enabled);
         __fastcall TProfiler(TComponent* Owner);
 
-        static void SampleEditComplete(bool valid, ZXString tag);
+        static void SampleEditComplete(bool valid);
 
         void __fastcall DebugTick(processor* z80);
 

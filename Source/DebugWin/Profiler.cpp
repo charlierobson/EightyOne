@@ -54,9 +54,9 @@ void __fastcall TProfiler::EnableButtons(bool enabled)
         }
 }
 //---------------------------------------------------------------------------
-void __fastcall TProfiler::UpdateItem(TListItem* item, ZXString tag, ProfileDetail& pd)
+void __fastcall TProfiler::UpdateItem(TListItem* item, ProfileDetail& pd)
 {
-        item->Caption = tag;
+        item->Caption = pd._tag;
         item->SubItems->Strings[START] = symbolstore::addressToSymbolOrHex(pd._start);
         item->SubItems->Strings[END] = symbolstore::addressToSymbolOrHex(pd._end);
 #if __CODEGEARC__ < 0x0620
@@ -75,7 +75,7 @@ void __fastcall TProfiler::ButtonNewClick(TObject *Sender)
         EnableButtons(false);
 
         _newPD = new ProfileDetail(0, 0);
-        _pse->EditValues("", _newPD, &SampleEditComplete);
+        _pse->EditValues(_newPD, &SampleEditComplete);
 }
 //---------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ void __fastcall TProfiler::ButtonEditClick(TObject *Sender)
 
         EnableButtons(false);
 
-        _pse->EditValues(editItem->Caption, &_profileDetails[editItem->Index], &SampleEditComplete);
+        _pse->EditValues(&_profileDetails[editItem->Index], &SampleEditComplete);
 
         EnableButtons(true);
 }
@@ -102,7 +102,7 @@ void __fastcall TProfiler::ButtonResetClick(TObject *Sender)
         int idx = selected->Index;
         ProfileDetail& detail = _profileDetails[idx];
         detail.Reset();
-        UpdateItem(selected, selected->Caption, detail);
+        UpdateItem(selected, detail);
         ProfilePlot->Refresh();
 
         EnableButtons(true);
@@ -155,7 +155,7 @@ void __fastcall TProfiler::DebugTick(processor* z80)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, ZXString tag)
+void __fastcall TProfiler::SampleEditCompleteImpl(bool valid)
 {
         if (!valid) {
                 delete(_newPD);
@@ -169,7 +169,6 @@ void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, ZXString tag)
                 _profileDetails.push_back(*_newPD);
 
                 TListItem* newItem = ListViewProfileSamples->Items->Add();
-                newItem->Caption = tag;
                 newItem->SubItems->Add("0");
                 newItem->SubItems->Add("0");
                 newItem->SubItems->Add("0");
@@ -184,9 +183,9 @@ void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, ZXString tag)
         Refresh();
 }
 
-void TProfiler::SampleEditComplete(bool valid, ZXString tag)
+void TProfiler::SampleEditComplete(bool valid)
 {
-        Profiler->SampleEditCompleteImpl(valid, tag);
+        Profiler->SampleEditCompleteImpl(valid);
 }
 
 //---------------------------------------------------------------------------
@@ -198,7 +197,7 @@ void __fastcall TProfiler::Refresh()
                 TListItem* item = ListViewProfileSamples->Items->Item[i];
                 int idx = item->Index;
                 ProfileDetail& detail = _profileDetails[idx];
-                UpdateItem(item, item->Caption, detail);
+                UpdateItem(item, detail);
         }
         
         if (ProfilePlot->Visible)

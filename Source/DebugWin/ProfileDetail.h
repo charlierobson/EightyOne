@@ -9,6 +9,7 @@ class ProfileDetail
 {
 public:
         int _start, _end;
+        AnsiString _tag;
 
         static const int waiting = 0;
         static const int counting = 1;
