@@ -241,6 +241,7 @@ void zx81BasicLoader::OutputLine(int lineNumber, int& addressOffset)
 
         bool withinQuotes = false;
         bool withinRem = false;
+        bool startsWithAlpha = false;
 
         while (mLineBuffer[i] != '\0')
         {
@@ -257,7 +258,16 @@ void zx81BasicLoader::OutputLine(int lineNumber, int& addressOffset)
                                 withinRem = true;
                         }
 
-                        if (!withinQuotes && !withinRem && StartOfNumber(i))
+                        if (startsWithAlpha && !isalpha(mLineBuffer[i]) && !isdigit(mLineBuffer[i]))
+                        {
+                                startsWithAlpha = false;
+                        }
+                        else if (!withinQuotes && !withinRem && isalpha(mLineBuffer[i]))
+                        {
+                                startsWithAlpha = true;
+                        }
+
+                        if (!withinQuotes && !withinRem && !startsWithAlpha && StartOfNumber(i))
                         {
                                 const bool binaryFormatFlag = false;
                                 OutputEmbeddedNumber(i, addressOffset, binaryFormatFlag);
