@@ -258,7 +258,7 @@ void zx81BasicLoader::OutputLine(int lineNumber, int& addressOffset)
                                 withinRem = true;
                         }
 
-                        if (startsWithAlpha && !isalpha(mLineBuffer[i]) && !isdigit(mLineBuffer[i]))
+                        if (startsWithAlpha && !isalpha(mLineBuffer[i]) && !isdigit(mLineBuffer[i]) && !isspace(mLineBuffer[i]))
                         {
                                 startsWithAlpha = false;
                         }
