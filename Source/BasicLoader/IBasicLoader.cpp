@@ -22,7 +22,7 @@
 #include <sstream>
 #include <cctype>
 
-void IBasicLoader::LoadBasicFile(ZXString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardRedundantSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
+void IBasicLoader::LoadBasicFile(ZXString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardSurplusSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
 {
         string result;
 
@@ -67,7 +67,7 @@ void IBasicLoader::LoadBasicFile(ZXString filename, bool tokeniseRemContents, bo
         {
                 try
                 {
-                        ProcessLine(mLines[i], addressOffset, tokeniseRemContents, tokeniseStrings, discardRedundantSpaces, acceptAlternateKeywordSpelling, zxTokenSupport);
+                        ProcessLine(mLines[i], addressOffset, tokeniseRemContents, tokeniseStrings, discardSurplusSpaces, acceptAlternateKeywordSpelling, zxTokenSupport);
                 }
                 catch (exception& ex)
                 {
@@ -301,7 +301,7 @@ int IBasicLoader::ProgramLength()
         return mProgramLength;
 }
 
-void IBasicLoader::ProcessLine(LineEntry lineEntry, int& addressOffset, bool tokeniseRemContents, bool tokeniseStrings, bool discardRedundantSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
+void IBasicLoader::ProcessLine(LineEntry lineEntry, int& addressOffset, bool tokeniseRemContents, bool tokeniseStrings, bool discardSurplusSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
 {
         memset(mLineBuffer, 0, sizeof(mLineBuffer));
         int offset = lineEntry.lineLabel.length() > 0 ? lineEntry.lineLabel.length() + 2 : 0;
@@ -356,7 +356,7 @@ void IBasicLoader::ProcessLine(LineEntry lineEntry, int& addressOffset, bool tok
 
         ExtractTokens(acceptAlternateKeywordSpelling);
 
-        ExtractSingleCharacters(discardRedundantSpaces);
+        ExtractSingleCharacters(discardSurplusSpaces);
 
         bool lineExists;
 
@@ -397,7 +397,7 @@ void IBasicLoader::BlankLineStart(LineEntry lineEntry)
         }
 }
 
-void IBasicLoader::ExtractSingleCharacters(bool discardRedundantSpaces)
+void IBasicLoader::ExtractSingleCharacters(bool discardSurplusSpaces)
 {
         int i = 1;
 
@@ -405,7 +405,7 @@ void IBasicLoader::ExtractSingleCharacters(bool discardRedundantSpaces)
         {
                 if (mLineBuffer[i] != Blank)
                 {
-                        if (!discardRedundantSpaces || (discardRedundantSpaces && (mLineBuffer[i] != ' ' || mLineBufferStrings[i] != ' ')))
+                        if (!discardSurplusSpaces || (discardSurplusSpaces && (mLineBuffer[i] != ' ' || mLineBufferStrings[i] != ' ')))
                         {
                                 unsigned char c = mLineBuffer[i];
 
@@ -536,33 +536,77 @@ unsigned char* IBasicLoader::ExtractLineNumber(int& lineNumber)
 
 bool IBasicLoader::StartOfNumber(int index)
 {
-        return !isalpha(mLineBuffer[index-1]) && ((mLineBuffer[index] == '.') || isdigit(mLineBuffer[index]));
+        if ((mLineBuffer[index] != '.') && !isdigit(mLineBuffer[index]))
+        {
+                return false;
+        }
+
+        while (mLineBufferTokenised[index-1] == ' ')
+        {
+                index--;
+        }
+
+        return (!isalpha(mLineBuffer[index-1]) && !isdigit(mLineBuffer[index-1]));
 }
 
 void IBasicLoader::OutputEmbeddedNumber(int& index, int& addressOffset, bool binaryFormatFlag)
 {
-        char* pEnd;
+        unsigned char* pBufferStart = mLineBuffer + index;
+        unsigned char* pTokenisedBufferStart = mLineBufferTokenised + index;
+
+        int maxNumberLength = strlen((char*)pBufferStart);
+        unsigned char* pLineBufferWithoutSpaces = new unsigned char[maxNumberLength + 1];
+
+        int withoutSpacesIndex = 0;
+
+        for (int withSpacesIndex = 0; withSpacesIndex < maxNumberLength; withSpacesIndex++)
+        {
+                if (pTokenisedBufferStart[withSpacesIndex] != ' ')
+                {
+                        pLineBufferWithoutSpaces[withoutSpacesIndex] = pBufferStart[withSpacesIndex];
+                        withoutSpacesIndex++;
+                }
+        }
+        pLineBufferWithoutSpaces[withoutSpacesIndex] = 0;
+
+        char* pWithoutSpacesNumberEnd;
 
         double value;
         if (binaryFormatFlag)
         {
                 const int base = 2;
-                value = (double)strtol((char*)(mLineBuffer + index), &pEnd, base);
+                value = (double)strtol((char*)pLineBufferWithoutSpaces, &pWithoutSpacesNumberEnd, base);
         }
         else
         {
-                value = strtod((char*)(mLineBuffer + index), &pEnd);
+                value = strtod((char*)pLineBufferWithoutSpaces, &pWithoutSpacesNumberEnd);
         }
 
-        if (pEnd == (char *)(mLineBuffer + index))
+        int withoutSpacesNumberLength = pWithoutSpacesNumberEnd - pLineBufferWithoutSpaces;
+             
+        int withSpacesIndex = 0;
+
+        for (int lengthCount = 0; lengthCount < withoutSpacesNumberLength; lengthCount++)
         {
-                pEnd++;
+                while (pBufferStart[withSpacesIndex] == ' ' || pBufferStart[withSpacesIndex] == Blank)
+                {
+                        withSpacesIndex++;
+                }
+
+                withSpacesIndex++;   
         }
 
+        char* pEnd = pBufferStart + withSpacesIndex;
+
+        delete[] pLineBufferWithoutSpaces;
+        
         while ((char *)(mLineBuffer + index) < pEnd)
         {
                 unsigned char chr = mLineBufferOutput[index];
-                OutputByte(addressOffset, chr);
+                if (chr != Blank)
+                {
+                        OutputByte(addressOffset, chr);
+                }
                 index++;
         }
 

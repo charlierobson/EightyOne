@@ -17,7 +17,7 @@ __published:	// IDE-managed Components
         TCheckBox *cboTokeniseStringContents;
         TButton *btnOK;
         TLabel *Label1;
-        TCheckBox *cboDiscardRedundantSpaces;
+        TCheckBox *cboDiscardSurplusSpaces;
         TCheckBox *cboAcceptAlternateKeywordSpelling;
         TComboBox *cboLineNumberIncrement;
         TLabel *Label6;
@@ -27,7 +27,7 @@ public:		// User declarations
         __fastcall TLoadBasicListingOptionsForm(TComponent* Owner);
         bool GetTokeniseRemContents();
         bool GetTokeniseStringContents();
-        bool GetDiscardRedundantSpaces();
+        bool GetDiscardSurplusSpaces();
         bool GetAcceptAlternateKeywordSpelling();
         int GetAutomaticLineNumberIncrement();
         bool GetSupportZxTokenFormatExtensions();

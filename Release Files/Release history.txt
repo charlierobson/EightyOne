@@ -4,12 +4,17 @@ This can be done manually or via Options > Configuration > Reset To Default Sett
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version 1.41 - 24/03/2024 (by Paul Farrow and John Stroebel)
+Version 1.41 - 30/05/2024 (by Paul Farrow and John Stroebel)
 * Bug fixes:
   - If a hardware generated ZX81 HSync pulse is output part way through a scanline then it is no
     longer interpreted as starting a new scanline.
   - The ZX Printer name and type conflicted with names in the Vcl libraries.
   - The Lambda character generator was not correctly being selected via the Hardware dialog.
+  - The BASIC Listing loader facility did not handle spaces within variable names or spaces
+    within numeric values.
+* Changes:
+  - Renamed the 'Discard Redundant Spaces' option of the BASIC Listing loader to be 'Discard
+    Surplus Spaces'.
 * Enhancements:
   - Separated and updated the documentation for CHR$128 mode and the ARX true high resolution
     display mechanism.

@@ -95,13 +95,13 @@ object LoadBasicListingOptionsForm: TLoadBasicListingOptionsForm
     ModalResult = 1
     TabOrder = 0
   end
-  object cboDiscardRedundantSpaces: TCheckBox
+  object cboDiscardSurplusSpaces: TCheckBox
     Left = 8
     Top = 80
     Width = 217
     Height = 17
     Alignment = taLeftJustify
-    Caption = 'Discard redundant spaces'
+    Caption = 'Discard surplus spaces'
     TabOrder = 3
   end
   object cboAcceptAlternateKeywordSpelling: TCheckBox

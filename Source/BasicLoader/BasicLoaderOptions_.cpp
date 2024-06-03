@@ -28,9 +28,9 @@ bool TLoadBasicListingOptionsForm::GetTokeniseStringContents()
         return cboTokeniseStringContents->Checked;
 }
 
-bool TLoadBasicListingOptionsForm::GetDiscardRedundantSpaces()
+bool TLoadBasicListingOptionsForm::GetDiscardSurplusSpaces()
 {
-        return cboDiscardRedundantSpaces->Checked;
+        return cboDiscardSurplusSpaces->Checked;
 }
 
 bool TLoadBasicListingOptionsForm::GetAcceptAlternateKeywordSpelling()
@@ -52,7 +52,7 @@ void TLoadBasicListingOptionsForm::SaveSettings(TIniFile *ini)
 {
         ini->WriteBool("BASICLISTING", "TokeniseRemContents", cboTokeniseRemContents->Checked);
         ini->WriteBool("BASICLISTING", "TokeniseStringContents", cboTokeniseStringContents->Checked);
-        ini->WriteBool("BASICLISTING", "DiscardRedundantSpaces", cboDiscardRedundantSpaces->Checked);
+        ini->WriteBool("BASICLISTING", "DiscardSurplusSpaces", cboDiscardSurplusSpaces->Checked);
         ini->WriteBool("BASICLISTING", "AcceptAlternateKeywordSpelling", cboAcceptAlternateKeywordSpelling->Checked);
         ini->WriteInteger("BASICLISTING", "AutomaticLineNumberIncrementIndex", cboLineNumberIncrement->ItemIndex);
         ini->WriteBool("BASICLISTING", "SupportZxTokenFormatExtensions", cboAcceptZxTokenFormatExtensions->Checked);
@@ -62,7 +62,7 @@ void TLoadBasicListingOptionsForm::LoadSettings(TIniFile *ini)
 {
         cboTokeniseRemContents->Checked = ini->ReadBool("BASICLISTING", "TokeniseRemContents", false);
         cboTokeniseStringContents->Checked = ini->ReadBool("BASICLISTING", "TokeniseStringContents", false);
-        cboDiscardRedundantSpaces->Checked = ini->ReadBool("BASICLISTING", "DiscardRedundantSpaces", false);
+        cboDiscardSurplusSpaces->Checked = ini->ReadBool("BASICLISTING", "DiscardSurplusSpaces", false);
         cboAcceptAlternateKeywordSpelling->Checked = ini->ReadBool("BASICLISTING", "AcceptAlternateKeywordSpelling", false);
         cboLineNumberIncrement->ItemIndex = ini->ReadInteger("BASICLISTING", "AutomaticLineNumberIncrementIndex", 0);
         cboAcceptZxTokenFormatExtensions->Checked = ini->ReadBool("BASICLISTING", "SupportZxTokenFormatExtensions", false);

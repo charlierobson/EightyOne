@@ -263,11 +263,11 @@ void TTZX::LoadFile(ZXString Filename, bool Insert)
 
                 bool tokeniseRemContents = LoadBasicListingOptionsForm->GetTokeniseRemContents();
                 bool tokeniseStrings = LoadBasicListingOptionsForm->GetTokeniseStringContents();
-                bool discardRedundantSpaces = LoadBasicListingOptionsForm->GetDiscardRedundantSpaces();
+                bool discardSurplusSpaces = LoadBasicListingOptionsForm->GetDiscardSurplusSpaces();
                 bool acceptAlternateKeywordSpelling = LoadBasicListingOptionsForm->GetAcceptAlternateKeywordSpelling();
                 bool zxTokenSupport = LoadBasicListingOptionsForm->GetSupportZxTokenFormatExtensions();
                 
-                loader->LoadBasicFile(Filename, tokeniseRemContents, tokeniseStrings, discardRedundantSpaces, acceptAlternateKeywordSpelling, zxTokenSupport);
+                loader->LoadBasicFile(Filename, tokeniseRemContents, tokeniseStrings, discardSurplusSpaces, acceptAlternateKeywordSpelling, zxTokenSupport);
                 int programLength = loader->ProgramLength();
                 if (programLength > 0)
                 {

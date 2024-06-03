@@ -57,7 +57,7 @@ private:
         void ExtractZxTokenFormatExtensionByteEncoding(bool zxTokenSupport);
 
 public:
-        void LoadBasicFile(ZXString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardRedundantSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport);
+        void LoadBasicFile(ZXString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardSurplusSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport);
         unsigned char* ProgramData();
         int ProgramLength();
 
@@ -79,7 +79,7 @@ protected:
         void OutputByte(int& addressOffset, unsigned char byte);
         void OutputWord(int& addressOffset, int word);
         void ChangeWord(int addressOffset, int word);
-        void ProcessLine(LineEntry lineEntry, int& addressOffset, bool tokeniseRemContents, bool tokeniseStrings, bool discardRedundantSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport);
+        void ProcessLine(LineEntry lineEntry, int& addressOffset, bool tokeniseRemContents, bool tokeniseStrings, bool discardSurplusSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport);
         void MaskOutRemContents(unsigned char* buffer);
         unsigned char* ExtractLineNumber(int& lineNumber);
         void ReplaceTokenEndCharacters(map<unsigned char, string>& tokens, const unsigned char oldChar, const unsigned char newChar);
@@ -88,7 +88,7 @@ protected:
         unsigned char ConvertFromHexChars(unsigned char chr1, unsigned char chr2);
         void ExtractEscapeCharacters();
         void MaskOutStrings(unsigned char* buffer);
-        void ExtractSingleCharacters(bool discardRedundantSpaces);
+        void ExtractSingleCharacters(bool discardSurplusSpaces);
         void OutputEmbeddedNumber(int& index, int& addressOffset, bool binaryFormatFlag);
         void HandleTokenLineNumber(unsigned char* pStartToken, unsigned char* pLabelSearch, int outputIndex);
         int FindLabelDetails(string& label);
