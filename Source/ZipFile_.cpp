@@ -49,7 +49,7 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
         // Now search the text for a * or a , indicating the start of an extension
         // eg *.TZX or .t81
 
-        while(*Orig!='\0')
+        while(*Orig!='\0' && *Orig!=')')
         {
                 if (Orig[0]=='*' && Orig[1]=='.')
                 {
@@ -57,7 +57,7 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
                         // when we reach a | ; or the EOL.
 
                         Orig++;
-                        while(*Orig!='|' && *Orig!=';' && *Orig!='\0') *(Dest++) = *(Orig++);
+                        while(*Orig!='|' && *Orig!=';' && *Orig!='\0' && *Orig!=')') *(Dest++) = *(Orig++);
                         *(Dest++)='\0';
                 }
                 else    Orig++;
@@ -160,6 +160,11 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
                 // Create a path in the temp directory to extract to
 
                 strcpy(FileName, emulator.temppath);
+                int position = File.LastDelimiter("/\\");
+                if (position > 0)
+                {
+                        File = File.SubString(position + 1, 256);
+                }
                 strcat(FileName, File.c_str());
 
                 // Open file for writing, then extract the contents.
