@@ -32,7 +32,7 @@ private:	// User declarations
         void OpenWebsite();
 public:		// User declarations
         __fastcall TBasicListingFormatInfoForm(TComponent* Owner);
-        void TBasicListingFormatInfoForm::SetActivePage(int index);
+        void SetActivePage(int index);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TBasicListingFormatInfoForm *BasicListingFormatInfoForm;

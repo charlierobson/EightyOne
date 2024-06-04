@@ -22,7 +22,7 @@
 #include <sstream>
 #include <cctype>
 
-void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardSurplusSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
+void IBasicLoader::LoadBasicFile(ZXString filename, bool tokeniseRemContents, bool tokeniseStrings, bool discardSurplusSpaces, bool acceptAlternateKeywordSpelling, bool zxTokenSupport)
 {
         string result;
 
@@ -46,7 +46,13 @@ void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, 
                         msg << mLines[index].line.substr(0, displayLen);
                         if (truncateLine) msg << "...";
                 }
+#if __CODEGEARC__ >= 0x0620
+                wchar_t temp[512];
+                mbstowcs(temp, msg.str().c_str(),512);
+                Application->MessageBox(temp, L"Load BASIC Listing", MB_OK | MB_ICONERROR);
+#else
                 Application->MessageBox(msg.str().c_str(), "Load BASIC Listing", MB_OK | MB_ICONERROR);
+#endif
                 return;
         }
 
@@ -72,7 +78,13 @@ void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, 
                         int displayLen = truncateLine ? 256: mLines[i].line.length();
                         msg << mLines[i].line.substr(0, displayLen);
                         if (truncateLine) msg << "...";
+#if __CODEGEARC__ >= 0x0620
+                        wchar_t temp[512];
+                        mbstowcs(temp, msg.str().c_str(),512);
+                        Application->MessageBox(temp, L"Load BASIC Listing", MB_OK | MB_ICONERROR);
+#else
                         Application->MessageBox(msg.str().c_str(), "Load BASIC Listing", MB_OK | MB_ICONERROR);
+#endif
                         return;
                 }
         }
@@ -82,23 +94,23 @@ void IBasicLoader::LoadBasicFile(AnsiString filename, bool tokeniseRemContents, 
         mProgramLength = addressOffset;
 }
 
-void IBasicLoader::ReadBasicListingFile(AnsiString filename)
+void IBasicLoader::ReadBasicListingFile(ZXString filename)
 {
         if (!FileExists(filename))
         {
                 stringstream msg;
                 msg << "File not found:" << endl << endl;
-                msg << filename.c_str() << endl;
+                msg << AnsiString(filename).c_str() << endl;
 
                 throw runtime_error(msg.str());
         }
 
-        ifstream basicFile(filename.c_str());
+        ifstream basicFile(AnsiString(filename).c_str());
         if (basicFile.fail())
         {
                 stringstream msg;
                 msg << "Failed to load file:" << endl << endl;
-                msg << filename.c_str() << endl;
+                msg << AnsiString(filename).c_str() << endl;
 
                 throw runtime_error(msg.str());
         }
@@ -433,7 +445,7 @@ void IBasicLoader::MaskOutStrings(unsigned char* buffer)
 
         bool withinQuote = false;
 
-        buffer = pQuote;
+        buffer = (unsigned char *)pQuote;
 
         while (*buffer != '\0')
         {
@@ -507,7 +519,7 @@ unsigned char* IBasicLoader::ExtractLineNumber(int& lineNumber)
 {
         unsigned char* pCommand;
 
-        lineNumber = strtol((char*)mLineBuffer, &(char*)pCommand, 10);
+        lineNumber = strtol((const char*)mLineBuffer, (char **)&pCommand, 10);
 
         if (pCommand == mLineBuffer)
         {
@@ -588,7 +600,7 @@ void IBasicLoader::OutputEmbeddedNumber(int& index, int& addressOffset, bool bin
 
         delete[] pLineBufferWithoutSpaces;
         
-        while (mLineBuffer + index < pEnd)
+        while ((char *)(mLineBuffer + index) < pEnd)
         {
                 unsigned char chr = mLineBufferOutput[index];
                 if (chr != Blank)
@@ -696,8 +708,8 @@ void IBasicLoader::ExtractZxTokenNumericBlocks()
                         withinBrackets = true;
 
                         *pPos = Blank;
-                        *pPos++;
-                        
+                        pPos++;
+
                         base = ExtractNumericBlockBase(&pPos);
                 }
                 else if (withinBrackets && *pPos != ']')
@@ -779,7 +791,7 @@ unsigned char IBasicLoader::ExtractByteValue(unsigned char** ppPos, int base)
         {
                 char* pEnd;
                 int value = strtol((char*)*ppPos, &pEnd, base);
-                int numberChars = pEnd - *ppPos;
+                int numberChars = pEnd - (char *)*ppPos;
                 if (numberChars == 0)
                 {
                         throw runtime_error("Invalid value in numeric block");
@@ -886,8 +898,8 @@ void IBasicLoader::ReplaceTokenEndCharacters(map<unsigned char, string>& tokens,
 
         for (it = tokens.begin(); it != tokens.end(); it++)
         {
-                const unsigned char* pToken = (it->second).c_str();
-                int lenToken = strlen((char*)pToken);
+                const char* pToken = (it->second).c_str();
+                int lenToken = strlen(pToken);
                 const unsigned char endChar = pToken[lenToken-1];
 
                 if (endChar == oldChar)
@@ -905,8 +917,8 @@ void IBasicLoader::DoTokenise(map<unsigned char, string> tokens)
         for (it = tokens.rbegin(); it != tokens.rend(); it++)
         {
                 unsigned char tokenCode = it->first;
-                const unsigned char* pToken = (it->second).c_str();
-                int lenToken = strlen((char*)pToken);
+                const char* pToken = (it->second).c_str();
+                int lenToken = strlen(pToken);
 
                 unsigned char* pMatch;
                 bool tokenFound;
@@ -932,7 +944,7 @@ void IBasicLoader::DoTokenise(map<unsigned char, string> tokens)
                 
                 do
                 {
-                        pMatch = strstr((char*)mLineBufferTokenised, (char*)pToken);
+                        pMatch = (unsigned char *)strstr((char*)mLineBufferTokenised, (char*)pToken);
                         bool matchFound = (pMatch != NULL);
 
                         bool startOk = matchFound && (tokenBeginsWithSpace || !tokenBeginsWithAlpha || (!tokenBeginsWithSpace && !isalnum(pMatch[-1])));

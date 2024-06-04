@@ -54,13 +54,18 @@ void __fastcall TProfiler::EnableButtons(bool enabled)
         }
 }
 //---------------------------------------------------------------------------
-void __fastcall TProfiler::UpdateItem(TListItem* item, AnsiString tag, ProfileDetail& pd)
+void __fastcall TProfiler::UpdateItem(TListItem* item, ProfileDetail& pd)
 {
-        item->Caption = tag;
+        item->Caption = pd._tag;
         item->SubItems->Strings[START] = symbolstore::addressToSymbolOrHex(pd._start);
         item->SubItems->Strings[END] = symbolstore::addressToSymbolOrHex(pd._end);
+#if __CODEGEARC__ < 0x0620
         item->SubItems->Strings[MIN] = pd.Min() == INT_MAX ? "--" : IntToStr(pd.Min()).c_str();
         item->SubItems->Strings[MAX] = pd.Max() == INT_MIN ? "--" : IntToStr(pd.Max()).c_str();
+#else
+        item->SubItems->Strings[MIN] = pd.Min() == INT_MAX ? L"--" : IntToStr(pd.Min()).c_str();
+        item->SubItems->Strings[MAX] = pd.Max() == INT_MIN ? L"--" : IntToStr(pd.Max()).c_str();
+#endif
         item->SubItems->Strings[COUNT] = pd.SampleCount();
 }
 //---------------------------------------------------------------------------
@@ -70,7 +75,7 @@ void __fastcall TProfiler::ButtonNewClick(TObject *Sender)
         EnableButtons(false);
 
         _newPD = new ProfileDetail(0, 0);
-        _pse->EditValues("", _newPD, &SampleEditComplete);
+        _pse->EditValues(_newPD, &SampleEditComplete);
 }
 //---------------------------------------------------------------------------
 
@@ -81,7 +86,7 @@ void __fastcall TProfiler::ButtonEditClick(TObject *Sender)
 
         EnableButtons(false);
 
-        _pse->EditValues(editItem->Caption, &_profileDetails[editItem->Index], &SampleEditComplete);
+        _pse->EditValues(&_profileDetails[editItem->Index], &SampleEditComplete);
 
         EnableButtons(true);
 }
@@ -97,7 +102,7 @@ void __fastcall TProfiler::ButtonResetClick(TObject *Sender)
         int idx = selected->Index;
         ProfileDetail& detail = _profileDetails[idx];
         detail.Reset();
-        UpdateItem(selected, selected->Caption, detail);
+        UpdateItem(selected, detail);
         ProfilePlot->Refresh();
 
         EnableButtons(true);
@@ -113,7 +118,11 @@ void __fastcall TProfiler::ButtonDeleteClick(TObject *Sender)
 
         Timer->Enabled = false;
 
+#if __CODEGEARC__ < 0x0620
         int ret = Application->MessageBox("Are you sure you wish to delete this entry?", "Delete Profile Entry", MB_YESNO | MB_ICONQUESTION);
+#else
+        int ret = Application->MessageBox(L"Are you sure you wish to delete this entry?", L"Delete Profile Entry", MB_YESNO | MB_ICONQUESTION);
+#endif
 
         if (ret == IDYES)
         {
@@ -146,7 +155,7 @@ void __fastcall TProfiler::DebugTick(processor* z80)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, AnsiString tag)
+void __fastcall TProfiler::SampleEditCompleteImpl(bool valid)
 {
         if (!valid) {
                 delete(_newPD);
@@ -160,7 +169,6 @@ void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, AnsiString tag)
                 _profileDetails.push_back(*_newPD);
 
                 TListItem* newItem = ListViewProfileSamples->Items->Add();
-                newItem->Caption = tag;
                 newItem->SubItems->Add("0");
                 newItem->SubItems->Add("0");
                 newItem->SubItems->Add("0");
@@ -175,9 +183,9 @@ void __fastcall TProfiler::SampleEditCompleteImpl(bool valid, AnsiString tag)
         Refresh();
 }
 
-void TProfiler::SampleEditComplete(bool valid, AnsiString tag)
+void TProfiler::SampleEditComplete(bool valid)
 {
-        Profiler->SampleEditCompleteImpl(valid, tag);
+        Profiler->SampleEditCompleteImpl(valid);
 }
 
 //---------------------------------------------------------------------------
@@ -189,7 +197,7 @@ void __fastcall TProfiler::Refresh()
                 TListItem* item = ListViewProfileSamples->Items->Item[i];
                 int idx = item->Index;
                 ProfileDetail& detail = _profileDetails[idx];
-                UpdateItem(item, item->Caption, detail);
+                UpdateItem(item, detail);
         }
         
         if (ProfilePlot->Visible)

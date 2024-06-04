@@ -8,6 +8,7 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <ComCtrls.hpp>
+#include "zx81config.h"
 //---------------------------------------------------------------------------
 class TCreateHDF : public TForm
 {
@@ -42,13 +43,13 @@ __published:	// IDE-managed Components
         void __fastcall OKClick(TObject *Sender);
 private:	// User declarations
         void ValueChanged(void);
-        AnsiString ConvertValue(long Val);
+        ZXString ConvertValue(long Val);
         void EnableAll(void);
         void DisableAll(void);
         void WriteWord(unsigned char *base, int WordNo, int Value);
 public:		// User declarations
         __fastcall TCreateHDF(TComponent* Owner);
-        AnsiString FileName;
+        ZXString FileName;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TCreateHDF *CreateHDF;

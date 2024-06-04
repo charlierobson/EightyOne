@@ -13,17 +13,17 @@ void SP0256_Init(void)
 {
         FILE *f;
         int a,i,len;
-        char FileName[256];
+        _TCHAR FileName[256];
         int offset;
 
         if (Phones) free(Phones);
         Phones=NULL;
 
-        strcpy(FileName, emulator.cwd);
-        strcat(FileName, interfaceRomsFolder);
-        strcat(FileName, "sp0256.bin");
+        _tcscpy(FileName, emulator.cwd);
+        _tcscat(FileName, interfaceRomsFolder);
+        _tcscat(FileName, _TEXT("sp0256.bin"));
 
-        f=fopen(FileName,"rb");
+        f=_tfopen(FileName,_TEXT("rb"));
         if (!f) return;
 
         fseek(f, 0, SEEK_END);
@@ -67,12 +67,12 @@ void SP0256_Write(unsigned char Data)
         Last=Data;
 
         PlaySound(NULL, NULL, SND_PURGE);
-        PlaySound(Phones[Data&63].position, NULL, SND_MEMORY | SND_ASYNC);
+        PlaySoundA(Phones[Data&63].position, NULL, SND_MEMORY | SND_ASYNC);
 }
 
 unsigned char SP0256_Busy(void)
 {
         if (!Phones) return(0);
-        return(!PlaySound(Phones[0].position, NULL, SND_MEMORY | SND_ASYNC | SND_NOSTOP));
+        return(!PlaySoundA(Phones[0].position, NULL, SND_MEMORY | SND_ASYNC | SND_NOSTOP));
 }
 

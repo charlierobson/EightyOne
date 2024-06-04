@@ -42,7 +42,11 @@
 #include "CPort.hpp"
 #include <Dialogs.hpp>
 #include <ExtCtrls.hpp>
+#if __CODEGEARC__ >= 0x0620
+#include <System.Win.ScktComp.hpp>
+#else
 #include <ScktComp.hpp>
+#endif
 //---------------------------------------------------------------------------
 class TSerialConfig : public TForm
 {
@@ -95,12 +99,12 @@ private:	// User declarations
 public:		// User declarations
         __fastcall TSerialConfig(TComponent* Owner);
         void Reset(void);
-        void WriteDATA(byte data);
-        void WriteCTRL(byte data);
+        void WriteDATA(BYTE data);
+        void WriteCTRL(BYTE data);
         BYTE ReadDATA(void);
         BYTE ReadCTRL(void);
-        void TSerialConfig::LoadSettings(TIniFile *ini);
-        void TSerialConfig::SaveSettings(TIniFile *ini);
+        void LoadSettings(TIniFile *ini);
+        void SaveSettings(TIniFile *ini);
 };
 
 extern "C" BYTE d8251readCTRL(void);

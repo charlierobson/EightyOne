@@ -8,6 +8,7 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <ComCtrls.hpp>
+#include "zx81config.h"
 //---------------------------------------------------------------------------
 class TProfilePlot : public TForm
 {
@@ -27,7 +28,7 @@ private:	// User declarations
         
 public:		// User declarations
         __fastcall TProfilePlot(TComponent* Owner);
-        void __fastcall PlotTGraph(class ProfileDetail* pd, AnsiString caption);
+        void __fastcall PlotTGraph(class ProfileDetail* pd, ZXString caption);
         void ShowLast();
 };
 //---------------------------------------------------------------------------

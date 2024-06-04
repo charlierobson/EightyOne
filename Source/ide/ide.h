@@ -6,6 +6,7 @@
 #include <winioctl.h>
 #include <stdio.h>
 
+#include "zx81config.h"
 
 #define ACCESS_NONE 0
 #define ACCESS_HDF  1
@@ -59,19 +60,19 @@ typedef struct DriveStruct
         int Sectors;
         unsigned long Size;
         int Type;
-        char Path[32];
+        _TCHAR Path[32];
         int ReadOnly;
 } PHYSDRIVE;
 
 typedef struct
 {
-	byte sig[0x06];
-	byte id;
-	byte revision;
-	byte flags;
-	byte data_low;
-	byte data_high;
-	byte reserved[0x0b];
+	BYTE sig[0x06];
+	BYTE id;
+	BYTE revision;
+	BYTE flags;
+	BYTE data_low;
+	BYTE data_high;
+	BYTE reserved[0x0b];
 } HDF_HEADER;
 
 typedef struct
@@ -98,7 +99,7 @@ typedef struct
 
 typedef struct
 {
-	char filename[256];
+	_TCHAR filename[256];
 	FILE *f;
         HANDLE h;
 	int data;
@@ -107,13 +108,13 @@ typedef struct
 	HDF_HEADER hdf;
         VHD_HEADER vhd;
 
-        byte drive_id[512];
+        BYTE drive_id[512];
         int id_len;
 	int cylinders;
 	int heads;
 	int sectors;
-	byte error;
-	byte status;
+	BYTE error;
+	BYTE status;
         unsigned long size;
 
         int read_only;
@@ -123,14 +124,14 @@ typedef struct
 {
 	ATA_DRIVE drive[2];
 
-	byte feature;
-	byte sector_count;
-	byte cylinder_low;
-	byte cylinder_high;
-	byte head;
-        byte sector;
+	BYTE feature;
+	BYTE sector_count;
+	BYTE cylinder_low;
+	BYTE cylinder_high;
+	BYTE head;
+        BYTE sector;
 
-        byte multi_sector;
+        BYTE multi_sector;
 
         int DataHighByte;
 
@@ -141,7 +142,7 @@ typedef struct
 
         int mode;
 
-	byte buffer[512];
+	BYTE buffer[512];
 } ATA_CHANNEL;
 
 extern PHYSDRIVE PhysDrives[];
@@ -157,8 +158,8 @@ extern "C" {
 #define ATA_MODE_16BIT_WRSWAP 3
 
 void ATA_Init(void);
-char *ATA_GetHDF(int drive);
-int ATA_LoadHDF(int drive, char *FileName);
+_TCHAR *ATA_GetHDF(int drive);
+int ATA_LoadHDF(int drive, _TCHAR *FileName);
 void ATA_EjectHDF(int drive);
 void ATA_Reset(void);
 int ATA_ReadRegister(int Register);

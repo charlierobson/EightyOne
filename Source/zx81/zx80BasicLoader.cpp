@@ -30,7 +30,7 @@ zx80BasicLoader::zx80BasicLoader(bool zxpandEnabled)
         mZxpandEnabled = zxpandEnabled;
 }
 
-void zx80BasicLoader::OutputStartOfProgramData(AnsiString filename, int& addressOffset)
+void zx80BasicLoader::OutputStartOfProgramData(ZXString filename, int& addressOffset)
 {
         // Output the system variables
         OutputByte(addressOffset, 0xFF);        //ERR_NR
@@ -322,7 +322,7 @@ unsigned char zx80BasicLoader::AsciiToZX(unsigned char ascii)
                                                                                    
 void zx80BasicLoader::ExtractInverseCharacters()
 {
-        char* pPos = mLineBuffer;
+        unsigned char* pPos = mLineBuffer;
 
         while (*pPos != '\0')
         {
@@ -412,7 +412,7 @@ void zx80BasicLoader::ExtractZxTokenCharacterCodes()
                 zxTokenChars[c] = c + 0x45;
         }
 
-        char* pPos = mLineBuffer;
+        unsigned char* pPos = mLineBuffer;
 
         while (*pPos != '\0')
         {

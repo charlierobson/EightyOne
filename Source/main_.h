@@ -35,8 +35,9 @@
 #include <ToolWin.hpp>
 #include <ImgList.hpp>
 #include <IniFiles.hpp>
-#include "ThemeMgr.hpp"
 
+#include "zx81config.h"
+#include "ThemeMgr.hpp"
 
 #define RENDERGDI 0
 #define RENDERDDRAW 1
@@ -295,8 +296,8 @@ private:	// User declarations
         void BuildConfigMenu();
         void BuildDocumentationMenu();
         void BuildExamplesMenu();
-        void AddInstructionFiles(TMenuItem* CategorySubMenu, AnsiString path);
-        void AddExampleFolders(TMenuItem* CategorySubMenu, AnsiString path);
+        void AddInstructionFiles(TMenuItem* CategorySubMenu, ZXString path);
+        void AddExampleFolders(TMenuItem* CategorySubMenu, ZXString path);
         bool DrivesChanged;
         bool LShift, RShift;
         Graphics::TBitmap *LEDGreenOn;
@@ -306,7 +307,7 @@ private:	// User declarations
         void UpdateAnnotationImages();
         void UpdateAnnotationImage(TMenuItem* item);
         void UpdateEmulatorAnnotationSettings();
-        void LoadIniFile(AnsiString FileName);
+        void LoadIniFile(ZXString FileName);
 
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);

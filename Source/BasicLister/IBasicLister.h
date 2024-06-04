@@ -22,6 +22,7 @@
 #include <Classes.hpp>
 #include <vector>
 #include <string>
+#include "zx81config.h"
 
 const int PixelsPerCharacterWidth = 8;
 const int PixelsPerCharacterHeight = 8;
@@ -51,15 +52,15 @@ private:
         int mLineEndingCode;
         bool mSupportsFloatingPointNumbers;
         bool mSupportEmbeddedControlCodes;
-        AnsiString mEscapeCharacter;
+        ZXString mEscapeCharacter;
         int mScaling;
 
         void RenderLine(HDC hdc, HDC cshdc, int& y, LineInfo& lineInfo);
         void RenderLineNumber(HDC hdc, HDC cshdc, int& x, int& y, int lineNumber);
         void RenderToken(HDC hdc, HDC cshdc, int& address, int& x, int& y, int& lengthRemaining, bool& lastKeywordEndedWithSpace);
         void RenderCharacter(HDC hdc, HDC cshdc, int& x, int& y, unsigned char c);
-        bool RenderTokenAsText(int& address, int& lengthRemaining, bool& lastKeywordEndedWithSpace, AnsiString& zxCharacter, bool& outputLineAsControlCodes, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool& withinQuotes, bool& withinRem);
-        AnsiString FormatLineNumber(int lineNumber, bool outputFullWidthLineNumbers = false);
+        bool RenderTokenAsText(int& address, int& lengthRemaining, bool& lastKeywordEndedWithSpace, ZXString& zxCharacter, bool& outputLineAsControlCodes, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool& withinQuotes, bool& withinRem);
+        ZXString FormatLineNumber(int lineNumber, bool outputFullWidthLineNumbers = false);
         COLORREF GetBackgroundColour();
         unsigned char GetEscapeCharacter() { return '\\'; }
 
@@ -71,14 +72,14 @@ public:
         int GetProgramRows();
         void ClearRenderedListing(HDC hdc, HBITMAP bitmap, RECT rect, bool showLineEnds);
         void RenderListing(HDC hdc, HBITMAP bitmap, RECT rect, bool showLineEnds, int scaling);
-        AnsiString RenderLineAsText(LineInfo& lineInfo, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool limitLineLengths, bool outputFullWidthLineNumbers);
+        ZXString RenderLineAsText(LineInfo& lineInfo, bool outputRemTokensAsCharacterCodes, bool outputStringTokensAsCharacterCodes, bool outputNonAsciiAsCharacterCodes, bool outputVariableNamesInLowercase, bool outputInZxTokenFormat, bool limitLineLengths, bool outputFullWidthLineNumbers);
         void SetLines(std::vector<LineInfo>* linesInfo);
 
         virtual int GetDisplayColumns() { return DisplayColumns; };
         virtual COLORREF GetInkColour() { return RGB(0, 0, 0); }
         virtual COLORREF GetPaperColour() { return RGB(255, 255, 255); }
-        virtual AnsiString GetMachineName() { return ""; }
-        virtual AnsiString GetBasicFileExtension() { return "txt"; }
+        virtual ZXString GetMachineName() { return ""; }
+        virtual ZXString GetBasicFileExtension() { return "txt"; }
         virtual bool ZxTokenSupported() { return false; }
         virtual int GetProgramStartAddress() { return 65535; }
         virtual int GetProgramEndAddress() { return 65535; }
@@ -103,7 +104,7 @@ protected:
         virtual COLORREF GetDefaultPaperColour() { return RGB(255, 255, 255); }
         virtual bool RemContainsMachineCode(int address, int lengthRemaining, bool outputRemTokensAsCharacterCodes) { return false; }
         virtual bool RequiresInitialSpace() { return true; }
-        virtual AnsiString TranslateToZxToken(AnsiString chr) { return chr; }
+        virtual ZXString TranslateToZxToken(ZXString chr) { return chr; }
         
         int GetKeywordLength(unsigned char code);
 
