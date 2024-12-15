@@ -649,7 +649,12 @@ void __fastcall TForm1::LoadSnapshot1Click(TObject *Sender)
         {
                 BasicLister->Clear();
         }
-        
+
+        if (HistoryBox->Visible)
+        {
+                HistoryBox->ToolButtonClearClick(NULL);
+        }
+
         if ((Ext == ".Z81") || (Ext == ".ACE")) load_snap(Path.c_str());
         if (Ext == ".Z80") spec_load_z80(AnsiString(Path).c_str());
         if (Ext == ".SNA") spec_load_sna(AnsiString(Path).c_str());

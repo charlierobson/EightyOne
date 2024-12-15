@@ -279,7 +279,7 @@ void spec48_reset(void)
         SPECBlk[2]=2+4;
         SPECBlk[3]=0+4;
 
-        SPECVideoBank=9;
+        SPECVideoBank=5+4;
         SPECLast7ffd=0;
         SPECLast1ffd=0;
 
@@ -1163,8 +1163,6 @@ void spec48_writeport(int Address, int Data, int *tstates)
                         if (!SPECBankEnable) break;
                         SPECLast7ffd=Data;
                         SPECBlk[0]= ((SPECLast1ffd>>1)&2) | ((Data>>4)&1);
-                        SPECBlk[1]=9;
-                        SPECBlk[2]=6;
                         SPECBlk[3]=4+(Data&7);
                         SPECVideoBank=(Data>>3)&1 ? 11:9;
                         SPECBankEnable=!((Data>>5)&1);
@@ -1185,16 +1183,20 @@ void spec48_writeport(int Address, int Data, int *tstates)
                                         break;
                                 SPECLast1ffd=Data;
                                 if (Data&1)
-                                switch((Data>>1)&3)
                                 {
-                                case 0: SPECBlk[0]=4; SPECBlk[1]=5; SPECBlk[2]=6; SPECBlk[3]=7; break;
-                                case 1: SPECBlk[0]=8; SPECBlk[1]=9; SPECBlk[2]=10; SPECBlk[3]=11; break;
-                                case 2: SPECBlk[0]=8; SPECBlk[1]=9; SPECBlk[2]=10; SPECBlk[3]=7; break;
-                                case 3: SPECBlk[0]=8; SPECBlk[1]=11; SPECBlk[2]=10; SPECBlk[3]=7; break;
+                                        switch((Data>>1)&3)
+                                        {
+                                        case 0: SPECBlk[0]=4; SPECBlk[1]=5; SPECBlk[2]=6; SPECBlk[3]=7; break;
+                                        case 1: SPECBlk[0]=8; SPECBlk[1]=9; SPECBlk[2]=10; SPECBlk[3]=11; break;
+                                        case 2: SPECBlk[0]=8; SPECBlk[1]=9; SPECBlk[2]=10; SPECBlk[3]=7; break;
+                                        case 3: SPECBlk[0]=8; SPECBlk[1]=11; SPECBlk[2]=10; SPECBlk[3]=7; break;
+                                        }
                                 }
                                 else
                                 {
                                         SPECBlk[0]= ((SPECLast7ffd>>4)&1) | ((Data>>1)&2);
+                                        SPECBlk[1]= 5+4;
+                                        SPECBlk[2]= 2+4;
                                         SPECBlk[3]=4+(SPECLast7ffd&7);
                                         SPECVideoBank=(SPECLast7ffd>>3)&1 ? 11:9;
                                 }
