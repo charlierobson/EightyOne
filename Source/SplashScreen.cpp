@@ -18,13 +18,13 @@ __fastcall TSplash::TSplash(TComponent* Owner)
         SetWindowPos(Handle, HWND_TOPMOST,Left,Top,Width,Height,NULL);
 }
 //---------------------------------------------------------------------------
-void TSplash::SetProgress(int Max, AnsiString text)
+void TSplash::SetProgress(int Max, ZXString text)
 {
         Progress->Max=Max;
         Action->Caption="Initialising "+text;
 }
 
-void TSplash::IncProgress(AnsiString text)
+void TSplash::IncProgress(ZXString text)
 {
         Action->Caption="Initialising "+text+"...";
         Progress->Position ++;

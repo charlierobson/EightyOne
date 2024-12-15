@@ -54,7 +54,7 @@ private:
         virtual unsigned char AsciiToZX(unsigned char ascii);
         virtual void ExtractTokens(bool acceptAlternateKeywordSpelling);
         virtual void OutputLine(int lineNumber, int& address);
-        virtual void OutputStartOfProgramData(AnsiString filename, int& addressOffset);
+        virtual void OutputStartOfProgramData(ZXString filename, int& addressOffset);
         virtual void OutputEndOfProgramData(int& addressOffset);
         virtual void ExtractInverseCharacters();
         virtual bool SingleEscapeSequence(unsigned char chr, unsigned char& zxChr);

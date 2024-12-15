@@ -22,6 +22,7 @@
 #include "BasicLoader/IBasicLoader.h"
 #include <vcl.h>
 #include <string>
+#include "zx81config.h"
 
 using namespace::std;
 
@@ -45,7 +46,7 @@ private:
         virtual unsigned char AsciiToZX(unsigned char ascii);
         virtual void ExtractTokens(bool acceptAlternateKeywordSpelling);
         virtual void OutputLine(int lineNumber, int& addressOffset);
-        virtual void OutputStartOfProgramData(AnsiString filename, int& addressOffset);
+        virtual void OutputStartOfProgramData(ZXString filename, int& addressOffset);
         virtual void OutputEndOfProgramData(int& addressOffset);
         virtual void ExtractInverseCharacters();
         virtual bool SupportUppercaseOnly();

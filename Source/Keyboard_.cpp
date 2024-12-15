@@ -229,7 +229,7 @@ void TKeyboard::KbChange(void)
                                 break;
                         case SPECCYTC2068:
                         case SPECCYTS2068:
-                                if (strstr(emulator.romcartridgefilepath, "TimeWord"))
+                                if (_tcsstr(emulator.romcartridgefilepath, _TEXT("TimeWord")))
                                 {
                                         Keyboard->tc2068kbTimeWord->Visible=true;
                                 }

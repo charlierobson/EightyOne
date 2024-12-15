@@ -44,7 +44,7 @@
 
 extern "C"
 {
-        int CRC32Block(char *memory, int romlen);
+        int CRC32Block(BYTE *memory, int romlen);
         void P3DriveMachineHasInitialised(void);
 }
 

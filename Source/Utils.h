@@ -25,26 +25,29 @@
 #define UtilsH
 //---------------------------------------------------------------------------
 
+#include "zx81config.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-AnsiString FileNameGetPath(AnsiString Fname);
-AnsiString FileNameGetFname(AnsiString Fname);
-AnsiString FileNameGetExt(AnsiString Fname);
-AnsiString ConvertZX81ASCII(BYTE *str);
-void ConvertASCIIZX81(AnsiString Str, BYTE *Output);
+int CRC32Block(BYTE *block, int len);
 void ASCIIZX81(BYTE *in, BYTE *Output);
 int ZX81Strlen(BYTE *str);
-AnsiString RemoveExt(AnsiString Fname);
-AnsiString GetExt(AnsiString Fname);
-AnsiString RemovePath(AnsiString Str);
-int CRC32Block(char *block, int len);
-int EnumeratePorts(TStrings *List, AnsiString Type);
 
 #ifdef __cplusplus
 }
 #endif
+
+ZXString FileNameGetPath(ZXString Fname);
+ZXString FileNameGetFname(ZXString Fname);
+ZXString FileNameGetExt(ZXString Fname);
+ZXString ConvertZX81ASCII(BYTE *str);
+void ConvertASCIIZX81(ZXString Str, BYTE *Output);
+ZXString RemoveExt(ZXString Fname);
+ZXString GetExt(ZXString Fname);
+ZXString RemovePath(ZXString Str);
+int EnumeratePorts(TStrings *List, ZXString Type);
 
 #endif
 

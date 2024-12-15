@@ -32,7 +32,7 @@ specBasicLoader::specBasicLoader(bool spec128, bool if1)
         mIF1 = if1;
 }
 
-void specBasicLoader::OutputStartOfProgramData(AnsiString filename, int& addressOffset)
+void specBasicLoader::OutputStartOfProgramData(ZXString filename, int& addressOffset)
 {
         // Header block
 
@@ -40,7 +40,7 @@ void specBasicLoader::OutputStartOfProgramData(AnsiString filename, int& address
         OutputByte(addressOffset, 0x00);   //Flag: 00=Header
         OutputByte(addressOffset, 0x00);   //Type: 00=Program
 
-        AnsiString name = RemoveExt(RemovePath(filename));
+        ZXString name = RemoveExt(RemovePath(filename));
         name += "         ";
 
         for (int n = 1; n <= 10; n++)
@@ -386,13 +386,13 @@ void specBasicLoader::OutputFloatingPointEncoding(double value, int& addressOffs
         }
         else
         {
-                exponent = (int)floor(DBL_EPSILON + (log(value) / log(2)));
+                exponent = (int)floor(DBL_EPSILON + (log(value) / log(2.0)));
                 if (exponent < -129 || exponent > 126)
                 {
                         throw out_of_range("Number out of range");
                 }
 
-                double mantissaVal = (value / pow(2, exponent)) - 1;
+                double mantissaVal = (value / pow(2.0, exponent)) - 1;
                 mantissaVal *= 0x80000000;
                 mantissa = (unsigned long)floor(mantissaVal);
 

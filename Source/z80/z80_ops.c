@@ -24,10 +24,10 @@
 
 */
 
+#include <stdio.h>
 #include "config.h"
 #include "zx81config.h"
 
-#include <stdio.h>
 #include "zx81.h"
 #include "z80.h"
 

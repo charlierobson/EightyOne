@@ -18,7 +18,7 @@
 #include <fcntl.h>
 #include <SYS\Stat.h>
 
-extern loadFileSymbolsProxy(const char *);
+extern void loadFileSymbolsProxy(const char *);
 
 struct stat stats;
 
@@ -69,6 +69,11 @@ void SetRoot(const char *root)
 const char* createFullPath(const char *path)
 {
    char buf[32768];
+
+   if (path == NULL)
+   {
+      return NULL;
+   }
 
    if (*path == '/')
    {

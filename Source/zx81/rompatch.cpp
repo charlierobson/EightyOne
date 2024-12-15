@@ -205,7 +205,7 @@ void InitPatches(int machineType)
 
         if ((machineType == MACHINEZX81) || (machineType == MACHINETS1000) || (machineType == MACHINETS1500) ||
             (machineType == MACHINETK85) || (machineType == MACHINER470)|| (machineType == MACHINEZX97LE) ||
-            ((machineType == MACHINEZX80) && (!strcmp(machine.CurRom, "zx81.edition1.rom") || !strcmp(machine.CurRom, "zx81.edition2.rom") || !strcmp(machine.CurRom, "zx81.edition3.rom"))))
+            ((machineType == MACHINEZX80) && (!_tcscmp(machine.CurRom, _TEXT("zx81.edition1.rom")) || !_tcscmp(machine.CurRom, _TEXT("zx81.edition2.rom")) || !_tcscmp(machine.CurRom, _TEXT("zx81.edition3.rom")))))
         {
                 patches[0x02ffcd] = ZX81SaveDelayStartSaving;
                 patches[0x03561f] = ZX81LambdaGetByteStartLoading;

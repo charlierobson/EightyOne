@@ -60,25 +60,25 @@ extern int SPECKb, SPECNextBorder;
 extern int SPECVSync;
 extern int fts;
 
-extern SPECLast1ffd;
+extern BYTE SPECLast1ffd;
 
-int LoadDock(char *Filename)
+int LoadDock(_TCHAR *Filename)
 {
         FILE *f;
         int i,bank, chunks[8];
-        char *ptr = NULL;
+        BYTE *ptr = NULL;
 
         if (spectrum.model!=SPECCYTC2048 && spectrum.model!=SPECCYTS2068 && spectrum.model!=SPECCYTC2068)
                 return(0);
 
-        if (!strlen(Filename))
+        if (!_tcslen(Filename))
         {
                 for(i=0;i<((64+64)*1024);i++) TimexMem[i]=255;
                 emulator.ROMDock[0]='\0';
                 return(1);
         }
 
-        f=fopen(Filename, "rb");
+        f=_tfopen(Filename, _TEXT("rb"));
         if (!f) return(0);
 
         bank=fgetc(f);
@@ -109,7 +109,7 @@ int LoadDock(char *Filename)
                 if (chunks[i]&2) fread(ptr,1,8192,f);
         }
         fclose(f);
-        strcpy(emulator.ROMDock, Filename);
+        _tcscpy(emulator.ROMDock, Filename);
         return(1);
 }
 

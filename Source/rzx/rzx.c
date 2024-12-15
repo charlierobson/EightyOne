@@ -209,7 +209,7 @@ int rzx_scan(void)
       case RZXBLK_CREATOR:
            /* read the info about the emulator which created this RZX */
            fread(block.buff,24,1,rzxfile);
-           strncpy(file_emul.name,block.buff,19);
+           strncpy(file_emul.name,(char *)block.buff,19);
            file_emul.ver_major=block.buff[20]+256*block.buff[21];
            file_emul.ver_minor=block.buff[22]+256*block.buff[23];
            /* check for custom data */
@@ -307,7 +307,7 @@ int rzx_seek_irb(void)
             rzx_popen(fpos,"rb");
             #endif
             strcpy(rzx_snap.filename,"rzxtemp.");
-            strcat(rzx_snap.filename,&block.buff[4]);
+            strcat(rzx_snap.filename,(char *)&block.buff[4]);
             #ifndef RZX_BIG_ENDIAN
             rzx_snap.length=*((rzx_u32*)&block.buff[8]);
             #else
@@ -342,7 +342,7 @@ int rzx_seek_irb(void)
           {
             /* external snap, read descriptor */
             fread(&block.buff[12],block.length-17,1,rzxfile);
-            strcpy(rzx_snap.filename,&block.buff[16]);
+            strcpy(rzx_snap.filename,(char *)&block.buff[16]);
             rzx_snap.options|=RZX_EXTERNAL;
           }
           /* tell the host emulator to load the snapshot */
@@ -740,7 +740,7 @@ int rzx_add_snapshot(const char *filename, const rzx_u32 flags)
  block.buff[4]=HHI(blocklen);
  /* find the filename extension and store it into the header */
  i=0; while((i<strlen(filename))&&(filename[i]!='.')) i++;
- i++; if(i<strlen(filename)) strncpy(&block.buff[9],&filename[i],3);
+ i++; if(i<strlen(filename)) strncpy((char *)&block.buff[9],&filename[i],3);
  block.buff[13]=LLO(snaplen);
  block.buff[14]=LHI(snaplen);
  block.buff[15]=HLO(snaplen);
@@ -749,7 +749,7 @@ int rzx_add_snapshot(const char *filename, const rzx_u32 flags)
  if(flags&RZX_EXTERNAL)
  {
    /* fill in the external descriptor */
-   strcpy(&block.buff[21],filename);
+   strcpy((char *)&block.buff[21],filename);
    fwrite(block.buff,blocklen,1,rzxfile);
  }
  else

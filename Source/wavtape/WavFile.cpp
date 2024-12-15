@@ -56,19 +56,19 @@ TWavFile::~TWavFile()
 
 }
 
-bool TWavFile::SaveCSW(AnsiString FName)
+bool TWavFile::SaveCSW(ZXString FName)
 {
         return true;
 }
 
-bool TWavFile::LoadCSW(AnsiString FName)
+bool TWavFile::LoadCSW(ZXString FName)
 {
         FILE *f;
         struct CSW csw;
         unsigned int size;
         int i,c,current;
 
-        f=fopen(FName.c_str(), "rb");
+        f=_tfopen(FName.c_str(), _TEXT("rb"));
 
         fread(&csw,0x20,1,f);
 
@@ -98,11 +98,11 @@ bool TWavFile::LoadCSW(AnsiString FName)
         Format.NoChannels=1;
         Data.DataLen=NoSamples;
         if (Data.Data!=NULL) delete[] Data.Data;
-        Data.Data=new char[Data.DataLen];
+        Data.Data=new unsigned char[Data.DataLen];
         MemAllocated=Data.DataLen;
 
         fclose(f);
-        f=fopen(FName.c_str(), "rb");
+        f=_tfopen(FName.c_str(), _TEXT("rb"));
         fread(&csw,0x20,1,f);
 
         size=0;
@@ -123,13 +123,13 @@ bool TWavFile::LoadCSW(AnsiString FName)
         return(true);
 }
 
-bool TWavFile::LoadFile(AnsiString FName)
+bool TWavFile::LoadFile(ZXString FName)
 {
         FILE *f;
 
         if (FileNameGetExt(FName)==".CSW") return(LoadCSW(FName));
 
-        f=fopen(FName.c_str(), "rb");
+        f=_tfopen(FName.c_str(), _TEXT("rb"));
 
         Head.Head[0]='\0';
         Format.Head[0]='\0';
@@ -174,7 +174,7 @@ bool TWavFile::LoadFile(AnsiString FName)
         else Stereo=true;
 
         if (Data.Data!=NULL) delete[] Data.Data;
-        Data.Data=new char[Data.DataLen];
+        Data.Data=new unsigned char[Data.DataLen];
         MemAllocated=Data.DataLen;
 
         fread(Data.Data, Data.DataLen, 1, f);
@@ -188,13 +188,13 @@ bool TWavFile::LoadFile(AnsiString FName)
         return(true);
 }
 
-bool TWavFile::SaveFile(AnsiString FName)
+bool TWavFile::SaveFile(ZXString FName)
 {
         FILE *f;
 
         if (FileNameGetExt(FName)==".CSW") return(SaveCSW(FName));
 
-        f=fopen(FName.c_str(), "wb");
+        f=_tfopen(FName.c_str(), _TEXT("wb"));
 
         fwrite(&Head, 1, sizeof(Head), f);
         fwrite(&Format, 1, sizeof(Format), f);
@@ -281,7 +281,7 @@ bool TWavFile::NewFile(void)
         Stereo=false;
 
         MemAllocated = (16384*8*140);  // 16k * average of 70 Samples per bit
-        Data.Data = new char[MemAllocated];
+        Data.Data = new unsigned char[MemAllocated];
         Data.Data[0]=128;
 
 
@@ -297,10 +297,10 @@ bool TWavFile::SetSample(unsigned int Pos, int Value)
         {
 
                 int NewMemAllocated;
-                char *NewData;
+                unsigned char *NewData;
 
                 NewMemAllocated = MemAllocated + (16384*8*70);
-                NewData = new char[NewMemAllocated];
+                NewData = new unsigned char[NewMemAllocated];
 
                 if (Data.Data)
                 {

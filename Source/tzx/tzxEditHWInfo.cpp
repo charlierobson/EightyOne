@@ -88,7 +88,7 @@ void TEditHWInfoForm::Go(int BlockNo, int Mx, int My)
 
         Top = My - Height/2;
         Left = Mx - Width/2;
-        TMonitor* monitor = TZXFile.FindMonitor(Left, Top);
+        Forms::TMonitor* monitor = TZXFile.FindMonitor(Left, Top);
         if (Top<monitor->Top) Top=monitor->Top;
         if (Left<monitor->Left) Left=monitor->Left;
         if (Left+Width > monitor->Left+monitor->Width) Left = monitor->Left+monitor->Width - Width;
