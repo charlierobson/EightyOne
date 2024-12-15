@@ -27,14 +27,14 @@ __published:	// IDE-managed Components
 private:	// User declarations
         bool _valid;
         class ProfileDetail* _pd;
-        void (*_completion)(bool, AnsiString);
+        void (*_completion)(bool);
         void SetOKButtonStatus();
         int Count();
 
 public:		// User declarations
         __fastcall TProfileSampleEdit(TComponent* Owner);
 
-        void __fastcall EditValues(AnsiString tag, ProfileDetail* pd, void(*)(bool, AnsiString));
+        void __fastcall EditValues(ProfileDetail* pd, void(*)(bool));
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TProfileSampleEdit *ProfileSampleEdit;

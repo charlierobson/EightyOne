@@ -70,6 +70,11 @@ const char* createFullPath(const char *path)
 {
    char buf[32768];
 
+   if (path == NULL)
+   {
+      return NULL;
+   }
+
    if (*path == '/')
    {
       strcpy(buf, zxpandSDCardFolderRoot);

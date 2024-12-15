@@ -2808,22 +2808,11 @@ void THW::SaveSettings(TIniFile *ini)
         ini->WriteString("DRIVES","HD0", Rom);
         if (ATA_GetHDF(1)) Rom=ATA_GetHDF(1); else Rom="NULL";
         ini->WriteString("DRIVES","HD1", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(0)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV0", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(1)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV1", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(2)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV2", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(3)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV3", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(4)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV4", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(5)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV5", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(6)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV6", Rom);
-        Rom="NULL"; if (IF1->MDVGetFileName(7)) Rom=IF1->MDVGetFileName(0);
-        ini->WriteString("DRIVES","MDV7", Rom);
+        for (int i = 0; i < IF1->MDVNoDrives; i++)
+        {
+            Rom="NULL"; if (IF1->MDVGetFileName(i)) Rom=IF1->MDVGetFileName(i);
+            ini->WriteString("DRIVES","MDV"+AnsiString(i), Rom);
+        }
 
         ini->WriteBool("HWARE","ProtectRom",ProtectROM->Checked);
         ini->WriteBool("HWARE","NTSC",NTSC->Checked);
@@ -3002,22 +2991,11 @@ void THW::LoadSettings(TIniFile *ini)
         if (ATA_GetHDF(1)) Rom=ATA_GetHDF(1); else Rom="NULL";
         ini->WriteString("DRIVES","HD1", Rom);
 
-        Rom=ini->ReadString("DRIVES","MDV0", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(0,Rom.c_str());
-        Rom=ini->ReadString("DRIVES","MDV1", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(1,Rom.c_str());
-        Rom=ini->ReadString("DRIVES","MDV2", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(2,Rom.c_str());
-        Rom=ini->ReadString("DRIVES","MDV3", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(3,Rom.c_str());
-        Rom=ini->ReadString("DRIVES","MDV4", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(4,Rom.c_str());
-        Rom=ini->ReadString("DRIVES","MDV5", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(5,Rom.c_str());
-        Rom=ini->ReadString("DRIVES","MDV6", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(6,Rom.c_str());
-        Rom=ini->ReadString("DRIVES","MDV7", "NULL");
-        if (Rom!="NULL") IF1->MDVSetFileName(7,Rom.c_str());
+        for (int i = 0; i < IF1->MDVNoDrives; i++)
+        {
+            Rom=ini->ReadString("DRIVES","MDV"+AnsiString(i), "NULL");
+            if (Rom!="NULL") IF1->MDVSetFileName(i,Rom.c_str());
+        }
 
         SetZXpandState(ini->ReadBool("HWARE","ZXpand",ZXpand->Checked),
                         ini->ReadBool("HWARE","ZX81",ZX81Btn->Down)||ini->ReadBool("HWARE","ZX80",ZX81Btn->Down)||ini->ReadBool("HWARE","TS1500",TS1500Btn->Down)); 

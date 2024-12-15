@@ -92,9 +92,26 @@ int StackChange;
 
 void DebugUpdate(void)
 {
-        static int NMISaveSingleStep=-1, INTSaveSingleStep=-1;
         static int lastpc;
         int i;
+
+        if (z80.pc.w==0x66 && Dbg->SkipNMIBtn->Checked)
+        {
+                Dbg->NMIRetAddr = getbyte(z80.sp.w) + 256*getbyte(z80.sp.w + 1);
+        }
+        if (z80.pc.w == Dbg->NMIRetAddr || !Dbg->SkipNMIBtn->Checked)
+        {
+                Dbg->NMIRetAddr=-1;
+        }
+
+        if (z80.pc.w==0x38 && Dbg->SkipINTBtn->Checked)
+        {
+                Dbg->INTRetAddr = getbyte(z80.sp.w) + 256*getbyte(z80.sp.w + 1);
+        }
+        if (z80.pc.w == Dbg->INTRetAddr || !Dbg->SkipINTBtn->Checked)
+        {
+                Dbg->INTRetAddr=-1;
+        }
 
         i=z80.pc.w;
         if (lastpc!=z80.pc.w)
@@ -115,7 +132,7 @@ void DebugUpdate(void)
                                                   (show32K48KAddresses && (i >= 0x8000) && (i <= 0xBFFF)) ||
                                                   (show48K64KAddresses && (i >= 0xC000) && (i <= 0xFFFF));
 
-                        if (includeInstruction)
+                        if (includeInstruction && Dbg->NMIRetAddr==-1 && Dbg->INTRetAddr==-1)
                         {
                                 HistoryLog[HistoryPos].Address = i;
 
@@ -137,45 +154,6 @@ void DebugUpdate(void)
                 lastpc=z80.pc.w;
         }
 
-        if (Dbg->NMIRetAddr==-1 && NMISaveSingleStep!=-1)
-        {
-                emulator.single_step=NMISaveSingleStep;
-                NMISaveSingleStep=-1;
-        }
-        if (Dbg->INTRetAddr==-1 && INTSaveSingleStep!=-1)
-        {
-                emulator.single_step=INTSaveSingleStep;
-                INTSaveSingleStep=-1;
-        }         
-
-        if (z80.pc.w==0x66 && Dbg->SkipNMIBtn->Checked
-                && Dbg->NMIRetAddr==-1 && Dbg->Continuous->Checked)
-        {
-                Dbg->NMIRetAddr = getbyte(z80.sp.w) + 256*getbyte(z80.sp.w + 1);
-                NMISaveSingleStep = emulator.single_step;
-                emulator.single_step=0;
-        }
-        if (z80.pc.w == Dbg->NMIRetAddr)
-        {
-                Dbg->NMIRetAddr=-1;
-                emulator.single_step=NMISaveSingleStep;
-        }
-        if (Dbg->NMIRetAddr!=-1) return;
-
-        if (z80.pc.w==0x38 && Dbg->SkipINTBtn->Checked
-                && Dbg->INTRetAddr==-1 && Dbg->Continuous->Checked)
-        {
-                Dbg->INTRetAddr = getbyte(z80.sp.w) + 256*getbyte(z80.sp.w + 1);
-                INTSaveSingleStep = emulator.single_step;
-                emulator.single_step=0;
-        }
-        if (z80.pc.w == Dbg->INTRetAddr)
-        {
-                Dbg->INTRetAddr=-1;
-                emulator.single_step=INTSaveSingleStep;
-        }
-        if (Dbg->INTRetAddr!=-1) return;
-
         displayedTStatesCount = tStatesCount;
 
         if (Dbg->BreakPointHit() || (RetExecuted && StepOutRequested && (StackChange < 0)))
@@ -185,6 +163,8 @@ void DebugUpdate(void)
                 Dbg->UpdateVals();
                 Dbg->RunStopClick(NULL);
         }
+
+        if (Dbg->NMIRetAddr!=-1 || Dbg->INTRetAddr!=-1) return;
 
         if (Dbg->DoNext)
         {
