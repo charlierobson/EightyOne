@@ -43,7 +43,7 @@
 #include "wd1770.h"
 #include "ide.h"
 #include "parallel.h"
-#include "sp0256.h"
+#include "sp0256drv.h"
 #include "rzx.h"
 #include "RomCartridge\IF2RomCartridge.h"
 #include "Spectra\Spectra.h"
@@ -632,7 +632,7 @@ void spec48_WriteByte(int Address, int Data)
 
         if (Address<16384)
         {
-                if ((Address==0x1000) && spectrum.uspeech) SP0256_Write(Data);
+                if ((Address==0x1000) && spectrum.uspeech) sp0256_AL2.Write(Data);
 
                 if (PlusDPaged)
                 {
@@ -754,7 +754,7 @@ BYTE spec48_ReadByte(int Address)
         {
                 if ((Address==0x1000) && spectrum.uspeech)
                 {
-                        data=SP0256_Busy();
+                        data=sp0256_AL2.Busy();
                         noise = (noise<<8) | data;
                         return(data);
                 }

@@ -131,7 +131,6 @@ USEUNIT("zxpand\zxpandclass.cpp");
 USEUNIT("zxpand\zxpandcom.cpp");
 USEUNIT("zxpand\zxpandcore.cpp");
 USEUNIT("zxpand\ZXpand-emu.cpp");
-USEUNIT("sp0256.c");
 USEFORM("zxprinter\zxprinter.cpp", ZXPrinter);
 USEFORM("Plus3Drives.cpp", P3Drive);
 USEUNIT("floppy.c");
@@ -146,6 +145,13 @@ USEFORM("Fullscreen.cpp", FSSettings);
 USEFORM("Artifacts_.cpp", Artifacts);
 USEFORM("sound\SoundForm.cpp", MidiForm);
 USEFORM("Interface1.cpp", IF1);
+USEUNIT("SP0256\audio.cpp");
+USEUNIT("SP0256\sp0256_al2.cpp");
+USEUNIT("SP0256\SystemClock.cpp");
+USEUNIT("SP0256\Win32Audio.cpp");
+USEUNIT("SP0256\sp0256drv.cpp");
+USEUNIT("SP0256\sp0256.c");
+USEUNIT("SP0256\sp0256_012.cpp");
 //---------------------------------------------------------------------------
 #include "SplashScreen.h"
 #include "main_.h"

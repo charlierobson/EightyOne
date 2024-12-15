@@ -1647,6 +1647,14 @@ object HW: THW
         TabOrder = 13
         OnClick = ButtonZXpandSDCardClick
       end
+      object Parrot: TCheckBox
+        Left = 293
+        Top = 55
+        Width = 57
+        Height = 17
+        Caption = 'Parrot'
+        TabOrder = 15
+      end
       object ZXC1ConfigurationBox: TComboBox
         Left = 184
         Top = 112
