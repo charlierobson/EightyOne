@@ -62,7 +62,6 @@
 #include "ide.h"
 #include "z80.h"
 #include "parallel.h"
-#include "sp0256.h"
 #include "sound\SoundForm.h"
 #include "ZipFile_.h"
 #include "debug68.h"
@@ -233,8 +232,6 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
         ini = new TIniFile(emulator.inipath);
         ShowSplash = ini->ReadBool("MAIN","ShowSplash", ShowSplash);
         EnableSplashScreen->Checked = ShowSplash;
-
-        SP0256_Init();
 
         iniFileExists = FileExists(emulator.inipath);
         LoadSettings(ini);
@@ -1872,8 +1869,17 @@ void __fastcall TForm1::InstructionMenuItemClick(TObject *Sender)
         }
         else
         {
-                Path += ClickedItem->Caption + ".txt";
-                ShellExecute(NULL, _TEXT("open"), Path.c_str(), NULL, NULL, SW_NORMAL);
+                ZXString pdfPath = Path + ClickedItem->Caption + ".pdf";
+                if (_stat(pdfPath.c_str(), &buffer) == 0)
+                {
+                        Path += ClickedItem->Caption + ".pdf";
+                }
+                else
+                {
+                        Path += ClickedItem->Caption + ".txt";
+                }
+
+                ShellExecute(NULL, "open", Path.c_str(), NULL, NULL, SW_NORMAL);
         }
 }
 //---------------------------------------------------------------------------

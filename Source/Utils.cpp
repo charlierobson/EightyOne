@@ -274,6 +274,7 @@ ZXString RemoveExt(ZXString Fname)
                 || Ext==".txt" || Ext==".TXT"
                 || Ext==".bas" || Ext==".BAS"
                 || Ext==".web" || Ext==".WEB"
+                || Ext==".pdf" || Ext==".PDF"
                 ) && pos>1)
                 Fname = Fname.SubString(1,pos-1);
 
