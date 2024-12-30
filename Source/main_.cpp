@@ -1870,7 +1870,7 @@ void __fastcall TForm1::InstructionMenuItemClick(TObject *Sender)
         else
         {
                 ZXString pdfPath = Path + ClickedItem->Caption + ".pdf";
-                if (_stat(pdfPath.c_str(), &buffer) == 0)
+                if (_tstat(pdfPath.c_str(), &buffer) == 0)
                 {
                         Path += ClickedItem->Caption + ".pdf";
                 }
@@ -1879,7 +1879,7 @@ void __fastcall TForm1::InstructionMenuItemClick(TObject *Sender)
                         Path += ClickedItem->Caption + ".txt";
                 }
 
-                ShellExecute(NULL, "open", Path.c_str(), NULL, NULL, SW_NORMAL);
+                ShellExecute(NULL, _TEXT("open"), Path.c_str(), NULL, NULL, SW_NORMAL);
         }
 }
 //---------------------------------------------------------------------------
