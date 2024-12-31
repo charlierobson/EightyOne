@@ -1,10 +1,10 @@
 object About: TAbout
-  Left = 273
-  Top = 265
+  Left = 622
+  Top = 229
   BorderIcons = [biHelp]
   BorderStyle = bsToolWindow
   Caption = 'About'
-  ClientHeight = 429
+  ClientHeight = 452
   ClientWidth = 336
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -510,7 +510,7 @@ object About: TAbout
   end
   object Label17: TLabel
     Left = 8
-    Top = 383
+    Top = 406
     Width = 151
     Height = 13
     Caption = 'Icon designed by Paul E Collins.'
@@ -524,7 +524,7 @@ object About: TAbout
   end
   object Label18: TLabel
     Left = 8
-    Top = 405
+    Top = 428
     Width = 185
     Height = 16
     AutoSize = False
@@ -557,11 +557,11 @@ object About: TAbout
     Top = 52
     Width = 218
     Height = 13
-    Caption = '© 2011-2022 Charlie Robson and Paul Farrow'
+    Caption = '© 2011-2024 Charlie Robson and Paul Farrow'
   end
   object Image2: TImage
     Left = 200
-    Top = 404
+    Top = 427
     Width = 15
     Height = 15
     Hint = 'Michael'#39's daughter'
@@ -613,9 +613,16 @@ object About: TAbout
     ShowHint = True
     Transparent = True
   end
+  object Label22: TLabel
+    Left = 8
+    Top = 383
+    Width = 251
+    Height = 13
+    Caption = 'Speech synthesis code from SP0256_CTS256A-AL2.'
+  end
   object Button1: TButton
     Left = 248
-    Top = 396
+    Top = 419
     Width = 81
     Height = 26
     Anchors = [akRight, akBottom]

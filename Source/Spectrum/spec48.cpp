@@ -390,7 +390,7 @@ void spec48_initialise()
                 memcpy(PlusDMem, memory, romlen);
         }
 
-        if (spectrum.uspeech)
+        if (machine.speech == SPEECH_TYPE_USPEECH)
         {
                 romlen=memory_device_rom_load(emulator.ROMUSPEECH,0,16384);
                 memcpy(uSpeechMem, memory, romlen);
@@ -632,7 +632,7 @@ void spec48_WriteByte(int Address, int Data)
 
         if (Address<16384)
         {
-                if ((Address==0x1000) && spectrum.uspeech) sp0256_AL2.Write(Data);
+                if ((Address==0x1000) && (machine.speech == SPEECH_TYPE_USPEECH)) sp0256_AL2.Write(Data);
 
                 if (PlusDPaged)
                 {
@@ -752,7 +752,7 @@ BYTE spec48_ReadByte(int Address)
 
         if (Address<16384)
         {
-                if ((Address==0x1000) && spectrum.uspeech)
+                if ((Address==0x1000) && (machine.speech == SPEECH_TYPE_USPEECH))
                 {
                         data=sp0256_AL2.Busy();
                         noise = (noise<<8) | data;
@@ -1684,7 +1684,7 @@ int spec48_do_scanline(SCANLINE *CurScanLine)
                                 if (LastPC>=0x4000) PlusDPaged=0;
                         }
 
-                        if (spectrum.uspeech && LastPC==56) uSpeechPaged = !uSpeechPaged;
+                        if ((machine.speech == SPEECH_TYPE_USPEECH) && LastPC==56) uSpeechPaged = !uSpeechPaged;
                         if (spectrum.usource && LastPC==0x2BAE) uSourcePaged = !uSourcePaged;
                 }                 
 

@@ -26,6 +26,7 @@
 
 #include "sound\SoundDX.h"
 
+#define AY_TYPE_NONE            0
 #define AY_TYPE_QUICKSILVA      1
 #define AY_TYPE_ZONX            2
 #define AY_TYPE_FULLER          3
@@ -41,6 +42,10 @@
 #define AY_CLOCK_SINCLAIR       1773400
 #define AY_CLOCK_TIMEX          1764000
 #define AY_CLOCK_BOLDFIELD      1773400
+
+#define SPEECH_TYPE_NONE        0
+#define SPEECH_TYPE_USPEECH     1
+#define SPEECH_TYPE_PARROT      1
 
 // assume all three tone channels together match the beeper volume.
 // Must be <=127 for all channels; 4 x 31 = 124.

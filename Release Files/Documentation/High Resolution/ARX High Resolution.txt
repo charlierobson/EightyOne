@@ -11,25 +11,25 @@ Display file location  : 8K-16K region
 The ARX mechanism utilises the basic 64 character UDG mode to generate a true
 high resolution display.
 
-An ARX display driver renders 12 full characters sets on the screen at the same
+An ARX display driver renders 12 full character sets on the screen at the same
 time such that each position of the display is populated with a unique character.
-Hence the first two rows contains the characters from character set 1, the next
+Hence the first two rows contain the characters from character set 1, the next
 two rows the characters from character set 2, the next two rows the characters
 from character set 3, etc. In this way, the whole display is filled using 12
 character sets, i.e. 12 x 64 = 768 = 24 x 32.
 
-A program can redefine the characters of the 12 characters on the fly to achieve
+A program can redefine the characters of the 12 character set on the fly to achieve
 a full pixel addressable high resolution display.
 
 
 ARX Display File Layout
 -----------------------
-The display file is not laid out logically such that it progresses across the
-columns of the first line before moving done to the next line, and continues
-through all lines in this way. Instead the ARX display file progresses down the 8
-lines for the character in row 0 column 0, then down the 8 lines for the character
-in row 0 column 1, then the lines for row 0 column 2, etc, before then moving to
-the start of the next row and repeating this pattern.
+The display file is not laid out logically and so does not progresses across the
+columns of the first line before moving down to the next line. Instead the ARX
+display file progresses down the 8 lines for the character in row 0 column 0, then
+down the 8 lines for the character in row 0 column 1, then the lines for row 0
+column 2, etc, before then moving to the start of the next row and repeating this
+pattern.
 
 The display file for the ARX display driver presented here is 6K in size and
 occupies memory locations $2000 - $37FF.

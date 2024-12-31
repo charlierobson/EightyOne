@@ -92,8 +92,8 @@ void load_config(void)
         emulator.frameskip=0;
         machine.aysound=0;
         machine.aytype=0;
+        machine.speech=0;
         zx81.vsyncsound=0;
-        zx81.parrot=0;
         emulator.beepersound=0;
         machine.ts2050=0;
         machine.plus3arabicPagedOut=0;
@@ -213,7 +213,6 @@ void load_config(void)
         tv.Interlaced=0;
         tv.DisableAdvanced=0;
 
-        spectrum.uspeech=0;
         spectrum.usource=0;
         spectrum.kbissue=SPECKBISS3;
         spectrum.driveatype=DRIVE3INCHSS;

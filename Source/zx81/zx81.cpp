@@ -1147,7 +1147,7 @@ void zx81_writeport(int Address, int Data, int *tstates)
 
         // Note that the Parrot only decodes A7, A5, and A4.
         //  If these are all 0, then the Parrot performs I/O.
-        if (zx81.parrot && ((Address&0xB0)==0)) sp0256_AL2.Write(Data);
+        if ((machine.speech == SPEECH_TYPE_PARROT) && ((Address&0xB0)==0)) sp0256_AL2.Write(Data);
 
         switch(Address&255)
         {
@@ -1282,7 +1282,7 @@ BYTE ReadInputPort(int Address, int *tstates)
 
                 // Note that the Parrot only decodes A7, A5, and A4.
                 //  If these are all 0, then the Parrot performs I/O.
-                if (zx81.parrot && ((Address&0xB0)==0)) return !sp0256_AL2.Busy();
+                if ((machine.speech == SPEECH_TYPE_PARROT) && ((Address&0xB0)==0)) return !sp0256_AL2.Busy();
 
                 switch(Address&255)
                 {

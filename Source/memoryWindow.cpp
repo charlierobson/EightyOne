@@ -270,7 +270,7 @@ void WordRowRenderer::RenderRow(void)
                         }
                 }
                 mAddress += 2;
-              //####  ++mDirty;
+              // ++mDirty;
         }
 
         SetBkColor(mCHDC, prevBackgroundColour);

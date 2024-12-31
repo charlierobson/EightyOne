@@ -1,6 +1,6 @@
 ================================================
 TS1510 ROM Cartridges for the TS1000/TS1500/ZX81
-Timex Sincalir
+Timex Sinclair
 ================================================
 
 TS1510 ROM cartridges contain a non-pageable ROM that can be either 8K, 16K or 24K.

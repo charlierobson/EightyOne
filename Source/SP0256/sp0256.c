@@ -237,8 +237,6 @@ static int lpc12_update(lpc12_t *f, int num_samp, int16_t *out, uint32_t *optr)
 
             f->amp   = amp_decode(f->r[0]);
             f->per   = f->r[1];
-
-            do_int   = 0;
         }
 
         /* ---------------------------------------------------------------- */
@@ -694,7 +692,7 @@ static INLINE uint32_t bitrev(uint32_t val)
 /* ======================================================================== */
 static uint32_t sp0256_getb(ivoice_t *ivoice, int len)
 {
-    uint32_t data = 0;
+    uint32_t data;
     uint32_t d0, d1;
 
     /* -------------------------------------------------------------------- */
@@ -764,8 +762,8 @@ static void sp0256_micro(ivoice_t *iv)
     uint8_t  immed4;
     uint8_t  opcode;
     uint16_t cr;
-    int      ctrl_xfer = 0;
-    int      repeat    = 0;
+    int      ctrl_xfer;
+    int      repeat;
     int      i, idx0, idx1;
 
     /* -------------------------------------------------------------------- */
@@ -1023,7 +1021,6 @@ static void sp0256_micro(ivoice_t *iv)
             clrL  = cr & CR_CLRL;
             delta = cr & CR_DELTA;
             field = cr & CR_FIELD;
-            value = 0;
 
             jzdprintf(("$%.4X.%.1X: len=%2d shf=%2d prm=%2d d=%d f=%d ",
                      iv->pc >> 3, iv->pc & 7, len, shf, prm, !!delta, !!field));

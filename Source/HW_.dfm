@@ -1,10 +1,10 @@
 object HW: THW
-  Left = 199
-  Top = 122
+  Left = 522
+  Top = 267
   BorderIcons = []
   BorderStyle = bsToolWindow
   Caption = 'Hardware'
-  ClientHeight = 344
+  ClientHeight = 368
   ClientWidth = 408
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -1353,7 +1353,7 @@ object HW: THW
   end
   object OK: TButton
     Left = 329
-    Top = 315
+    Top = 339
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -1384,8 +1384,8 @@ object HW: THW
     Left = 3
     Top = 140
     Width = 401
-    Height = 169
-    ActivePage = AdvSettings
+    Height = 193
+    ActivePage = Interfaces
     Anchors = [akLeft, akRight, akBottom]
     TabOrder = 2
     object Interfaces: TTabSheet
@@ -1424,15 +1424,15 @@ object HW: THW
       end
       object RomCartridgeLabel: TLabel
         Left = 8
-        Top = 116
+        Top = 140
         Width = 73
         Height = 13
         Alignment = taRightJustify
         Caption = 'ROM Cartridge:'
       end
       object ZXpandEmulationInfo: TImage
-        Left = 371
-        Top = 72
+        Left = 374
+        Top = 94
         Width = 15
         Height = 15
         AutoSize = True
@@ -1483,6 +1483,14 @@ object HW: THW
         ShowHint = False
         Transparent = True
         OnClick = ZXpandEmulationInfoClick
+      end
+      object SpeechBoxLbl: TLabel
+        Left = 40
+        Top = 116
+        Width = 41
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Speech:'
       end
       object SoundCardBox: TComboBox
         Left = 86
@@ -1537,15 +1545,15 @@ object HW: THW
       end
       object KMouse: TCheckBox
         Left = 184
-        Top = 55
+        Top = 36
         Width = 105
         Height = 17
         Caption = 'Kempston Mouse'
         TabOrder = 7
       end
       object TS2050: TCheckBox
-        Left = 293
-        Top = 17
+        Left = 184
+        Top = 93
         Width = 101
         Height = 17
         Caption = 'TS2050 Modem'
@@ -1556,7 +1564,7 @@ object HW: THW
       end
       object Multiface: TCheckBox
         Left = 184
-        Top = 74
+        Top = 55
         Width = 97
         Height = 17
         Caption = 'Multiface 128'
@@ -1564,26 +1572,17 @@ object HW: THW
         OnClick = MultifaceClick
       end
       object TS2050Config: TButton
-        Left = 293
-        Top = 35
+        Left = 184
+        Top = 110
         Width = 76
         Height = 20
         Caption = 'Configure'
         TabOrder = 11
         OnClick = TS2050ConfigClick
       end
-      object uSpeech: TCheckBox
-        Left = 184
-        Top = 36
-        Width = 97
-        Height = 17
-        Caption = 'Currah µSpeech'
-        TabOrder = 6
-        OnClick = uSpeechClick
-      end
       object ZXPrinter: TCheckBox
         Left = 184
-        Top = 93
+        Top = 74
         Width = 97
         Height = 17
         Caption = 'ZX Printer'
@@ -1591,8 +1590,8 @@ object HW: THW
         OnClick = ZXPrinterClick
       end
       object ZXpand: TCheckBox
-        Left = 293
-        Top = 71
+        Left = 300
+        Top = 93
         Width = 65
         Height = 17
         Caption = 'ZXpand'
@@ -1613,12 +1612,12 @@ object HW: THW
       end
       object RomCartridgeBox: TComboBox
         Left = 86
-        Top = 112
+        Top = 136
         Width = 89
         Height = 21
         Style = csDropDownList
         ItemHeight = 13
-        TabOrder = 4
+        TabOrder = 5
         OnChange = RomCartridgeBoxChange
         Items.Strings = (
           'None'
@@ -1630,7 +1629,7 @@ object HW: THW
       end
       object BrowseRomCartridge: TButton
         Left = 370
-        Top = 112
+        Top = 136
         Width = 19
         Height = 21
         Caption = '...'
@@ -1639,25 +1638,17 @@ object HW: THW
         OnClick = BrowseROMCartridgeClick
       end
       object ButtonZXpandSDCard: TButton
-        Left = 293
-        Top = 89
+        Left = 300
+        Top = 110
         Width = 76
         Height = 20
         Caption = 'SD Card'
         TabOrder = 13
         OnClick = ButtonZXpandSDCardClick
       end
-      object Parrot: TCheckBox
-        Left = 293
-        Top = 55
-        Width = 57
-        Height = 17
-        Caption = 'Parrot'
-        TabOrder = 15
-      end
       object ZXC1ConfigurationBox: TComboBox
         Left = 184
-        Top = 112
+        Top = 136
         Width = 89
         Height = 21
         Style = csDropDownList
@@ -1679,12 +1670,12 @@ object HW: THW
         Width = 97
         Height = 17
         Caption = 'Currah µSource'
-        TabOrder = 5
+        TabOrder = 6
         OnClick = uSourceClick
       end
       object RomCartridgeFileBox: TEdit
         Left = 184
-        Top = 112
+        Top = 136
         Width = 184
         Height = 21
         Enabled = False
@@ -1692,7 +1683,7 @@ object HW: THW
       end
       object SinclairRomCartridgeFileBox: TComboBox
         Left = 184
-        Top = 112
+        Top = 136
         Width = 184
         Height = 21
         DropDownCount = 10
@@ -1703,7 +1694,7 @@ object HW: THW
       end
       object TS1510RomCartridgeFileBox: TComboBox
         Left = 184
-        Top = 112
+        Top = 136
         Width = 184
         Height = 21
         DropDownCount = 10
@@ -1714,7 +1705,7 @@ object HW: THW
       end
       object TC2068RomCartridgeFileBox: TComboBox
         Left = 184
-        Top = 112
+        Top = 136
         Width = 184
         Height = 21
         DropDownCount = 10
@@ -1725,7 +1716,7 @@ object HW: THW
       end
       object TS2068RomCartridgeFileBox: TComboBox
         Left = 184
-        Top = 112
+        Top = 136
         Width = 184
         Height = 21
         DropDownCount = 10
@@ -1733,6 +1724,18 @@ object HW: THW
         TabOrder = 19
         Visible = False
         OnChange = TS2068RomCartridgeFileBoxChange
+      end
+      object SpeechBox: TComboBox
+        Left = 86
+        Top = 112
+        Width = 89
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 4
+        OnChange = SpeechBoxChange
+        Items.Strings = (
+          'None')
       end
     end
     object FloppyDrives: TTabSheet
@@ -1954,8 +1957,8 @@ object HW: THW
         TabOrder = 2
       end
       object NTSC: TCheckBox
-        Left = 232
-        Top = 64
+        Left = 72
+        Top = 144
         Width = 113
         Height = 17
         Caption = '60Hz Frame Rate'
@@ -1990,8 +1993,8 @@ object HW: THW
         OnClick = M1NotClick
       end
       object Issue2: TCheckBox
-        Left = 232
-        Top = 48
+        Left = 72
+        Top = 128
         Width = 137
         Height = 17
         BiDiMode = bdLeftToRight
@@ -2018,8 +2021,8 @@ object HW: THW
         OnClick = FloatingPointHardwareFixClick
       end
       object ButtonAdvancedMore: TButton
-        Left = 248
-        Top = 104
+        Left = 274
+        Top = 132
         Width = 75
         Height = 25
         Caption = 'More...'

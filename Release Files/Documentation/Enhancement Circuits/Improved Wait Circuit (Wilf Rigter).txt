@@ -68,7 +68,7 @@ To do this the TR1 circuit was added that acts like an OR gate with an active
 low WAIT output at the collector of TR1 when NMI is low and HALT is high.
 
 The WAIT state is asserted after the HALT line goes high when NMI forces the
-HALT exit, and inserts WAIT state betweens T2 and T3 of the M1 cycle of the NMI
+HALT exit, and inserts WAIT state between T2 and T3 of the M1 cycle of the NMI
 response (RST to $0066) for the duration of the NMI pulse. Then on the rising
 edge of NMI, the WAIT signal is removed and the CPU is precisely synchronized
 with the start of T3 on the rising edge of the NMI pulse eliminating all video
