@@ -2154,7 +2154,7 @@ void __fastcall THW::Spec48BtnClick(TObject *Sender)
         SetupForSpectrum();
         Spec48Btn->Down=true;
 
-        SpeechBox->Items->Add("ÂµSpeech");
+        SpeechBox->Items->Add("µSpeech");
         SpeechBox->Enabled=true;
         SpeechBoxLbl->Enabled=true;
 
@@ -2213,7 +2213,7 @@ void __fastcall THW::SpecPlusBtnClick(TObject *Sender)
         SetupForSpectrum();
         SpecPlusBtn->Down=true;
 
-        SpeechBox->Items->Add("ÂµSpeech");
+        SpeechBox->Items->Add("µSpeech");
         SpeechBox->Enabled=true;
         SpeechBoxLbl->Enabled=true;
 
@@ -2244,7 +2244,7 @@ void __fastcall THW::Spec16BtnClick(TObject *Sender)
         SetupForSpectrum();
         Spec16Btn->Down=true;
 
-        SpeechBox->Items->Add("ÂµSpeech");
+        SpeechBox->Items->Add("µSpeech");
         SpeechBox->Enabled=true;
         SpeechBoxLbl->Enabled=true;
 
