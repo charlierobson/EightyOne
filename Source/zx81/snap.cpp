@@ -189,7 +189,7 @@ void load_snap_speech(FILE *f)
 {
         while(!feof(f))
         {
-                char* tok=get_token(f);
+                _TCHAR* tok=get_token(f);
                 if (tok[0] == '[')
                 {
                         ProcessTag(tok, f);

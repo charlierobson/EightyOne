@@ -582,7 +582,7 @@ void IBasicLoader::OutputEmbeddedNumber(int& index, int& addressOffset, bool bin
                 value = strtod((char*)pLineBufferWithoutSpaces, &pWithoutSpacesNumberEnd);
         }
 
-        int withoutSpacesNumberLength = pWithoutSpacesNumberEnd - pLineBufferWithoutSpaces;
+        int withoutSpacesNumberLength = pWithoutSpacesNumberEnd - (char *)pLineBufferWithoutSpaces;
              
         int withSpacesIndex = 0;
 
@@ -596,7 +596,7 @@ void IBasicLoader::OutputEmbeddedNumber(int& index, int& addressOffset, bool bin
                 withSpacesIndex++;   
         }
 
-        char* pEnd = pBufferStart + withSpacesIndex;
+        char* pEnd = (char *)pBufferStart + withSpacesIndex;
 
         delete[] pLineBufferWithoutSpaces;
         
