@@ -2845,7 +2845,7 @@ void THW::SaveSettings(TIniFile *ini)
         ini->WriteInteger("HWARE","QLCPU",QLCPU->ItemIndex);
         ini->WriteInteger("HWARE","QLMEM",QLMem->ItemIndex);
         ini->WriteInteger("HWARE","Colour",ColourBox->ItemIndex);
-        ini->WriteInteger("HWARE","speech",SpeechBox->ItemIndex);
+        ini->WriteInteger("HWARE","Speech",SpeechBox->ItemIndex);
         ini->WriteInteger("HWARE","RomCartridge",RomCartridgeBox->ItemIndex);
         ini->WriteString("HWARE","RomCartridgeFile",RomCartridgeFileBox->Text);
         ini->WriteInteger("HWARE","ZXC1Configuration",ZXC1ConfigurationBox->ItemIndex);
