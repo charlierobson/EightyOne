@@ -1348,7 +1348,7 @@ BYTE far gmReset[] = {
 };
 
 void midiReset(void) {
-    int i;
+    unsigned int i;
     for(i = 0; i < sizeof(gmReset); ++i)
         serialWrite(gmReset[i]);
 }

@@ -958,7 +958,7 @@ void __fastcall TForm1::FormKeyPress(TObject *Sender, char& Key)
                                 int i, retval;
 
 #if __CODEGEARC__ >= 0x0620
-                                TPoint p={0,0};
+                                TPoint p;
 #else
                                 POINT p={0,0};
 #endif

@@ -3582,7 +3582,7 @@ void THW::PopulateRomCartridgeTS1510List()
         for (iter = ts1510RomCartridges.begin(); iter != ts1510RomCartridges.end(); iter++)
         {
 #if __CODEGEARC__ >= 0x0620
-                AddRomCartridgeFile(TS1510RomCartridgeFileBox, iter._Ptr, ".rom");
+                AddRomCartridgeFile(TS1510RomCartridgeFileBox, &(*iter), ".rom");
 #else
                 AddRomCartridgeFile(TS1510RomCartridgeFileBox, iter, ".rom");
 #endif
@@ -3598,7 +3598,7 @@ void THW::PopulateRomCartridgeTS2068List()
         for (iter = ts2068RomCartridges.begin(); iter != ts2068RomCartridges.end(); iter++)
         {
 #if __CODEGEARC__ >= 0x0620
-                AddRomCartridgeFile(TS2068RomCartridgeFileBox, iter._Ptr, ".dck");
+                AddRomCartridgeFile(TS2068RomCartridgeFileBox, &(*iter), ".dck");
 #else
                 AddRomCartridgeFile(TS2068RomCartridgeFileBox, iter, ".dck");
 #endif
@@ -3614,7 +3614,7 @@ void THW::PopulateRomCartridgeTC2068List()
         for (iter = tc2068RomCartridges.begin(); iter != tc2068RomCartridges.end(); iter++)
         {
 #if __CODEGEARC__ >= 0x0620
-                AddRomCartridgeFile(TC2068RomCartridgeFileBox, iter._Ptr, ".dck");
+                AddRomCartridgeFile(TC2068RomCartridgeFileBox, &(*iter), ".dck");
 #else
                 AddRomCartridgeFile(TC2068RomCartridgeFileBox, iter, ".dck");
 #endif
@@ -3629,7 +3629,7 @@ void THW::PopulateRomCartridgeSinclairList()
         for (iter = sinclairRomCartridges.begin(); iter != sinclairRomCartridges.end(); iter++)
         {
 #if __CODEGEARC__ >= 0x0620
-                AddRomCartridgeFile(SinclairRomCartridgeFileBox, iter._Ptr, ".rom");
+                AddRomCartridgeFile(SinclairRomCartridgeFileBox, &(*iter), ".rom");
 #else
                 AddRomCartridgeFile(SinclairRomCartridgeFileBox, iter, ".rom");
 #endif

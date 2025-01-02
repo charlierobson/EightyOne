@@ -39,6 +39,10 @@ typedef unsigned long ulong;
 
 #include <cstdint>
 
+#elif __CODEGEARC__ >= 0x0620
+
+#include <cstdint>
+
 #else
 
 typedef uchar uint8_t;

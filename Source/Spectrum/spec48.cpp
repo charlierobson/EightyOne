@@ -334,7 +334,8 @@ void spec48_reset(void)
 
 void spec48_initialise()
 {
-        int i, j, romlen, pos, delay;
+        unsigned int i, j, romlen, pos;
+        int delay;
         z80_init();
         tStatesCount = 0;
 

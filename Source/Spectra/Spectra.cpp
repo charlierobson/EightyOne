@@ -72,7 +72,7 @@ void InitialiseSpectra()
 {
         DisableSpectra();
 
-        for(int i = 0; i < sizeof(SpectraMem); i++)
+        for(unsigned int i = 0; i < sizeof(SpectraMem); i++)
                 SpectraMem[i] = 0x00;
 }
 

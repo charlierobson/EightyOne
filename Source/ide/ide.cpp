@@ -709,7 +709,7 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
 
                 fseek(f, -512, SEEK_END);
                 len=fread( &(Drv->vhd), 1, sizeof(VHD_HEADER), f);
-                if (len!=sizeof(VHD_HEADER))
+                if (len!=(int)sizeof(VHD_HEADER))
                 {
                         fclose(f);
                         return(1);
@@ -762,7 +762,7 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
 
                 len=fread( &(Drv->hdf), 1, sizeof(HDF_HEADER), f );
 
-                if (len!=sizeof(HDF_HEADER))
+                if (len!=(int)sizeof(HDF_HEADER))
                 {
                         fclose(f);
                         return(1);

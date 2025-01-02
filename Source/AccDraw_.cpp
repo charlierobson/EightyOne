@@ -413,7 +413,7 @@ void DDAccurateUpdateDisplay(bool singlestep)
         DDFrame->Unlock(NULL);
 
 #if __CODEGEARC__ >= 0x0620
-        TPoint p={0,0};
+        TPoint p;
 #else
         POINT p={0,0};
 #endif

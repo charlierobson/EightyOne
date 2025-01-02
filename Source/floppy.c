@@ -641,6 +641,9 @@ int do_format(char *outfile, char *outtyp, char *outcomp, int forcehead, dsk_for
 
 void floppy_setimage(int drive, _TCHAR *filename)
 {
+#if _UNICODE
+        char temp[MAXPATH];
+#endif
         int a;
 
         if (spectrum.floppytype==FLOPPYLARKEN81)
@@ -760,7 +763,6 @@ void floppy_setimage(int drive, _TCHAR *filename)
                         }
 
 #if _UNICODE
-                        char temp[MAXPATH];
                         wcstombs(temp, filename, MAXPATH);
                         do_format(temp, "dsk", NULL, -1, format);
 #else
