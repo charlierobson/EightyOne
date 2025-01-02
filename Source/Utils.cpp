@@ -34,7 +34,7 @@
 char ZXCharTable[]= " ----------\'£$:?()><=+-*/;,.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 ULONG crc32_table[256];  // Lookup table array
 
-ULONG CRC32Reflect(ULONG ref, char ch)
+ULONG CRC32Reflect(ULONG ref, BYTE ch)
 {
         ULONG value=0;
 
@@ -61,11 +61,11 @@ void CRC32Init()
         }
 }
 
-int CRC32Block(char *block, int len)
+int CRC32Block(BYTE *block, int len)
 {
         static bool initialised=0;
         ULONG  ulCRC=0xffffffff;
-        unsigned char* buffer;
+        BYTE* buffer;
 
         if (!initialised)
         {
@@ -73,16 +73,16 @@ int CRC32Block(char *block, int len)
                 initialised=true;
         }
 
-        buffer = (unsigned char*) block;
+        buffer = block;
         while(len--)
                 ulCRC = (ulCRC >> 8) ^ crc32_table[(ulCRC & 0xFF) ^ *buffer++];
         return ulCRC & 0xffff;
 }
 
-AnsiString FileNameGetPath(AnsiString Fname)
+ZXString FileNameGetPath(ZXString Fname)
 {
         int i,Pos;
-        AnsiString Result;
+        ZXString Result;
 
         Pos=0;
         for(i=1;i<=Fname.Length();i++)
@@ -96,10 +96,10 @@ AnsiString FileNameGetPath(AnsiString Fname)
         return(Result);
 }
 
-AnsiString FileNameGetFname(AnsiString Fname)
+ZXString FileNameGetFname(ZXString Fname)
 {
         int i,Pos1,Pos2;
-        AnsiString Result;
+        ZXString Result;
 
         Pos1=Pos2=0;
         for(i=1;i<=Fname.Length();i++)
@@ -117,10 +117,10 @@ AnsiString FileNameGetFname(AnsiString Fname)
         return(Result);
 }
 
-AnsiString FileNameGetExt(AnsiString Fname)
+ZXString FileNameGetExt(ZXString Fname)
 {
         int i,Pos1,Pos2;
-        AnsiString Result;
+        ZXString Result;
 
         Pos1=Pos2=0;
         for(i=1;i<=Fname.Length();i++)
@@ -139,9 +139,9 @@ AnsiString FileNameGetExt(AnsiString Fname)
         return(Result);
 }
 
-AnsiString ConvertZX81ASCII(BYTE *str)
+ZXString ConvertZX81ASCII(BYTE *str)
 {
-        AnsiString Output;
+        ZXString Output;
         BYTE c;
         int len=0;
 
@@ -166,7 +166,7 @@ AnsiString ConvertZX81ASCII(BYTE *str)
 
 
 
-void ConvertASCIIZX81(AnsiString Str, BYTE *Output)
+void ConvertASCIIZX81(ZXString Str, BYTE *Output)
 {
         char c, *p;
         int i;
@@ -196,12 +196,12 @@ void ASCIIZX81(BYTE *in, BYTE *Out)
         char c, *p;
         unsigned int i;
 
-        if (!strlen(in)) return;
+        if (!strlen((const char *)in)) return;
 
         i=0;
         p=ZXCharTable;
 
-        while(i<strlen(in) && p)
+        while(i<strlen((const char *)in) && p)
         {
                 c = toupper(in[i]);
                 if (c==' ') c='_';
@@ -230,9 +230,9 @@ int ZX81Strlen(BYTE *str)
 }
 
 //---------------------------------------------------------------------------
-AnsiString RemoveExt(AnsiString Fname)
+ZXString RemoveExt(ZXString Fname)
 {
-        AnsiString Ext;
+        ZXString Ext;
         int len,pos;
 
         len=Fname.Length();
@@ -281,9 +281,9 @@ AnsiString RemoveExt(AnsiString Fname)
         return(Fname);
 }
 
-AnsiString GetExt(AnsiString Fname)
+ZXString GetExt(ZXString Fname)
 {
-        AnsiString Ext;
+        ZXString Ext;
         int len,pos;
 
         len=Fname.Length();
@@ -304,7 +304,7 @@ AnsiString GetExt(AnsiString Fname)
 }
 //---------------------------------------------------------------------------
 
-AnsiString RemovePath(AnsiString Str)
+ZXString RemovePath(ZXString Str)
 {
         int p;
 
@@ -312,7 +312,7 @@ AnsiString RemovePath(AnsiString Str)
 
         do
         {
-                p=Str.AnsiPos("\\");
+                p=Str.Pos("\\");
 
                 if (p)
                 {
@@ -328,10 +328,10 @@ AnsiString RemovePath(AnsiString Str)
 // Enumerate the Serial Ports
 //---------------------------------------------------------------------------
 
-int EnumeratePorts(TStrings *List, AnsiString Type)
+int EnumeratePorts(TStrings *List, ZXString Type)
 {
         int i;
-        AnsiString PortName;
+        ZXString PortName;
         bool Success;
         HANDLE Port;
 

@@ -24,14 +24,14 @@ __fastcall TZipFile::TZipFile(TComponent* Owner)
         delete ini;
 }
 //---------------------------------------------------------------------------
-AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
+ZXString TZipFile::ExpandZIP(ZXString Path, ZXString DialogueFilter)
 {
         unzFile ZFile;
         FILE *F;
         int error;
-        char FileName[512], Filter[512];
-        char *Orig, *Dest;
-        AnsiString File, Ext;
+        _TCHAR FileName[512], Filter[512];
+        _TCHAR *Orig, *Dest;
+        ZXString File, Ext;
 
         // Set the window title to the name of the .zip file
 
@@ -44,7 +44,7 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
         Orig=FileName;
         Dest=Filter;
         Filter[0]='\0';
-        strcpy(FileName, DialogueFilter.c_str());
+        _tcscpy(FileName, DialogueFilter.c_str());
 
         // Now search the text for a * or a , indicating the start of an extension
         // eg *.TZX or .t81
@@ -72,21 +72,21 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
         // We don't handle nested .zip files, so if it's in the permitted extension
         // list, remove it.
 
-        while(strlen(Dest))
+        while(_tcslen(Dest))
         {
-                if ((!strcmp(Dest,".zip")) || (!strcmp(Dest,".ZIP")))
+                if ((!_tcscmp(Dest,_TEXT(".zip"))) || (!_tcscmp(Dest,_TEXT(".ZIP"))))
                 {
                         Dest[0]='\0';
                         Dest[1]='\0';
                 }
-                Dest += strlen(Dest)+1;
+                Dest += _tcslen(Dest)+1;
         }
 
         // Empty the ListBox
         while(ListBox->Items->Count) ListBox->Items->Delete(0);
 
         // Open The zip file
-        ZFile=unzOpen(Path.c_str());
+        ZFile=unzOpen(AnsiString(Path).c_str());
         if (!ZFile) return("");
 
         // Step through the contents of the archive, adding each item to the ListBox
@@ -96,22 +96,27 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
         while(error==UNZ_OK)
         {
                 // Get filename of archive member
-                unzGetCurrentFileInfo(ZFile, NULL, FileName, 256, NULL, 0, NULL, 0);
-
+#ifdef _UNICODE
+                char tempFileName[MAX_PATH];
+                unzGetCurrentFileInfo(ZFile, NULL, tempFileName, sizeof(tempFileName), NULL, 0, NULL, 0);
+                mbstowcs(FileName, tempFileName, MAX_PATH);
+#else
+                unzGetCurrentFileInfo(ZFile, NULL, FileName, sizeof(FileName), NULL, 0, NULL, 0);
+#endif
                 File=FileName;
                 Ext=FileNameGetExt(File);
 
                 // Check the member file extension matches on of those permitted
                 Dest=Filter;
-                while(strlen(Dest))
+                while(_tcslen(Dest))
                 {
-                        if (!stricmp(Ext.c_str(), Dest))
+                        if (!_tcsicmp(Ext.c_str(), Dest))
                         {
                                 ListBox->Items->Add(FileName); //If it does, add it to the ListBox
                                 break;
                         }
 
-                        Dest += strlen(Dest)+1; // Next extension
+                        Dest += _tcslen(Dest)+1; // Next extension
                 }
                 error=unzGoToNextFile(ZFile);
         }
@@ -130,7 +135,11 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
         else
         {
                 // Couldn't file any files in the zip that match the permitted extensions
+#if __CODEGEARC__ < 0x0620
                 Application->MessageBox("Sorry, that archive does not contain any files of the relevant type","Error", MB_OK | MB_ICONERROR);
+#else
+                Application->MessageBox(L"Sorry, that archive does not contain any files of the relevant type",L"Error", MB_OK | MB_ICONERROR);
+#endif
                 unzClose(ZFile);
                 return("");
         }
@@ -157,21 +166,27 @@ AnsiString TZipFile::ExpandZIP(AnsiString Path, AnsiString DialogueFilter)
         LastFile=File;
 
         // Locate the selected file in the archive
+#ifdef _UNICODE
+        char tempFile[MAX_PATH];
+        wcstombs(tempFile, File.c_str(), MAX_PATH);
+        error=unzLocateFile(ZFile, tempFile, 0);
+#else
         error=unzLocateFile(ZFile, File.c_str(), 0);
+#endif
         if (error==UNZ_OK)
         {
                 // Create a path in the temp directory to extract to
 
-                strcpy(FileName, emulator.temppath);
+                _tcscpy(FileName, emulator.temppath);
                 int position = File.LastDelimiter("/\\");
                 if (position > 0)
                 {
                         File = File.SubString(position + 1, 256);
                 }
-                strcat(FileName, File.c_str());
+                _tcscat(FileName, File.c_str());
 
                 // Open file for writing, then extract the contents.
-                F=fopen(FileName, "wb");
+                F=_tfopen(FileName, _TEXT("wb"));
                 if (F)
                 {
                         char buf[256];

@@ -37,7 +37,7 @@
 
 #pragma package(smart_init)
 
-char *HWName[]=
+const char *HWName[]=
 {
         "ZX Spectrum 16k",
         "ZX Spectrum 48k, Plus",
@@ -90,7 +90,7 @@ char *HWName[]=
 struct BLKNAMES
 {
         int id;
-        char *name;
+        const char *name;
 } BlockNames[] =
 {       { 0,                      "Unknown" },
         { TZX_BLOCK_ROM,          "Spectrum ROM" },
@@ -129,7 +129,7 @@ void TTZXFile::EraseAll(void)
 void TTZXFile::NewTZX(void)
 {
         EraseAll();
-        AddTextBlock("Created using the EightyOne emulator");
+        AddTextBlock((char *)"Created using the EightyOne emulator");
         //AddHWTypeBlock(0x00, 0x0c);
         CurBlock=1;
         AutoStart=true;
@@ -170,10 +170,10 @@ int TTZXFile::GetGroup(int Block)
 }
 
 
-AnsiString TTZXFile::GetBlockName(int BlockNo)
+ZXString TTZXFile::GetBlockName(int BlockNo)
 {
         int i, len, BlockID;
-        AnsiString text, parameters;
+        ZXString text, parameters;
         char c, *data;
 
         BlockID=Tape[BlockNo].BlockID;
@@ -182,7 +182,7 @@ AnsiString TTZXFile::GetBlockName(int BlockNo)
         switch(BlockID)
         {
         case 0x10:
-                data=Tape[BlockNo].Data.Data;
+                data=(char *)Tape[BlockNo].Data.Data;
                 if ((data[0]==0) && (Tape[BlockNo].Head.ROM.DataLen==19
                                         || Tape[BlockNo].Head.ROM.DataLen==20))
                 {
@@ -401,7 +401,7 @@ bool TTZXFile::IsEditable(int BlockNo)
         }
 }
 
-AnsiString TTZXFile::GetBlockType(int BlockNo)
+ZXString TTZXFile::GetBlockType(int BlockNo)
 {
         switch(Tape[BlockNo].BlockID)
         {
@@ -417,9 +417,9 @@ AnsiString TTZXFile::GetBlockType(int BlockNo)
         //return(Tape[BlockNo].BlockID);
 }
 
-AnsiString TTZXFile::GetBlockLength(int BlockNo)
+ZXString TTZXFile::GetBlockLength(int BlockNo)
 {
-        AnsiString value;
+        ZXString value;
         int len=-1;
 
         switch (Tape[BlockNo].BlockID)
@@ -464,9 +464,9 @@ bool TTZXFile::GetEarState(void)
         return(EarState!=0);
 }
 
-AnsiString TTZXFile::GetFName(int BlockNo)
+ZXString TTZXFile::GetFName(int BlockNo)
 {
-        AnsiString Name="";
+        ZXString Name="";
         char *p,c;
         int i=32;
         bool end=false;
@@ -474,7 +474,7 @@ AnsiString TTZXFile::GetFName(int BlockNo)
 
         if (Tape[BlockNo].BlockID != TZX_BLOCK_GENERAL) return("");
 
-        p=Tape[BlockNo].Data.Data;
+        p=(char *)Tape[BlockNo].Data.Data;
 
         do
         {
@@ -543,13 +543,13 @@ void TTZXFile::EditBlock(int Block, int Mx, int My)
         return;
 }
 
-TMonitor* TTZXFile::FindMonitor(int x, int y)
+Forms::TMonitor* TTZXFile::FindMonitor(int x, int y)
 {
         int numberOfMonitors = Screen->MonitorCount;
 
         for (int i = 0; i < numberOfMonitors; i++)
         {
-                TMonitor* monitor = Screen->Monitors[i];
+                Forms::TMonitor* monitor = Screen->Monitors[i];
 
                 if (x >= monitor->Left && x < (monitor->Left + monitor->Width) &&
                     y >= monitor->Top && y < (monitor->Top + monitor->Height))

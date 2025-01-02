@@ -474,9 +474,9 @@ BYTE directoryOpen(char* p, dirState_t* ds)
 
 void comDirectoryOpen(void)
 {
-    deZeddify(globalData);
+    deZeddify((char *)globalData);
 
-    LATD = directoryOpen(globalData, &gDS);
+    LATD = directoryOpen((char *)globalData, &gDS);
 }
 
 
@@ -497,7 +497,7 @@ int directoryStat(dirState_t* ds)
 
         if (!*p) {
             ++ds->pass;
-            directoryOpen(ds->cachedDir, NULL);
+            directoryOpen((char *)ds->cachedDir, NULL);
             return count + directoryStat(ds);
          }
 
@@ -617,7 +617,7 @@ BYTE directoryRead(char* g, dirState_t* ds)
 void comDirectoryRead(void)
 {
     GOOUTPUTMODE;
-    LATD = directoryRead(globalData, &gDS);
+    LATD = directoryRead((char *)globalData, &gDS);
 }
 
 
@@ -747,13 +747,13 @@ void comFileOpenRead(void)
 
     sb = -1;
 
-    if (globalData[strlen(globalData) - 1] == 227)
+    if (globalData[strlen((char *)globalData) - 1] == 227)
     {
        modifyBytes = stop;
-       globalData[strlen(globalData) - 1] = 0;
+       globalData[strlen((char *)globalData) - 1] = 0;
     }
 
-    p = globalData;
+    p = (char *)globalData;
     deZeddify(p);
 
     paramStore[0] = 0;
@@ -819,8 +819,8 @@ void comBoot(void)
 
 void comFileOpenWrite(void)
 {
-    deZeddify(globalData);
-    res = fileOpen(globalData, FA_CREATE_NEW|FA_WRITE);
+    deZeddify((char *)globalData);
+    res = fileOpen((char *)globalData, FA_CREATE_NEW|FA_WRITE);
 
     if (res == 0x48)
     {
@@ -975,7 +975,7 @@ void comFileRename(void)
 
     char ret = 0x40 + FR_INVALID_NAME;
 
-    deZeddify(globalData);
+    deZeddify((char *)globalData);
 
     token = strtokpgmram(p, (RFC)SEMICOL);
     if (NULL != token)
@@ -983,7 +983,7 @@ void comFileRename(void)
         token = strtokpgmram((char*)NULL, (RFC)SEMICOL);
         if (NULL != token)
         {
-            if (isValidFN(globalData) && isValidFN(token))
+            if (isValidFN((char *)globalData) && isValidFN(token))
             {
                 ret = 0x40 | f_rename((const XCHAR*)&globalData[0], (const XCHAR*)token);
             }
@@ -998,8 +998,8 @@ void comFileDelete(void)
 {
     char ret = 0x40 + FR_INVALID_NAME;
 
-    deZeddify(globalData);
-    if (isValidFN(globalData))
+    deZeddify((char *)globalData);
+    if (isValidFN((char *)globalData))
     {
         ret = 0x40 | f_unlink((const XCHAR*)&globalData[0]);
     }
@@ -1023,7 +1023,7 @@ void comParseBuffer(void)
     //
     mem_cpy((void*)&globalData[128], (void*)&globalData[0], 128);
 
-    deZeddify(globalData);
+    deZeddify((char *)globalData);
 
     //if(!isalpha(globalData[0]))
     //{
@@ -1050,7 +1050,7 @@ void comParseBuffer(void)
     {
         // more message
         strcpypgm2ram((char*)&globalData[1], (RFC)MOREMSG);
-        zeddify(&globalData[1]);
+        zeddify((char *)&globalData[1]);
         globalData[0] = 1;
     }
     break;
@@ -1061,7 +1061,7 @@ void comParseBuffer(void)
 
         strcpypgm2ram((char*)&globalData[1], (RFC)VERSION);
 
-        zeddify(&globalData[1]);
+        zeddify((char *)&globalData[1]);
         globalData[0] = 1;
     }
     break;
@@ -1145,7 +1145,7 @@ void comParseBuffer(void)
                 strcpypgm2ram((char*)&globalData[1], (RFC)SIXTEEN48);
             }
 
-            zeddify(&globalData[1]);
+            zeddify((char *)&globalData[1]);
             globalData[0] = 1;
         }
     }
@@ -1208,7 +1208,7 @@ void comParseBuffer(void)
         }
         else
         {
-            char* p = &globalData[0];
+            char* p = (char *)&globalData[0];
             *p = 1;
             ++p;
             if ((fsConfig & 3) == 1)
@@ -1348,7 +1348,7 @@ BYTE far gmReset[] = {
 };
 
 void midiReset(void) {
-    int i;
+    unsigned int i;
     for(i = 0; i < sizeof(gmReset); ++i)
         serialWrite(gmReset[i]);
 }
@@ -1362,9 +1362,9 @@ void comParseBufferPlus(void)
     BYTE retcode = 0x40;
     zxpandContinuation = -1;
 
-    zeddyHBT2asciiZ(globalData);
+    zeddyHBT2asciiZ((char *)globalData);
 
-    p = globalData;
+    p = (char *)globalData;
     verb = identifyToken(&p, verbs);
     if (verb == -1)
     {
@@ -1477,13 +1477,13 @@ void comParseBufferPlus(void)
 
                 memcpypgm2ram((void*)(&globalData[5]), (const rom far void*)(&memPut[0]), sizeof(memPut));
                 globalData[5+8] = 0; // now it's memget ;)
-                directoryRead(&globalData[32], &gDS);
+                directoryRead((char *)&globalData[32], &gDS);
             }
             else
             {
                 zxpandRetblk.op = 1;             // string data
                 zxpandRetblk.address = 16449;    // memory ptr
-                zxpandRetblk.retval = directoryRead(&globalData[5], &gDS);
+                zxpandRetblk.retval = directoryRead((char *)&globalData[5], &gDS);
             }
 
             memcpy(globalData, (void*)&zxpandRetblk, 5);
@@ -1556,8 +1556,8 @@ void comParseBufferPlus(void)
                 o = 5;
             }
 
-            strcpy(&globalData[o], paramStore);
-            zeddify(&globalData[o]);
+            strcpy((char *)&globalData[o], paramStore);
+            zeddify((char *)&globalData[o]);
             memcpy(globalData, (void*)&zxpandRetblk, 5);
         }
         break;

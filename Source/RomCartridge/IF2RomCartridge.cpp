@@ -61,14 +61,14 @@ const int zxc4BankSetShift = 3;
 
 const BYTE idleDataBus = 0xFF;
 
-BYTE AccessRomCartridgeSinclair(int Address);
-bool AccessRomCartridgeTimex(int Address, BYTE* Data);
-bool AccessRomCartridgeZXC1(int Address, BYTE* Data);
-bool AccessRomCartridgeZXC2(int Address, BYTE* Data);
-bool AccessRomCartridgeZXC3(int Address, BYTE* Data, bool writeAccess);
-bool AccessRomCartridgeZXC4(int Address, BYTE* Data, bool writeAccess);
-BYTE AccessRomCartridgeBank(int bank, int Address);
-bool AccessRomCartridge(int Address, BYTE* Data, bool writeAccess);
+static BYTE AccessRomCartridgeSinclair(int Address);
+static bool AccessRomCartridgeTimex(int Address, BYTE* Data);
+static bool AccessRomCartridgeZXC1(int Address, BYTE* Data);
+static bool AccessRomCartridgeZXC2(int Address, BYTE* Data);
+static bool AccessRomCartridgeZXC3(int Address, BYTE* Data, bool writeAccess);
+static bool AccessRomCartridgeZXC4(int Address, BYTE* Data, bool writeAccess);
+static BYTE AccessRomCartridgeBank(int bank, int Address);
+static bool AccessRomCartridge(int Address, BYTE* Data, bool writeAccess);
 void ConfigureZXC1();
 void ResetRomCartridge();
 

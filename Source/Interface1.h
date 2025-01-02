@@ -13,7 +13,11 @@
 #include <ExtCtrls.hpp>
 #include "CPort.hpp"
 #include <stdio.h>
+#if __CODEGEARC__ >= 0x0620
+#include <System.Win.ScktComp.hpp>
+#else
 #include <ScktComp.hpp>
+#endif
 #include <Dialogs.hpp>
 #include <IniFiles.hpp>
 
@@ -30,7 +34,7 @@
 //---------------------------------------------------------------------------
 typedef struct
 {
-        char FileName[256];
+        _TCHAR FileName[256];
         unsigned char *data;
         int length, position;
         bool changed;
@@ -89,7 +93,7 @@ __published:	// IDE-managed Components
 private:	// User declarations
         int RS232Port;
         FILE *InFile, *OutFile;
-        bool Baud;
+        int Baud;
         int RxBufSize, TxBufSize;
         int MDVDriveMap, MDVCurDrive;
         bool WriteEnable;
@@ -122,9 +126,9 @@ public:		// User declarations
         void SaveSettings(TIniFile *ini);
         void LoadSettings(TIniFile *ini);
 
-        char *MDVGetFileName(int Drive);
-        void MDVSetFileName(int Drive, char *FileName);
-        void MDVLoadFile(int Drive, char *FileName);
+        _TCHAR *MDVGetFileName(int Drive);
+        void MDVSetFileName(int Drive, _TCHAR *FileName);
+        void MDVLoadFile(int Drive, _TCHAR *FileName);
         void MDVSaveFile(int Drive);
         bool MotorRunning();
 };

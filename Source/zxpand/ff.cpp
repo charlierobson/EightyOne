@@ -18,7 +18,7 @@
 #include <fcntl.h>
 #include <SYS\Stat.h>
 
-extern loadFileSymbolsProxy(const char *);
+extern void loadFileSymbolsProxy(const char *);
 
 struct stat stats;
 

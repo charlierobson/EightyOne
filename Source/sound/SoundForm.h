@@ -41,8 +41,8 @@ __published:	// IDE-managed Components
 private:	// User declarations
 public:		// User declarations
         __fastcall TMidiForm(TComponent* Owner);
-        void TMidiForm::SaveSettings(TIniFile *ini);
-        void TMidiForm::LoadSettings(TIniFile *ini);
+        void SaveSettings(TIniFile *ini);
+        void LoadSettings(TIniFile *ini);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TMidiForm *MidiForm;

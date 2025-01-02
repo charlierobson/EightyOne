@@ -7,6 +7,7 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
+#include "zx81config.h"
 //---------------------------------------------------------------------------
 class TProfileSampleEdit : public TForm
 {

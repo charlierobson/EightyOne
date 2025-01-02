@@ -377,7 +377,7 @@ void zx_process_write(void)
                // get serial bytes - careful if there's more than 127...
                int n = serialCopy((BYTE*)globalData);
                globalData[n] = 0;
-               zeddify(globalData);
+               zeddify((char *)globalData);
                gdp = (BYTE*)globalData;
                mode = 0;
                LATD = n;

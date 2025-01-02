@@ -45,7 +45,7 @@ typedef struct
 {
         int compatibleMode;
         int pass;
-        char *cachedDir;
+        unsigned char *cachedDir;
 }
 dirState_t;
 

@@ -19,7 +19,8 @@
   * emulated machine, reassemble the data then send it to the host midi device
  */
 
- #include <windows.h>
+#include <windows.h>
+#include <vcl.h>
 #include "zx81config.h"
 #include "midi.h"
 
@@ -31,7 +32,6 @@ CMidi::CMidi(void)
 {
         Device=-1;
         MidiSerialCount=TIMEOUT;
-        MidiBuffer[1024];
         MidiBufferLen=0;
         outHandle=NULL;
 }
@@ -96,7 +96,7 @@ void CMidi::Write(int Byte)
         }
 
         if (outHandle)
-                midiOutShortMsg(outHandle, *((int *)MidiBuffer));
+                midiOutShortMsg((HMIDIOUT)outHandle, *((int *)MidiBuffer));
         MidiBuffer[0]=MidiBuffer[1]=MidiBuffer[2]=MidiBuffer[3]=0;
 }
 
@@ -105,13 +105,13 @@ void CMidi::Start(void)
         Stop();
         if (Device==-2) return;
 
-        if (midiOutOpen(&outHandle, Device, 0, 0, CALLBACK_NULL))
+        if (midiOutOpen((LPHMIDIOUT)(&outHandle), Device, 0, 0, CALLBACK_NULL))
                 outHandle=NULL;
 }
 
 void CMidi::Stop(void)
 {
-        if (outHandle) midiOutClose(outHandle);
+        if (outHandle) midiOutClose((HMIDIOUT)outHandle);
         outHandle=NULL;
 }
 
