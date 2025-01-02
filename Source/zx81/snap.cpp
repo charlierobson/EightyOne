@@ -1171,9 +1171,7 @@ int memory_device_rom_load(_TCHAR *filename, int address, int length)
 
 int memory_load(_TCHAR *filename, int address, int length, int secondBank)
 {
-        int fptr;
         _TCHAR file[256];
-        int len;
 
         if (_tcschr(filename, '\\') || _tcschr(filename, '/'))
         {

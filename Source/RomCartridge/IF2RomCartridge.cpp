@@ -234,7 +234,6 @@ bool LoadRomCartridgeFile(char *filename)
         RomCartridgeCapacity = 0;
 
         int fptr;
-        int len;
 
         fptr=open(filename, O_RDONLY | O_BINARY);
         if (fptr<1) return false;

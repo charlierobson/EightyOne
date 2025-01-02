@@ -147,8 +147,6 @@ static char ROM zx2ascii81[] = " ??????????\"?$:?()><=+-*/;,"             // 0..
                                ".0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"    // 27-63 inclusive (indexed in zx->ascii conversion)
                                "-()$;\x7e\0";                                 // zero-terminated additions for the valid filename test
 
-static char ROM zx2ascii80[] = "....";
-
 char ROM* zx2ascii = zx2ascii81;
 
 // dot onwards, and on to the filename test additions
@@ -194,7 +192,6 @@ zxpandRetblk;
 
 
 static const rom char* SEPARATOR = "=";
-static const rom char* SPACE = " ";
 static const rom char* SEMICOL = ";";
 static const rom char* EIGHT40 =   "8-40K";
 static const char rom* SIXTEEN48 = "16-48K";
@@ -486,7 +483,7 @@ void comDirectoryOpen(void)
 int directoryStat(dirState_t* ds)
 {
     char *p;
-    int Match, count = 0;
+    int count = 0;
 
     while (1) {
         res = f_readdir(&dir, &filinfo);
@@ -898,7 +895,7 @@ void comFileRead(void)
         do
         {
             BYTE b, *p = (BYTE*)globalData;
-            unsigned short crc, rxcrc;
+            //unsigned short crc, rxcrc;
             serialWrite('T');
             serialWrite(sb);
             serialWrite(globalAmount&0xff);

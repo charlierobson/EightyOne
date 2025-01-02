@@ -111,7 +111,10 @@ ZXString TZipFile::ExpandZIP(ZXString Path, ZXString DialogueFilter)
                 while(_tcslen(Dest))
                 {
                         if (!_tcsicmp(Ext.c_str(), Dest))
+                        {
                                 ListBox->Items->Add(FileName); //If it does, add it to the ListBox
+                                break;
+                        }
 
                         Dest += _tcslen(Dest)+1; // Next extension
                 }

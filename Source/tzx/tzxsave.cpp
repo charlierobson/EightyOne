@@ -518,8 +518,6 @@ bool TTZXFile::SaveP81File(ZXString FileName)
 {
         FILE *f;
         int i;
-        int namelen;
-        char *p;
 
         f=_tfopen(FileName.c_str(), _TEXT("wb"));
         if (!f) return(false);

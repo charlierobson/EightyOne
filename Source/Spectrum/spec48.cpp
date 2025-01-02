@@ -1303,15 +1303,7 @@ BYTE spec48_readport(int Address, int *tstates)
 BYTE ReadPort(int Address, int *tstates)
 {
         int RZXPortVal;
-        int data;
-        //static int LastT=0;
-        //int CurT;
-
-        //CurT=frametstates-LastT;
-        //if (CurT<0) CurT+=frametstates;
-        //LastT=CurT;
-        //if (CurT>1000) TZXStopPlaying();
-
+        
         if (rzx.mode==RZX_PLAYBACK)
         {
                 RZXPortVal = rzx_get_input();

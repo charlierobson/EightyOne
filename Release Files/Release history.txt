@@ -4,7 +4,7 @@ This can be done manually or via Options > Configuration > Reset To Default Sett
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version 1.41 - 31/12/2024 (by Paul Farrow and John Stroebel)
+Version 1.41 - 02/01/2024 (by Paul Farrow and John Stroebel)
 * Bug fixes:
   - If a hardware generated ZX81 HSync pulse is output part way through a scanline then it is no
     longer interpreted as starting a new scanline.
@@ -24,6 +24,7 @@ Version 1.41 - 31/12/2024 (by Paul Farrow and John Stroebel)
   - In the Spectrum+2A/+3, switching back from special memory map mode to normal memory map mode
     was not switching to banks 5 and 2 in memory ranges $4000-$7FFF and $8000-$BFFF respectively.
   - Spelling corrections to various documentation files.
+  - Bug fix to the Basic Loader mechanism.
 * Changes:
   - Renamed the 'Discard Redundant Spaces' option of the BASIC Listing loader to be 'Discard
     Surplus Spaces'.

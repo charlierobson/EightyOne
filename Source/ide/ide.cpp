@@ -527,7 +527,7 @@ static void ATA_Execute(int Data)
                         else ATA_SetMode(ATA_MODE_8BIT);
 
         case INIT_PARAMS:
-                        int c,h,s;
+                        //int c,h,s;
 
                         //h=(ATA_Channel.head&15)+1;
                         //s=ATA_Channel.sector_count;
