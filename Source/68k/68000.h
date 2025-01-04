@@ -183,6 +183,7 @@ extern int      QueryIRQ(int level); /* get interrupt vector number */
 //extern unsigned char     (*mem_get_b[MEMTABLESIZE]) (unsigned long address);
 //extern unsigned short    (*mem_get_w[MEMTABLESIZE]) (unsigned long address);
 //extern unsigned long     (*mem_get_l[MEMTABLESIZE]) (unsigned long address);
+//extern unsigned char memory[];
 //#endif
 /* Fetch byte from address */
 extern char GetMemB(unsigned long address);
