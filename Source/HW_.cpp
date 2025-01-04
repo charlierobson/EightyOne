@@ -315,8 +315,7 @@ void THW::ReInitialiseSound()
 
 void THW::ResetDebugger()
 {
-        Dbg->ResetBreakpointHits();
-        Dbg->RefreshBreakpointList();
+        Dbg->Reset();
 }
 
 void THW::ConfigureDisplayArtifacts()
