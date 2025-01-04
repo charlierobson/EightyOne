@@ -44,9 +44,7 @@
  * between <=2% CPU use and *30*% CPU use pretty much at random...)
  */
 
-#if __CODEGEARC__ < 0x0620
 #pragma warn -8071
-#endif
 
 #include "sound\sound.h"
 #include "sound\soundop.h"

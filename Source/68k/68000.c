@@ -29,9 +29,8 @@
  */
 //static char     sccsid[] = "$Id: 68000.c,v 1.20 2002/10/30 16:23:04 jhoenig Exp $";
 
-#if __CODEGEARC__ < 0x0620
+#pragma warn -8008
 #pragma warn -8066
-#endif
 
 #include "68kconfig.h"
 

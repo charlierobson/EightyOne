@@ -1,6 +1,4 @@
-#if __CODEGEARC__ < 0x0620
 #pragma warn -8080
-#endif
 
 #include <stdlib.h>
 #include <mem.h>

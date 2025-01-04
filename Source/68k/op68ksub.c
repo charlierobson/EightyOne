@@ -14,10 +14,9 @@
  *  30.10.2002  JH  Replaced "% 8" with "& 7". Helps lesser compilers to generate faster code.
  */
 
-#if __CODEGEARC__ < 0x0620
+#pragma warn -8008
 #pragma warn -8066
 #pragma warn -8071
-#endif
 
 #ifndef PROTOH
 

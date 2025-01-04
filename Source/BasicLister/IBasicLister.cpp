@@ -16,8 +16,11 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "IBasicLister.h"
 #include <vcl4.h>
+#pragma hdrstop
+
+#include "IBasicLister.h"
+#include "zx81config.h"
 #include <sstream>
 #include <iomanip>
 #include <string>

@@ -1,3 +1,5 @@
+#pragma warn -8008
+
 #include <stdio.h>
 #include <string.h>
 #include "ide.h"
