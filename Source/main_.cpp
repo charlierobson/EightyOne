@@ -1662,7 +1662,7 @@ void __fastcall TForm1::SaveSnapDialogTypeChange(TObject *Sender)
         Fname = RemovePath(RemoveExt(SaveSnapDialog->FileName) + newext);
 
         d=(TSaveDialog *)Sender;
-        h=GetParent(d->Handle);
+        h=(THandle *)GetParent(d->Handle);
         SendMessage((HWND)h, CDM_SETCONTROLTEXT, edt1, (long)(Fname.c_str()));
 
 }
