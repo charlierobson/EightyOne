@@ -27,11 +27,9 @@
 
 #pragma option push
 #pragma warn -8004
-
-#if __CODEGEARC__ < 0x0620
+#pragma warn -8008
 #pragma warn -8066
 #pragma warn -8071
-#endif
 
 #ifndef PROTOH
 

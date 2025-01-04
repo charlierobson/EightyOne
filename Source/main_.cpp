@@ -1049,7 +1049,7 @@ void __fastcall TForm1::AppMessage(TMsg &Msg, bool &Handled)
 
         if (Msg.message == WM_DROPFILES)
         {
-                QtyDroppedFiles = (WORD)DragQueryFile((void *)Msg.wParam, -1,
+                QtyDroppedFiles = (WORD)DragQueryFile((HDROP)Msg.wParam, -1,
                                                 pDroppedFilename, BufferLength);
 
                 for(FileIndex=0; FileIndex<=(QtyDroppedFiles - 1); FileIndex++)
@@ -1636,7 +1636,7 @@ void __fastcall TForm1::SaveSnapDialogTypeChange(TObject *Sender)
         ZXString filter, newext;
         ZXString Fname;
 
-        HWND h;
+        THandle *h;
         TSaveDialog *d;
 
         filter=SaveSnapDialog->Filter;
