@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <math.h>
 #pragma hdrstop
 

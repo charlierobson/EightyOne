@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -108,7 +108,7 @@ void __fastcall TCreateHDF::CylTextChange(TObject *Sender)
         if (((i-32769)>=CylUpDown->Min) && ((i-32769)<=CylUpDown->Max))
         {
                 CylText->Color = clWindow;
-                CylUpDown->Position=i-32769;
+                CylUpDown->Position=(short)(i-32769);
                 ValueChanged();
         }
         else    CylText->Color = clRed;
@@ -122,7 +122,7 @@ void __fastcall TCreateHDF::HeadTextChange(TObject *Sender)
         if ((i>=HeadUpDown->Min) && (i<=HeadUpDown->Max))
         {
                 HeadText->Color = clWindow;
-                HeadUpDown->Position=i;
+                HeadUpDown->Position=(short)i;
                 ValueChanged();
         }
         else    HeadText->Color = clRed;
@@ -137,7 +137,7 @@ void __fastcall TCreateHDF::SecTextChange(TObject *Sender)
         if ((i>=SecUpDown->Min) && (i<=SecUpDown->Max))
         {
                 SecText->Color = clWindow;
-                SecUpDown->Position=i;
+                SecUpDown->Position=(short)i;
                 ValueChanged();
         }
         else    SecText->Color = clRed;
@@ -145,8 +145,8 @@ void __fastcall TCreateHDF::SecTextChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void TCreateHDF::WriteWord(unsigned char *base, int WordNo, int Value)
 {
-        base[WordNo*2]=Value&255;
-        base[WordNo*2 +1] = (Value>>8)&255;
+        base[WordNo*2]=(unsigned char)(Value&255);
+        base[WordNo*2 +1] = (unsigned char)((Value>>8)&255);
 }
 
 void __fastcall TCreateHDF::OKClick(TObject *Sender)
@@ -175,10 +175,10 @@ void __fastcall TCreateHDF::OKClick(TObject *Sender)
         memset(track, 0, tracklen);
         memset(head, 0, 512+16);
 
-        strcpy((char *)head,"RS-IDE");
+        strcpy((char*)head,"RS-IDE");
         head[0x06]=0x1a;
         head[0x07]=0x11;
-        head[0x08]=EightBit->Checked ? 1:0;
+        head[0x08]=(unsigned char)(EightBit->Checked ? 1:0);
         head[0x09]=0x16;
         head[0x0a]=0x02;
 

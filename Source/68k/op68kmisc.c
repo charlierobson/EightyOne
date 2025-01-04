@@ -28,7 +28,13 @@
 #pragma option push
 #pragma warn -8004
 
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8066
+#pragma warn -8071
+#endif
+
 #ifndef PROTOH
+
 //static char     sccsid[] = "$Id: op68kmisc.c,v 1.13 2002/11/13 01:04:30 jhoenig Exp $";
 #include "68000.h"
 #include "op68k.h"
@@ -422,7 +428,7 @@ void            Op4890(void)    /* MOVEM.W to (ax) */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -443,7 +449,7 @@ void            Op48a0(void)    /* MOVEM.W to -(ax) */
             SetMemW (address, GetRegW (index));
         }
         index--;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
     SetRegL (8 + (inst & 7), address);
 }
@@ -463,7 +469,7 @@ void            Op48a8(void)    /* MOVEM.W to d(ax) */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -482,7 +488,7 @@ void            Op48b0(void)    /* MOVEM.W to d(ax,rx) */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -501,7 +507,7 @@ void            Op48b8(void)    /* MOVEM.W to w l */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -530,7 +536,7 @@ void            Op48d0(void)    /* MOVEM.L to (ax) */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -551,7 +557,7 @@ void            Op48e0(void)    /* MOVEM.L to -(ax) */
             SetMemL (address, GetRegL (index));
         }
         index--;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
     SetRegL (8 + (inst & 7), address);
 }
@@ -571,7 +577,7 @@ void            Op48e8(void)    /* MOVEM.L to d(ax) */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -590,7 +596,7 @@ void            Op48f0(void)    /* MOVEM.L to d(ax,rx) */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -609,7 +615,7 @@ void            Op48f8(void)    /* MOVEM.L to w l */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -628,7 +634,7 @@ void            Op4c90(void)    /* MOVEM.W from (ax) */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -647,7 +653,7 @@ void            Op4c98(void)    /* MOVEM.W from (ax)+ */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
     SetRegL (8 + (inst & 7), address);
 }
@@ -667,7 +673,7 @@ void            Op4ca8(void)    /* MOVEM.W from d(ax) */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -686,7 +692,7 @@ void            Op4cb0(void)    /* MOVEM.W from d(ax,rx) */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -705,7 +711,7 @@ void            Op4cb8(void)    /* MOVEM.W from ea */
             address += 2;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -724,7 +730,7 @@ void            Op4cd0(void)    /* MOVEM.L from (ax) */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -743,7 +749,7 @@ void            Op4cd8(void)    /* MOVEM.L from (ax)+ */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
     SetRegL (8 + (inst & 7), address);
 }
@@ -763,7 +769,7 @@ void            Op4ce8(void)    /* MOVEM.L from d(ax) */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -782,7 +788,7 @@ void            Op4cf0(void)    /* MOVEM.L from d(ax,rx) */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 
@@ -801,7 +807,7 @@ void            Op4cf8(void)    /* MOVEM.L from ea */
             address += 4;
         }
         index++;
-        source = ((unsigned short) source) >> 1;
+        source = (short)(((unsigned short) source) >> 1);
     }
 }
 

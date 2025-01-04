@@ -174,8 +174,8 @@ void zx80BasicLoader::OutputLine(int lineNumber, int& addressOffset)
 {
         int i = 0;
 
-        OutputByte(addressOffset, lineNumber >> 8);
-        OutputByte(addressOffset, lineNumber & 0xFF);
+        OutputByte(addressOffset, (unsigned char)(lineNumber >> 8));
+        OutputByte(addressOffset, (unsigned char)(lineNumber & 0xFF));
 
         while (mLineBuffer[i] != '\0')
         {
@@ -242,11 +242,11 @@ unsigned char zx80BasicLoader::AsciiToZX(unsigned char ascii)
 
         if (isalpha(ascii))
         {
-                return (ascii - 'A') + LetterA;
+                return (unsigned char)((ascii - 'A') + LetterA);
         }
         else if (isdigit(ascii))
         {
-                return (ascii - '0') + Number0;
+                return (unsigned char)((ascii - '0') + Number0);
         }
 
         unsigned char zxChr;
@@ -332,7 +332,7 @@ void zx80BasicLoader::ExtractInverseCharacters()
                         pPos++;
 
                         int index = pPos - mLineBuffer;
-                        mLineBufferOutput[index] = 0x80 | AsciiToZX(*pPos);
+                        mLineBufferOutput[index] = (unsigned char)(0x80 | AsciiToZX(*pPos));
                         mLineBufferPopulated[index] = true;
                         
                         *pPos = Blank;
@@ -409,7 +409,7 @@ void zx80BasicLoader::ExtractZxTokenCharacterCodes()
 
         for (unsigned char c = 'a'; c <= 'z'; c++)
         {
-                zxTokenChars[c] = c + 0x45;
+                zxTokenChars[c] = (unsigned char)(c + 0x45);
         }
 
         unsigned char* pPos = mLineBuffer;

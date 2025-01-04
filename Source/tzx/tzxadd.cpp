@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -35,11 +35,11 @@ int TTZXFile::AddGroupStartBlock(char *str)
         unsigned char *data;
 
         data=(unsigned char *)malloc(strlen(str)+1);
-        strcpy((char *)data, str);
+        strcpy((char*)data, str);
 
         Tape[Blocks].BlockID=TZX_BLOCK_GSTART;
         Tape[Blocks].Data.Data=data;
-        Tape[Blocks].Head.Text.TextLen=strlen(str);
+        Tape[Blocks].Head.Text.TextLen=(unsigned short)strlen(str);
         return(Blocks++);
 }
 
@@ -54,11 +54,11 @@ int TTZXFile::AddTextBlock(char *str)
         unsigned char *data;
 
         data=(unsigned char *)malloc(strlen(str)+1);
-        strcpy((char *)data, str);
+        strcpy((char*)data, str);
 
         Tape[Blocks].BlockID=TZX_BLOCK_TEXT;
         Tape[Blocks].Data.Data=data;
-        Tape[Blocks].Head.Text.TextLen=strlen(str);
+        Tape[Blocks].Head.Text.TextLen=(unsigned short)strlen(str);
         return(Blocks++);
 }
 
@@ -99,8 +99,8 @@ int TTZXFile::AddROMBlock(char *data, int len)
         Tape[Blocks].BlockID=TZX_BLOCK_ROM;
 
         Tape[Blocks].Pause=3000;
-        Tape[Blocks].Head.ROM.DataLen=len;
-        Tape[Blocks].Data.Data=(unsigned char *)DataBuf;
+        Tape[Blocks].Head.ROM.DataLen=(unsigned short)len;
+        Tape[Blocks].Data.Data=(unsigned char*)DataBuf;
         return(Blocks++);
 }
 
@@ -132,7 +132,7 @@ int TTZXFile::AddGeneralBlock(char *data, int len)
         Tape[Blocks].Head.General.DataLen=len;
 
         Tape[Blocks].SymDefD=SymDefD;
-        Tape[Blocks].Data.Data=(unsigned char *)DataBuf;
+        Tape[Blocks].Data.Data=(unsigned char*)DataBuf;
         Tape[Blocks].SymDefP=NULL;
         Tape[Blocks].PRLE=NULL;
 
@@ -146,10 +146,10 @@ int TTZXFile::AddArchiveBlock(char *str)
         p=(char *)malloc(strlen(str)+2);
         memcpy(p+2, str, strlen(str));
         p[0]=0;
-        p[1]=strlen(str);
+        p[1]=(char)strlen(str);
 
         Tape[Blocks].BlockID=TZX_BLOCK_ARCHIVE;
-        Tape[Blocks].Data.Data=(unsigned char *)p;
+        Tape[Blocks].Data.Data=(unsigned char*)p;
         Tape[Blocks].Head.Archive.NoStrings=1;
         return(Blocks++);      
 }

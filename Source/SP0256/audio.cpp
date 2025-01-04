@@ -82,8 +82,8 @@ void outWaveUpdate()
 			uchar iLevelR = uchar( audioLastLevelR + nCycles * ( audioCurrentLevelR_ - audioLastLevelR )  / incCyclesAudio );
 
 #ifdef AUDIO_FILTER
-			levelL += ( ( (unsigned)( iLevelL - levelL ) * AUDIO_FILTER ) >> 8 );
-			levelR += ( ( (unsigned)( iLevelR - levelR ) * AUDIO_FILTER ) >> 8 );
+			levelL += (uchar)( ( (unsigned)( iLevelL - levelL ) * AUDIO_FILTER ) >> 8 );
+			levelR += (uchar)( ( (unsigned)( iLevelR - levelR ) * AUDIO_FILTER ) >> 8 );
 			audioBuffers_[audioCurrentBuffer_][audioCurrentBufferPos_++] = levelL;
 			audioBuffers_[audioCurrentBuffer_][audioCurrentBufferPos_++] = levelR;
 #else

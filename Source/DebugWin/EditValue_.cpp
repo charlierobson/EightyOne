@@ -20,7 +20,7 @@
  */
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "EditValue_.h"
@@ -94,7 +94,7 @@ ZXString TEditValue::IntToBin(int value, int digits)
         
         for (int i = digits - 1; i >= 0; --i)
         {
-                arry[i] = (value & 1) + '0';
+                arry[i] = (char)((value & 1) + '0');
                 value >>= 1;
         }
 

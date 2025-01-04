@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 USERES("EightyOne.res");
 USEUNIT("z80\z80_ops.c");

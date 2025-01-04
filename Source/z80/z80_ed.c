@@ -141,7 +141,7 @@ case 0x57:	/* LD A,I */
 tstates += 1;
 AddToMCycle(1);
 A=I;
-F = ( F & FLAG_C ) | sz53_table[A] | ( IFF2 ? FLAG_V : 0 );
+F = (BYTE)(( F & FLAG_C ) | sz53_table[A] | ( IFF2 ? FLAG_V : 0 ));
 break;
 
 case 0x58:	/* IN E,(C) */
@@ -171,8 +171,8 @@ break;
 case 0x5f:	/* LD A,R */
 tstates += 1;
 AddToMCycle(1);
-A=(R&0x7f) | (R7&0x80);
-F = ( F & FLAG_C ) | sz53_table[A] | ( IFF2 ? FLAG_V : 0 );
+A=(BYTE)((R&0x7f) | (R7&0x80));
+F = (BYTE)(( F & FLAG_C ) | sz53_table[A] | ( IFF2 ? FLAG_V : 0 ));
 break;
 
 case 0x60:	/* IN H,(C) */
@@ -202,8 +202,8 @@ case 0x67:	/* RRD */
   InsertMCycle(3);
   contend( HL, 7 ); contend( HL, 3 );
   writebyte(HL,  ( A << 4 ) | ( bytetemp >> 4 ) );
-  A = ( A & 0xf0 ) | ( bytetemp & 0x0f );
-  F = ( F & FLAG_C ) | sz53p_table[A];
+  A = (BYTE)(( A & 0xf0 ) | ( bytetemp & 0x0f ));
+  F = (BYTE)(( F & FLAG_C ) | sz53p_table[A]);
 }
 break;
 
@@ -234,8 +234,8 @@ case 0x6f:	/* RLD */
   InsertMCycle(3);
   contend( HL, 7 ); contend( HL, 3 );
   writebyte(HL, (bytetemp << 4 ) | ( A & 0x0f ) );
-  A = ( A & 0xf0 ) | ( bytetemp >> 4 );
-  F = ( F & FLAG_C ) | sz53p_table[A];
+  A = (BYTE)(( A & 0xf0 ) | ( bytetemp >> 4 ));
+  F = (BYTE)(( F & FLAG_C ) | sz53p_table[A]);
 }
 break;
 
@@ -291,26 +291,27 @@ case 0xa0:	/* LDI */
   writebyte(DE,bytetemp);
   DE++; HL++;
   bytetemp += A;
-  F = ( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
-    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 );
+  F = (BYTE)(( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
+    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 ));
 }
 break;
 
 case 0xa1:	/* CPI */
 {
-  BYTE value=readbyte(HL),bytetemp=A-value,
-    lookup = ( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
-    ( (bytetemp & 0x08) >> 1 );
+  BYTE value=readbyte(HL);
+  BYTE bytetemp=(BYTE)(A-value);
+  BYTE lookup = (BYTE)(( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
+    ( (bytetemp & 0x08) >> 1 ));
   InsertMCycle(3);
   InsertMCycle(5);
   contend( HL, 3 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
   contend( HL, 1 ); contend( HL, 1 );
   HL++; BC--;
-  F = ( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
+  F = (BYTE)(( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
     halfcarry_sub_table[lookup] | ( bytetemp ? 0 : FLAG_Z ) |
-    ( bytetemp & FLAG_S );
+    ( bytetemp & FLAG_S ));
   if(F & FLAG_H) bytetemp--;
-  F |= ( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 );
+  F |= (BYTE)(( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 ));
 }
 break;
 
@@ -324,7 +325,7 @@ case 0xa2:	/* INI */
   tstates += 2; contend_io( BC, 3 ); contend( HL, 3 );
   writebyte(HL,initemp);
   B--; HL++;
-  F = (initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
 }
 break;
@@ -341,7 +342,7 @@ case 0xa3:	/* OUTI */
   writeport(BC,outitemp,&tstates);
   B--;		/* This does happen first, despite what the specs say */
                 /* Erm, no it doesn't - MW */
-  F = (outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
 }
 break;
@@ -356,26 +357,27 @@ case 0xa8:	/* LDD */
   writebyte(DE,bytetemp);
   DE--; HL--;
   bytetemp += A;
-  F = ( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
-    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 );
+  F = (BYTE)(( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
+    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 ));
 }
 break;
 
 case 0xa9:	/* CPD */
 {
-  BYTE value=readbyte(HL),bytetemp=A-value,
-    lookup = ( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
-    ( (bytetemp & 0x08) >> 1 );
+  BYTE value=readbyte(HL);
+  BYTE bytetemp=(BYTE)(A-value);
+  BYTE lookup = (BYTE)(( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
+    ( (bytetemp & 0x08) >> 1 ));
   InsertMCycle(3);
   InsertMCycle(5);
   contend( HL, 3 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
   contend( HL, 1 ); contend( HL, 1 );
   HL--; BC--;
-  F = ( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
+  F = (BYTE)(( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
     halfcarry_sub_table[lookup] | ( bytetemp ? 0 : FLAG_Z ) |
-    ( bytetemp & FLAG_S );
+    ( bytetemp & FLAG_S ));
   if(F & FLAG_H) bytetemp--;
-  F |= ( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 );
+  F |= (BYTE)(( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 ));
 }
 break;
 
@@ -389,7 +391,7 @@ case 0xaa:	/* IND */
   tstates += 2; contend_io( BC, 3 ); contend( HL, 3 );
   writebyte(HL,initemp);
   B--; HL--;
-  F = (initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
 }
 break;
@@ -406,7 +408,7 @@ case 0xab:	/* OUTD */
   writeport(BC,outitemp,&tstates);
   B--;		/* This does happen first, despite what the specs say */
                 /* Erm, no it doesn't - MW */
-  F = (outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
 }
 break;
@@ -420,37 +422,38 @@ case 0xb0:	/* LDIR */
   writebyte(DE,bytetemp);
   HL++; DE++; BC--;
   bytetemp += A;
-  F = ( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
-    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 );
+  F = (BYTE)(( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
+    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 ));
   if(BC) {
     AddToMCycle(5);
     contend( DE, 1 ); contend( DE, 1 ); contend( DE, 1 ); contend( DE, 1 );
     contend( DE, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   }
 }
 break;
 
 case 0xb1:	/* CPIR */
 {
-  BYTE value=readbyte(HL),bytetemp=A-value,
-    lookup = ( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
-    ( (bytetemp & 0x08) >> 1 );
+  BYTE value=readbyte(HL);
+  BYTE bytetemp=(BYTE)(A-value);
+  BYTE lookup = (BYTE)(( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
+    ( (bytetemp & 0x08) >> 1 ));
   InsertMCycle(3);
   InsertMCycle(5);
   contend( HL, 3 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
   contend( HL, 1 ); contend( HL, 1 );
   HL++; BC--;
-  F = ( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
+  F = (BYTE)(( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
     halfcarry_sub_table[lookup] | ( bytetemp ? 0 : FLAG_Z ) |
-    ( bytetemp & FLAG_S );
+    ( bytetemp & FLAG_S ));
   if(F & FLAG_H) bytetemp--;
-  F |= ( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 );
+  F |= (BYTE)(( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 ));
   if( ( F & ( FLAG_V | FLAG_Z ) ) == FLAG_V ) {
     AddToMCycle(5);
     contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
     contend( HL, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   }
 }
 break;
@@ -465,13 +468,13 @@ case 0xb2:	/* INIR */
   tstates += 2; contend_io( BC, 3 ); contend( HL, 3 );
   writebyte(HL,initemp);
   B--; HL++;
-  F = (initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
   if(B) {
     AddToMCycle(5);
     contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
     contend( HL, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   }
 }
 break;
@@ -485,7 +488,7 @@ case 0xb3:	/* OTIR */
   writeport(BC,outitemp,&tstates);
   B--;	HL++;	/* This does happen first, despite what the specs say */
                 /* Erm, no it doesn't - MW */
-  F = (outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
   InsertMCycle(4);
   inputOutputMCycle = mCycleIndex;
@@ -494,7 +497,7 @@ case 0xb3:	/* OTIR */
     contend_io( BC, 1 );
     contend( PC, 1 ); contend( PC, 1 ); contend( PC  , 1 ); contend( PC, 1 );
     contend( PC, 1 ); contend( PC, 1 ); contend( PC-1, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   } else {
     contend_io( BC, 3 );
   }
@@ -510,37 +513,38 @@ case 0xb8:	/* LDDR */
   writebyte(DE,bytetemp);
   HL--; DE--; BC--;
   bytetemp += A;
-  F = ( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
-    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 );
+  F = (BYTE)(( F & ( FLAG_C | FLAG_Z | FLAG_S ) ) | ( BC ? FLAG_V : 0 ) |
+    ( bytetemp & FLAG_3 ) | ( (bytetemp & 0x02) ? FLAG_5 : 0 ));
   if(BC) {
     AddToMCycle(5);
     contend( DE, 1 ); contend( DE, 1 ); contend( DE, 1 ); contend( DE, 1 );
     contend( DE, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   }
 }
 break;
 
 case 0xb9:	/* CPDR */
 {
-  BYTE value=readbyte(HL),bytetemp=A-value,
-    lookup = ( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
-    ( (bytetemp & 0x08) >> 1 );
+  BYTE value=readbyte(HL);
+  BYTE bytetemp=(BYTE)(A-value);
+  BYTE lookup = (BYTE)(( (A & 0x08) >> 3 ) | ( ( (value) & 0x08 ) >> 2 ) |
+    ( (bytetemp & 0x08) >> 1 ));
   InsertMCycle(3);
   InsertMCycle(5);
   contend( HL, 3 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
   contend( HL, 1 ); contend( HL, 1 );
   HL--; BC--;
-  F = ( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
+  F = (BYTE)(( F & FLAG_C ) | ( BC ? ( FLAG_V | FLAG_N ) : FLAG_N ) |
     halfcarry_sub_table[lookup] | ( bytetemp ? 0 : FLAG_Z ) |
-    ( bytetemp & FLAG_S );
+    ( bytetemp & FLAG_S ));
   if(F & FLAG_H) bytetemp--;
-  F |= ( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 );
+  F |= (BYTE)(( bytetemp & FLAG_3 ) | ( (bytetemp&0x02) ? FLAG_5 : 0 ));
   if( ( F & ( FLAG_V | FLAG_Z ) ) == FLAG_V ) {
     AddToMCycle(5);
     contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
     contend( HL, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   }
 }
 break;
@@ -555,13 +559,13 @@ case 0xba:	/* INDR */
   tstates += 2; contend_io( BC, 3 ); contend( HL, 3 );
   writebyte(HL,initemp);
   B--; HL--;
-  F = (initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((initemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
   if(B) {
     AddToMCycle(5);
     contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 ); contend( HL, 1 );
     contend( HL, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   }
 }
 break;
@@ -575,7 +579,7 @@ case 0xbb:	/* OTDR */
   writeport(BC,outitemp,&tstates);
   B--; HL--;	/* This does happen first, despite what the specs say */
                 /* Erm, no it doesn't - MW */
-  F = (outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B];
+  F = (BYTE)((outitemp & 0x80 ? FLAG_N : 0 ) | sz53_table[B]);
   /* C,H and P/V flags not implemented */
   InsertMCycle(4);
   inputOutputMCycle = mCycleIndex;
@@ -584,7 +588,7 @@ case 0xbb:	/* OTDR */
     contend_io( BC, 1 );
     contend( PC, 1 ); contend( PC, 1 ); contend( PC  , 1 ); contend( PC, 1 );
     contend( PC, 1 ); contend( PC, 1 ); contend( PC-1, 1 );
-    PC-=2;
+    PC-=(WORD)2;
   } else {
     contend_io( BC, 3 );
   }

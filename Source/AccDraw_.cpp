@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <ddraw.h>
 #include <stdio.h>
 #pragma hdrstop
@@ -909,7 +909,7 @@ static void GetPixelColour(int x, int y, unsigned char *r, unsigned char *g, uns
         DWORD c;
         int i;
 
-        p=(char *)(buffer + x*BPP + y*TVP);
+        p=(char*)(buffer + x*BPP + y*TVP);
         c=*(DWORD *)p;
 
         switch(BPP)
@@ -923,9 +923,9 @@ static void GetPixelColour(int x, int y, unsigned char *r, unsigned char *g, uns
         for(i=0;i<256;i++)
                 if (Colours[i]==c)
                 {
-                        *r=Palette[i]&0xff;
-                        *g=(Palette[i]>>8)&0xff;
-                        *b=(Palette[i]>>16)&0xff;
+                        *r=(unsigned char)(Palette[i]&0xff);
+                        *g=(unsigned char)((Palette[i]>>8)&0xff);
+                        *b=(unsigned char)((Palette[i]>>16)&0xff);
                         return;
                 }
 

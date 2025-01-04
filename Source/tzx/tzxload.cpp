@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -45,7 +45,7 @@ unsigned short TTZXFile::ReadWord(FILE *f)
         unsigned short a,b;
         a=ReadByte(f);
         b=ReadByte(f);
-        return(a + b*256);
+        return (unsigned short)(a + b*256);
 }
 
 unsigned int TTZXFile::ReadDWord(FILE *f)
@@ -133,7 +133,7 @@ bool TTZXFile::LoadOldGeneralBlock(FILE *f)
         Tape[CurBlock].Head.General.DataLen=datalen;
 
         Tape[CurBlock].SymDefD=SymDefD;
-        Tape[CurBlock].Data.Data=(unsigned char *)data;
+        Tape[CurBlock].Data.Data=(unsigned char*)data;
         Tape[CurBlock].SymDefP=NULL;
         Tape[CurBlock].PRLE=NULL;
 
@@ -187,7 +187,7 @@ bool TTZXFile::LoadGeneralBlock(FILE *f)
                         for(j=0;j<(NPP-1);j++)
                         {
                                 k=ReadWord(f);
-                                SymDefP[i*NPP+j+1]=k;
+                                SymDefP[i*NPP+j+1]=(unsigned short)k;
                                 //if (k==0) j=NPP;
                         }
                 }
@@ -225,7 +225,7 @@ bool TTZXFile::LoadGeneralBlock(FILE *f)
                         for(j=0;j<(NPD-1);j++)
                         {
                                 k=ReadWord(f);
-                                SymDefD[i*NPD+j+1]=k;
+                                SymDefD[i*NPD+j+1]=(unsigned short)k;
                                 //if (k==0) j=NPP;
                         }
                 }
@@ -271,7 +271,7 @@ bool TTZXFile::LoadROMBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_ROM;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.ROM.DataLen=length;
+        Tape[CurBlock].Head.ROM.DataLen=(unsigned short)length;
         Tape[CurBlock].Pause=pause;
 
         return(false);
@@ -297,13 +297,13 @@ bool TTZXFile::LoadTurboBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_TURBO;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.Turbo.PilotLen=lp;
-        Tape[CurBlock].Head.Turbo.Sync1Len=ls1;
-        Tape[CurBlock].Head.Turbo.Sync2Len=ls2;
-        Tape[CurBlock].Head.Turbo.Bit0Len=l0;
-        Tape[CurBlock].Head.Turbo.Bit1Len=l1;
-        Tape[CurBlock].Head.Turbo.PilotPulses=lpt;
-        Tape[CurBlock].Head.Turbo.FinalBits=usedbits;
+        Tape[CurBlock].Head.Turbo.PilotLen=(unsigned short)lp;
+        Tape[CurBlock].Head.Turbo.Sync1Len=(unsigned short)ls1;
+        Tape[CurBlock].Head.Turbo.Sync2Len=(unsigned short)ls2;
+        Tape[CurBlock].Head.Turbo.Bit0Len=(unsigned short)l0;
+        Tape[CurBlock].Head.Turbo.Bit1Len=(unsigned short)l1;
+        Tape[CurBlock].Head.Turbo.PilotPulses=(unsigned short)lpt;
+        Tape[CurBlock].Head.Turbo.FinalBits=(unsigned short)usedbits;
         Tape[CurBlock].Pause=pause;
         Tape[CurBlock].Head.Turbo.DataLen=datalen;
 
@@ -317,8 +317,8 @@ bool TTZXFile::LoadToneBlock(FILE *f)
         pulses=ReadWord(f);
 
         Tape[CurBlock].BlockID=TZX_BLOCK_TONE;
-        Tape[CurBlock].Head.Tone.PulseLen=pulselen;
-        Tape[CurBlock].Head.Tone.NoPulses=pulses;
+        Tape[CurBlock].Head.Tone.PulseLen=(unsigned short)pulselen;
+        Tape[CurBlock].Head.Tone.NoPulses=(unsigned short)pulses;
 
         return(false);
 }
@@ -333,7 +333,7 @@ bool TTZXFile::LoadPulseBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_PULSE;
         Tape[CurBlock].Data.Pulses=pulses;
-        Tape[CurBlock].Head.Pulse.NoPulses=nopulses;
+        Tape[CurBlock].Head.Pulse.NoPulses=(unsigned short)nopulses;
 
         return(false);
 }
@@ -352,9 +352,9 @@ bool TTZXFile::LoadDataBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_DATA;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.Data.Len0=len0;
-        Tape[CurBlock].Head.Data.Len1=len1;
-        Tape[CurBlock].Head.Data.FinalBits=usedbits;
+        Tape[CurBlock].Head.Data.Len0=(unsigned short)len0;
+        Tape[CurBlock].Head.Data.Len1=(unsigned short)len1;
+        Tape[CurBlock].Head.Data.FinalBits=(unsigned short)usedbits;
         Tape[CurBlock].Pause=pause;
         Tape[CurBlock].Head.Data.DataLen=datalen;
 
@@ -377,7 +377,7 @@ bool TTZXFile::LoadDRecBlock(FILE *f)
         Tape[CurBlock].Data.Data=data;
         Tape[CurBlock].Head.DRec.SampleLen=samplelen;
         Tape[CurBlock].Pause=pause;
-        Tape[CurBlock].Head.DRec.FinalBits=usedbits;
+        Tape[CurBlock].Head.DRec.FinalBits=(unsigned short)usedbits;
         Tape[CurBlock].Head.DRec.Samples=datalen;
 
         return(false);
@@ -430,7 +430,7 @@ bool TTZXFile::LoadGStartBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_GSTART;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.GStart.NameLen=length;
+        Tape[CurBlock].Head.GStart.NameLen=(unsigned short)length;
 
         return(false);
 }
@@ -445,7 +445,7 @@ bool TTZXFile::LoadJumpBlock(FILE *f)
 
         jump=ReadWord(f);
         Tape[CurBlock].BlockID=TZX_BLOCK_JUMP;
-        Tape[CurBlock].Head.Jump.JumpRel=jump;
+        Tape[CurBlock].Head.Jump.JumpRel=(unsigned short)jump;
 
         return(false);
 }
@@ -456,7 +456,7 @@ bool TTZXFile::LoadLStartBlock(FILE *f)
         repeats=ReadWord(f);
 
         Tape[CurBlock].BlockID=TZX_BLOCK_LSTART;
-        Tape[CurBlock].Head.LStart.Repeats=repeats;
+        Tape[CurBlock].Head.LStart.Repeats=(unsigned short)repeats;
 
         return(false);
 }
@@ -477,8 +477,8 @@ bool TTZXFile::LoadSBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_SBLOCK;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.SBlock.BlockLen=length;
-        Tape[CurBlock].Head.SBlock.NoSelections=selections;
+        Tape[CurBlock].Head.SBlock.BlockLen=(unsigned short)length;
+        Tape[CurBlock].Head.SBlock.NoSelections=(unsigned short)selections;
 
         return(false);
 }
@@ -497,7 +497,7 @@ bool TTZXFile::LoadSetLevelBlock(FILE *f)
         level=ReadByte(f);
 
         Tape[CurBlock].BlockID=TZX_BLOCK_SETLEVEL;
-        Tape[CurBlock].Head.SetLevel.Level=level;
+        Tape[CurBlock].Head.SetLevel.Level=(unsigned short)level;
 
         return(false);
 }
@@ -512,7 +512,7 @@ bool TTZXFile::LoadTextBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_TEXT;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.Text.TextLen=length;
+        Tape[CurBlock].Head.Text.TextLen=(unsigned short)length;
 
         return(false);
 }
@@ -528,8 +528,8 @@ bool TTZXFile::LoadMessageBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_MESSAGE;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.Message.TextLen=length;
-        Tape[CurBlock].Head.Message.Time=time;
+        Tape[CurBlock].Head.Message.TextLen=(unsigned short)length;
+        Tape[CurBlock].Head.Message.Time=(unsigned short)time;
 
         return(false);
 }
@@ -545,8 +545,8 @@ bool TTZXFile::LoadArchiveBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_ARCHIVE;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.Archive.BlockLen=length;
-        Tape[CurBlock].Head.Archive.NoStrings=strings;
+        Tape[CurBlock].Head.Archive.BlockLen=(unsigned short)length;
+        Tape[CurBlock].Head.Archive.NoStrings=(unsigned short)strings;
 
         return(false);
 }
@@ -569,7 +569,7 @@ bool TTZXFile::LoadHWTypeBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_HWTYPE;
         Tape[CurBlock].Data.HWTypes=data;
-        Tape[CurBlock].Head.HWType.NoTypes=blocks;
+        Tape[CurBlock].Head.HWType.NoTypes=(unsigned short)blocks;
 
         return(false);
 }
@@ -587,7 +587,7 @@ bool TTZXFile::LoadCustomBlock(FILE *f)
 
         Tape[CurBlock].BlockID=TZX_BLOCK_CUSTOM;
         memcpy(Tape[CurBlock].Head.Custom.IDString, data, 11);
-        Tape[CurBlock].Data.Data=(unsigned char *)data;
+        Tape[CurBlock].Data.Data=(unsigned char*)data;
         Tape[CurBlock].Head.Custom.Length=len;
 
         return(false);
@@ -610,7 +610,7 @@ bool TTZXFile::LoadUnknownBlock(FILE *f, int BlockID)
 
         Tape[CurBlock].BlockID=0;
         Tape[CurBlock].Data.Data=data;
-        Tape[CurBlock].Head.Unknown.type=BlockID;
+        Tape[CurBlock].Head.Unknown.type=(unsigned short)BlockID;
         Tape[CurBlock].Head.Unknown.length=length;
 
         return(false);
@@ -668,7 +668,7 @@ bool TTZXFile::LoadTAPFile(ZXString FileName, bool Insert)
 
                         len+= AddSync+AddChecksum;
 
-                        MoveBlock(AddROMBlock((char *)data, len), CurBlock);
+                        MoveBlock(AddROMBlock((char*)data, len), CurBlock);
                         if (AddSync)
                         {
                                 if (len==27) Tape[CurBlock].Pause=100;
@@ -698,8 +698,8 @@ bool TTZXFile::LoadPFile(ZXString FileName, bool Insert)
         if (FileNameGetExt(FileName)==".P"
                 || FileNameGetExt(FileName)==".81")
         {
-                ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), (unsigned char *)tempdata);
-                fnamelen=ZX81Strlen((unsigned char *)tempdata);
+                ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), (unsigned char*)tempdata);
+                fnamelen=ZX81Strlen((unsigned char*)tempdata);
         }
         else    fnamelen=0;
 
@@ -750,8 +750,8 @@ void TTZXFile::LoadPFileData(ZXString FileName, unsigned char* programData, int 
         int fnamelen;
         char tempdata[65536+256];
         
-        ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), (unsigned char *)tempdata);
-        fnamelen = ZX81Strlen((unsigned char *)tempdata);
+        ConvertASCIIZX81(RemoveExt(RemovePath(FileName)), (unsigned char*)tempdata);
+        fnamelen = ZX81Strlen((unsigned char*)tempdata);
 
         memcpy(tempdata+fnamelen, (char*)programData, length);
 
@@ -769,7 +769,7 @@ void TTZXFile::LoadTapFileData(ZXString FileName, unsigned char* programData, in
         int headerLength = programData[headerOffset] + (programData[headerOffset+1] << 8);
         headerOffset += 2;
         unsigned char* headerStart = programData + headerOffset;
-        MoveBlock(AddROMBlock((char *)headerStart, headerLength), CurBlock);
+        MoveBlock(AddROMBlock((char*)headerStart, headerLength), CurBlock);
         Tape[CurBlock].Pause=100;
         CurBlock++;
 
@@ -777,7 +777,7 @@ void TTZXFile::LoadTapFileData(ZXString FileName, unsigned char* programData, in
         int dataLength = programData[dataOffset] + (programData[dataOffset+1] << 8);
         dataOffset += 2;
         unsigned char* dataStart = programData + dataOffset;
-        MoveBlock(AddROMBlock((char *)dataStart, dataLength), CurBlock);
+        MoveBlock(AddROMBlock((char*)dataStart, dataLength), CurBlock);
         Tape[CurBlock].Pause=5000;
         CurBlock++;
 
@@ -939,7 +939,7 @@ bool TTZXFile::LoadT81File(ZXString FileName, bool Insert)
 
                         while(length>0 && buffer2[length-1]!=0x80) length--;
 
-                        MoveBlock(AddGeneralBlock((char *)buffer2, length), CurBlock++);
+                        MoveBlock(AddGeneralBlock((char*)buffer2, length), CurBlock++);
                 }
         } while(!feof(fptr));
 

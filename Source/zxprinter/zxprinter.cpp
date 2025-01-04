@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "zxprinter.h"
@@ -237,7 +237,7 @@ unsigned char TZXPrinter::ReadPort(BYTE idleDataBus)
         }
         else
         {
-                Data &= ~(1 << stylusOnPaper);
+                Data &= (unsigned char)(~(1 << stylusOnPaper));
         }
 
         if (EncoderWheel)

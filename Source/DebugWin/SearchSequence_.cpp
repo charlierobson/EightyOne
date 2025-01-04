@@ -1,6 +1,10 @@
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8066
+#endif
+
+#include <vcl4.h>
 #pragma hdrstop
 
 #include <sstream>

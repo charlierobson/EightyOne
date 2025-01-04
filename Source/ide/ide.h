@@ -2,7 +2,7 @@
 #define IDE_H
 
 #ifdef __cplusplus
-#include <vcl.h>
+#include <vcl4.h>
 #include <winioctl.h>
 #include <stdio.h>
 

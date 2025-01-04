@@ -26,7 +26,6 @@ __published:	// IDE-managed Components
         TLabel *Label4;
         TLabel *Label6;
         TLabel *Label7;
-        TLabel *Label3;
         void __fastcall OKClick(TObject *Sender);
         void __fastcall CancelClick(TObject *Sender);
 private:	// User declarations

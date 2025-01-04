@@ -20,7 +20,7 @@
 #define SPECBASICLOADER_H
 
 #include "BasicLoader/IBasicLoader.h"
-#include <vcl.h>
+#include <vcl4.h>
 #include <string>
 
 using namespace::std;

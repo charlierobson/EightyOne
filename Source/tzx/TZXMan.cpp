@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -164,7 +164,7 @@ void TTZX::UpdateScrollBar(void)
                 Table->Width = Bevel1->Width - 8 - ScrollBar1->Width;
         }
 
-        ScrollBar1->LargeChange = Table->VisibleRowCount;
+        ScrollBar1->LargeChange = (short)(Table->VisibleRowCount);
 }
 
 void TTZX::UpdateButtons(void)
@@ -622,7 +622,7 @@ void __fastcall TTZX::HardwareInformation1Click(TObject *Sender)
 
 void __fastcall TTZX::ArchiveInfo1Click(TObject *Sender)
 {
-        TZXFile.MoveBlock(TZXFile.AddArchiveBlock((char *)"Title"),Table->Row-1);
+        TZXFile.MoveBlock(TZXFile.AddArchiveBlock((char*)"Title"),Table->Row-1);
         TZXFile.EditBlock(Table->Row-1, Mx, My);
         UpdateTable(false);
 
@@ -631,7 +631,7 @@ void __fastcall TTZX::ArchiveInfo1Click(TObject *Sender)
 
 void __fastcall TTZX::TextDescription1Click(TObject *Sender)
 {
-        TZXFile.MoveBlock(TZXFile.AddTextBlock((char *)"Message"),Table->Row-1);
+        TZXFile.MoveBlock(TZXFile.AddTextBlock((char*)"Message"),Table->Row-1);
         TZXFile.EditBlock(Table->Row-1, Mx, My);
         UpdateTable(false);
 }
@@ -683,12 +683,12 @@ void TTZX::RecStopCheck(void)
 
         if (emulator.machine==MACHINESPECTRUM || emulator.machine==MACHINEACE)
         {
-                TZXFile.MoveBlock(TZXFile.AddROMBlock((char *)RecBuf, BlockLen),Table->Row-1);
+                TZXFile.MoveBlock(TZXFile.AddROMBlock((char*)RecBuf, BlockLen),Table->Row-1);
                 TZXFile.Tape[TZXFile.CurBlock].Pause=3000;
         }
         else
         {
-                TZXFile.MoveBlock(TZXFile.AddGeneralBlock((char *)RecBuf, BlockLen),Table->Row-1);
+                TZXFile.MoveBlock(TZXFile.AddGeneralBlock((char*)RecBuf, BlockLen),Table->Row-1);
                 TZXFile.Tape[TZXFile.CurBlock].Pause=5000;
         }
 
@@ -1026,7 +1026,7 @@ void __fastcall TTZX::ConvertBlocktoWave1Click(TObject *Sender)
 
 void __fastcall TTZX::GroupStart1Click(TObject *Sender)
 {
-        TZXFile.MoveBlock(TZXFile.AddGroupStartBlock((char *)"Group Start"),Table->Row-1);
+        TZXFile.MoveBlock(TZXFile.AddGroupStartBlock((char*)"Group Start"),Table->Row-1);
         TZXFile.EditBlock(Table->Row-1, Mx, My);
         TZXFile.GroupCount();
         UpdateTable(false);

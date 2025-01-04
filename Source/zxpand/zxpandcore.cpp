@@ -236,7 +236,7 @@ void zx_process_write(void)
                  // assemble raw joystick value/card detect and pop it into latd
                  // 0b11111001
                  //
-                 LATD = GETJS & 0xf9;
+                 LATD = (BYTE)(GETJS & 0xf9);
              }
              break;
              case 0xa1:
@@ -250,9 +250,9 @@ void zx_process_write(void)
              case 0xa2:
              {
                  // munge js into kempston compatible byte
-                 BYTE temp = ~GETJS;
-                 BYTE fb = (temp & 16) << 1;
-                 BYTE db = temp >> 4;
+                 BYTE temp = (BYTE)(~GETJS);
+                 BYTE fb = (BYTE)((temp & 16) << 1);
+                 BYTE db = (BYTE)(temp >> 4);
                  LATD = fb | db;
              }
              break;
@@ -266,7 +266,7 @@ void zx_process_write(void)
                // get EEPROM data; global data contains start,count
                BYTE i = 0;
                BYTE j = 2;
-               BYTE k = globalData[0] + 5;
+               BYTE k = (BYTE)(globalData[0] + 5);
                while (i < globalData[1])
                {
                  globalData[j] = ReadEEPROM(k);
@@ -340,7 +340,7 @@ void zx_process_write(void)
              {
                  BYTE i = 0;
                  BYTE j = 2;
-                 BYTE k = globalData[0] + 5;
+                 BYTE k = (BYTE)(globalData[0] + 5);
                  while(i < globalData[1])
                  {
                      WriteEEPROM(k, globalData[j]);
@@ -377,10 +377,10 @@ void zx_process_write(void)
                // get serial bytes - careful if there's more than 127...
                int n = serialCopy((BYTE*)globalData);
                globalData[n] = 0;
-               zeddify((char *)globalData);
+               zeddify((char*)globalData);
                gdp = (BYTE*)globalData;
                mode = 0;
-               LATD = n;
+               LATD = (BYTE)n;
              }
              break;
              case 0xc3:
@@ -389,7 +389,7 @@ void zx_process_write(void)
                int n = serialCopy((BYTE*)globalData);
                gdp = (BYTE *near)globalData;
                mode = 0;
-               LATD = n;
+               LATD = (BYTE)n;
              }
              break;
              case 0xc5:

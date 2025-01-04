@@ -16,12 +16,12 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <vcl.h>
+#include "IBasicLister.h"
+#include "zx81config.h"
+#include <vcl4.h>
 #include <sstream>
 #include <iomanip>
 #include <string>
-#include "IBasicLister.h"
-#include "zx81config.h"
 
 using namespace std;
 
@@ -563,7 +563,7 @@ bool IBasicLister::RenderTokenAsText(int& address, int& lengthRemaining, bool& l
         {
                 if (!withinQuotes && !withinRem && outputVariableNamesInLowercase && (mKeyword[c].length() == 1))
                 {
-                        char chr = tolower(mKeyword[c][0]);
+                        char chr = (char)tolower(mKeyword[c][0]);
                         zxCharacter = chr;
                 }
                 else
@@ -611,7 +611,7 @@ ZXString IBasicLister::FormatLineNumber(int lineNumber, bool outputFullWidthLine
 
         if (!outputFullWidthLineNumbers && (lineNum[1] != ' '))
         {
-                lineNum[2] = 'A' + (lineNum[2] - '0');
+                lineNum[2] = (char)('A' + (lineNum[2] - '0'));
                 lineNum[1] = ' ';
         }
 

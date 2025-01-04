@@ -106,74 +106,74 @@
 #define AND(value)\
 {\
   A &= (value);\
-  F = FLAG_H | sz53p_table[A];\
+  F = (BYTE)(FLAG_H | sz53p_table[A]);\
 }
 
 #define ADC(value)\
 {\
-  WORD adctemp = A + (value) + ( F & FLAG_C );\
-  BYTE lookup = ( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
-    ( (adctemp & 0x88) >> 1 );\
-  A=adctemp;\
-  F = ( adctemp & 0x100 ? FLAG_C : 0 ) |\
+  WORD adctemp = (WORD)(A + (value) + ( F & FLAG_C ));\
+  BYTE lookup = (BYTE)(( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
+    ( (adctemp & 0x88) >> 1 ));\
+  A=(BYTE)(adctemp);\
+  F = (BYTE)(( adctemp & 0x100 ? FLAG_C : 0 ) |\
     halfcarry_add_table[lookup & 0x07] | overflow_add_table[lookup >> 4] |\
-    sz53_table[A];\
+    sz53_table[A]);\
 }
 
 #define ADC16(value)\
 {\
-  DWORD add16temp = HL + (value) + ( F & FLAG_C );\
-  BYTE lookup = ( ( HL & 0x8800 ) >> 11 ) |\
+  DWORD add16temp = (DWORD)(HL + (value) + ( F & FLAG_C ));\
+  BYTE lookup = (BYTE)(( ( HL & 0x8800 ) >> 11 ) |\
     ( ( (value) & 0x8800 ) >> 10 ) |\
-    ( ( add16temp & 0x8800 ) >> 9 );\
-  HL = add16temp;\
-  F = ( add16temp & 0x10000 ? FLAG_C : 0 )|\
+    ( ( add16temp & 0x8800 ) >> 9 ));\
+  HL = (WORD)add16temp;\
+  F = (BYTE)(( add16temp & 0x10000 ? FLAG_C : 0 )|\
     overflow_add_table[lookup >> 4] |\
     ( H & ( FLAG_3 | FLAG_5 | FLAG_S ) ) |\
     halfcarry_add_table[lookup&0x07]|\
-    ( HL ? 0 : FLAG_Z );\
+    ( HL ? 0 : FLAG_Z ));\
   AddToMCycle(4); \
   AddToMCycle(3);\
 }
 
 #define ADD(value)\
 {\
-  WORD addtemp = A + (value);\
-  BYTE lookup = ( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
-    ( (addtemp & 0x88) >> 1 );\
-  A=addtemp;\
-  F = ( addtemp & 0x100 ? FLAG_C : 0 ) |\
+  WORD addtemp = (WORD)(A + (value));\
+  BYTE lookup = (BYTE)(( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
+    ( (addtemp & 0x88) >> 1 ));\
+  A=(BYTE)addtemp;\
+  F = (BYTE)(( addtemp & 0x100 ? FLAG_C : 0 ) |\
     halfcarry_add_table[lookup & 0x07] | overflow_add_table[lookup >> 4] |\
-    sz53_table[A];\
+    sz53_table[A]);\
 }
 
 #define ADD16(value1,value2)\
 {\
   DWORD add16temp = (value1) + (value2);\
-  BYTE lookup = ( ( (value1) & 0x0800 ) >> 11 ) |\
+  BYTE lookup = (BYTE)(( ( (value1) & 0x0800 ) >> 11 ) |\
     ( ( (value2) & 0x0800 ) >> 10 ) |\
-    ( ( add16temp & 0x0800 ) >> 9 );\
+    ( ( add16temp & 0x0800 ) >> 9 ));\
   tstates += 7;\
   AddToMCycle(4);\
   AddToMCycle(3);\
-  (value1) = add16temp;\
-  F = ( F & ( FLAG_V | FLAG_Z | FLAG_S ) ) |\
+  (value1) = (WORD)add16temp;\
+  F = (BYTE)(( F & ( FLAG_V | FLAG_Z | FLAG_S ) ) |\
     ( add16temp & 0x10000 ? FLAG_C : 0 )|\
     ( ( add16temp >> 8 ) & ( FLAG_3 | FLAG_5 ) ) |\
-    halfcarry_add_table[lookup];\
+    halfcarry_add_table[lookup]);\
 }
 
 #define BIT(bit,value)\
 {\
-  F = ( F & FLAG_C ) | ( (value) & ( FLAG_3 | FLAG_5 ) ) |\
-    ( ( (value) & ( 0x01 << bit ) ) ? FLAG_H : ( FLAG_P | FLAG_H | FLAG_Z ) );\
+  F = (BYTE)(( F & FLAG_C ) | ( (value) & ( FLAG_3 | FLAG_5 ) ) |\
+    ( ( (value) & ( 0x01 << bit ) ) ? FLAG_H : ( FLAG_P | FLAG_H | FLAG_Z ) ));\
 }
 
 #define BIT7(value)\
 {\
-  F = ( F & FLAG_C ) | ( (value) & ( FLAG_3 | FLAG_5 ) ) |\
+  F = (BYTE)(( F & FLAG_C ) | ( (value) & ( FLAG_3 | FLAG_5 ) ) |\
     ( ( (value) & 0x80 ) ? ( FLAG_H | FLAG_S ) :\
-      ( FLAG_P | FLAG_H | FLAG_Z ) );\
+      ( FLAG_P | FLAG_H | FLAG_Z ) ));\
 }
 
 #define CALL()\
@@ -189,14 +189,14 @@
 
 #define CP(value)\
 {\
-  WORD cptemp = A - value;\
-  BYTE lookup = ( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
-    ( (cptemp & 0x88) >> 1 );\
-  F = ( cptemp & 0x100 ? FLAG_C : ( cptemp ? 0 : FLAG_Z ) ) | FLAG_N |\
+  WORD cptemp = (WORD)(A - value);\
+  BYTE lookup = (BYTE)(( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
+    ( (cptemp & 0x88) >> 1 ));\
+  F = (BYTE)(( cptemp & 0x100 ? FLAG_C : ( cptemp ? 0 : FLAG_Z ) ) | FLAG_N |\
     halfcarry_sub_table[lookup & 0x07] |\
     overflow_sub_table[lookup >> 4] |\
     ( value & ( FLAG_3 | FLAG_5 ) ) |\
-    ( cptemp & FLAG_S );\
+    ( cptemp & FLAG_S ));\
 }
 
 /* Macro for the {DD,FD} CB dd xx rotate/shift instructions */
@@ -211,9 +211,9 @@ break
 
 #define DEC(value)\
 {\
-  F = ( F & FLAG_C ) | ( (value)&0x0f ? 0 : FLAG_H ) | FLAG_N;\
+  F = (BYTE)(( F & FLAG_C ) | ( (value)&0x0f ? 0 : FLAG_H ) | FLAG_N);\
   (value)--;\
-  F |= ( (value)==0x7f ? FLAG_V : 0 ) | sz53_table[value];\
+  F |= (BYTE)(( (value)==0x7f ? FLAG_V : 0 ) | sz53_table[value]);\
 }
 
 #define IN(reg,port)\
@@ -222,14 +222,14 @@ break
   inputOutputMCycle = mCycleIndex;\
   contend_io( port, 3 );\
   (reg)=readport((port),&tstates);\
-  F = ( F & FLAG_C) | sz53p_table[(reg)];\
+  F = (BYTE)(( F & FLAG_C) | sz53p_table[(reg)]);\
 }
 
 #define INC(value)\
 {\
   (value)++;\
-  F = ( F & FLAG_C ) | ( (value)==0x80 ? FLAG_V : 0 ) |\
-  ( (value)&0x0f ? 0 : FLAG_H ) | sz53_table[(value)];\
+  F = (BYTE)(( F & FLAG_C ) | ( (value)==0x80 ? FLAG_V : 0 ) |\
+  ( (value)&0x0f ? 0 : FLAG_H ) | sz53_table[(value)]);\
 }
 
 #define LD16_NNRR(regl,regh)\
@@ -240,7 +240,7 @@ break
   ldtemp=readoperandbyte(PC++);\
   InsertMCycle(3);\
   contend( PC, 3 );\
-  ldtemp|=readoperandbyte(PC++) << 8;\
+  ldtemp|=(WORD)(readoperandbyte(PC++) << 8);\
   InsertMCycle(3);\
   contend( ldtemp, 3 );\
   writebyte(ldtemp++,(regl));\
@@ -257,7 +257,7 @@ break
   ldtemp=readoperandbyte(PC++);\
   InsertMCycle(3);\
   contend( PC, 3 );\
-  ldtemp|=readoperandbyte(PC++) << 8;\
+  ldtemp|=(WORD)(readoperandbyte(PC++) << 8);\
   InsertMCycle(3);\
   contend( ldtemp, 3 );\
   (regl)=readbyte(ldtemp++);\
@@ -333,28 +333,28 @@ break
 #define RL(value)\
 {\
   BYTE rltemp = (value);\
-  (value) = ( (value)<<1 ) | ( F & FLAG_C );\
-  F = ( rltemp >> 7 ) | sz53p_table[(value)];\
+  (value) = (BYTE)(( (value)<<1 ) | ( F & FLAG_C ));\
+  F = (BYTE)(( rltemp >> 7 ) | sz53p_table[(value)]);\
 }
 
 #define RLC(value)\
 {\
-  (value) = ( (value)<<1 ) | ( (value)>>7 );\
-  F = ( (value) & FLAG_C ) | sz53p_table[(value)];\
+  (value) = (BYTE)(( (value)<<1 ) | ( (value)>>7 ));\
+  F = (BYTE)(( (value) & FLAG_C ) | sz53p_table[(value)]);\
 }
 
 #define RR(value)\
 {\
   BYTE rrtemp = (value);\
-  (value) = ( (value)>>1 ) | ( F << 7 );\
-  F = ( rrtemp & FLAG_C ) | sz53p_table[(value)];\
+  (value) = (BYTE)(( (value)>>1 ) | ( F << 7 ));\
+  F = (BYTE)(( rrtemp & FLAG_C ) | sz53p_table[(value)]);\
 }
 
 #define RRC(value)\
 {\
-  F = (value) & FLAG_C;\
-  (value) = ( (value)>>1 ) | ( (value)<<7 );\
-  F |= sz53p_table[(value)];\
+  F = (BYTE)((value) & FLAG_C);\
+  (value) = (BYTE)(( (value)>>1 ) | ( (value)<<7 ));\
+  F |= (BYTE)(sz53p_table[(value)]);\
 }
 
 #define RST(value)\
@@ -365,68 +365,68 @@ break
 
 #define SBC(value)\
 {\
-  WORD sbctemp = A - (value) - ( F & FLAG_C );\
-  BYTE lookup = ( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
-    ( (sbctemp & 0x88) >> 1 );\
-  A=sbctemp;\
-  F = ( sbctemp & 0x100 ? FLAG_C : 0 ) | FLAG_N |\
+  WORD sbctemp = (WORD)(A - (value) - ( F & FLAG_C ));\
+  BYTE lookup = (BYTE)(( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
+    ( (sbctemp & 0x88) >> 1 ));\
+  A=(BYTE)sbctemp;\
+  F = (BYTE)(( sbctemp & 0x100 ? FLAG_C : 0 ) | FLAG_N |\
     halfcarry_sub_table[lookup & 0x07] | overflow_sub_table[lookup >> 4] |\
-    sz53_table[A];\
+    sz53_table[A]);\
 }
 
 #define SBC16(value)\
 {\
   DWORD sub16temp = HL - (value) - (F & FLAG_C);\
-  BYTE lookup = ( ( HL & 0x8800 ) >> 11 ) |\
+  BYTE lookup = (BYTE)(( ( HL & 0x8800 ) >> 11 ) |\
     ( ( (value) & 0x8800 ) >> 10 ) |\
-    ( ( sub16temp & 0x8800 ) >> 9 );\
-  HL = sub16temp;\
-  F = ( sub16temp & 0x10000 ? FLAG_C : 0 ) |\
+    ( ( sub16temp & 0x8800 ) >> 9 ));\
+  HL = (WORD)sub16temp;\
+  F = (BYTE)(( sub16temp & 0x10000 ? FLAG_C : 0 ) |\
     FLAG_N | overflow_sub_table[lookup >> 4] |\
     ( H & ( FLAG_3 | FLAG_5 | FLAG_S ) ) |\
     halfcarry_sub_table[lookup&0x07] |\
-    ( HL ? 0 : FLAG_Z) ;\
+    ( HL ? 0 : FLAG_Z));\
   AddToMCycle(4);\
   AddToMCycle(3);\
 }
 
 #define SLA(value)\
 {\
-  F = (value) >> 7;\
-  (value) <<= 1;\
+  F = (BYTE)((value) >> 7);\
+  (value) <<= (BYTE)1;\
   F |= sz53p_table[(value)];\
 }
 
 #define SLL(value)\
 {\
-  F = (value) >> 7;\
-  (value) = ( (value) << 1 ) | 0x01;\
+  F = (BYTE)((value) >> 7);\
+  (value) = (BYTE)(( (value) << 1 ) | 0x01);\
   F |= sz53p_table[(value)];\
 }
 
 #define SRA(value)\
 {\
-  F = (value) & FLAG_C;\
-  (value) = ( (value) & 0x80 ) | ( (value) >> 1 );\
+  F = (BYTE)((value) & FLAG_C);\
+  (value) = (BYTE)(( (value) & 0x80 ) | ( (value) >> 1 ));\
   F |= sz53p_table[(value)];\
 }
 
 #define SRL(value)\
 {\
-  F = (value) & FLAG_C;\
+  F = (BYTE)((value) & FLAG_C);\
   (value) >>= 1;\
   F |= sz53p_table[(value)];\
 }
 
 #define SUB(value)\
 {\
-  WORD subtemp = A - (value);\
-  BYTE lookup = ( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
-    ( (subtemp & 0x88) >> 1 );\
-  A=subtemp;\
-  F = ( subtemp & 0x100 ? FLAG_C : 0 ) | FLAG_N |\
+  WORD subtemp = (WORD)(A - (value));\
+  BYTE lookup = (BYTE)(( (A & 0x88) >> 3 ) | ( ( (value) & 0x88 ) >> 2 ) |\
+    ( (subtemp & 0x88) >> 1 ));\
+  A=(BYTE)subtemp;\
+  F = (BYTE)(( subtemp & 0x100 ? FLAG_C : 0 ) | FLAG_N |\
     halfcarry_sub_table[lookup & 0x07] | overflow_sub_table[lookup >> 4] |\
-    sz53_table[A];\
+    sz53_table[A]);\
 }
 
 #define XOR(value)\

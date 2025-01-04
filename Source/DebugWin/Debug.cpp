@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "Debug.h"
@@ -171,7 +171,7 @@ void DebugUpdate(void)
                 emulation_stop=1;
                 Dbg->DoNext=false;
                 Dbg->UpdateVals();
-                emulator.single_step = Dbg->Continuous->Checked ? 1 : 0;
+                emulator.single_step = (CFGBYTE)(Dbg->Continuous->Checked ? 1 : 0);
         }
 
         Profiler->DebugTick(&z80);
@@ -511,7 +511,7 @@ bool TDbg::BreakPointHit()
         {
 		breakpoint* bp = &Breakpoint[idx];
 
- 		if (Dbg->BPExeHit(z80.pc.w, bp, idx) ||
+ 		if (Dbg->BPExeHit(z80.pc.w, bp) ||
                     Dbg->BPInOutHit(BP_IN, lpi, lpiv, bp) ||
                     Dbg->BPInOutHit(BP_INL, lpi, lpiv, bp) ||
                     Dbg->BPInOutHit(BP_INH, lpi, lpiv, bp) ||
@@ -549,7 +549,7 @@ bool TDbg::BreakPointHit()
 	return false;
 }
 
-bool TDbg::BPExeHit(int addr, breakpoint* const bp, int idx)
+bool TDbg::BPExeHit(int addr, breakpoint* const bp)
 {
         if (bp->HitExe(BP_EXE, addr))
 	{
@@ -890,7 +890,7 @@ ZXString TDbg::Bin8(int Value)
         char arry[9] = {0};
         for (int i = 7; i >= 0; --i)
         {
-                arry[i] = (Value & 1) + '0';
+                arry[i] = (char)((Value & 1) + '0');
                 Value >>= 1;
         }
 
@@ -1588,7 +1588,7 @@ void __fastcall TDbg::DoEditReg(WORD& value)
         int n = value;
         if (EditValue->Edit2(n, 2))
         {
-                value = n;
+                value = (WORD)n;
                 UpdateVals();
         }
 }
@@ -1602,7 +1602,7 @@ void __fastcall TDbg::DoEditReg(BYTE& value)
         int n = value;
         if (EditValue->Edit2(n, 1))
         {
-                value = n;
+                value = (BYTE)n;
                 UpdateVals();
         }
 }
@@ -1747,9 +1747,9 @@ void __fastcall TDbg::IRClick(TObject *Sender)
         v = (z80.i << 8) | (z80.r7 & 128) | z80.r;
         if (EditValue->Edit2(v, 2))
         {
-                z80.r = v&127;
-                z80.r7 = v&128;
-                z80.i = (v>>8)&255;
+                z80.r = (WORD)(v&127);
+                z80.r7 = (BYTE)(v&128);
+                z80.i = (BYTE)((v>>8)&255);
                 UpdateVals();
         }
 }
@@ -1766,7 +1766,7 @@ void __fastcall TDbg::FClick(TObject *Sender)
         int f = cp.x / (F->Width / 8);
 
         int bit = 0x80 >> f;
-        z80.af.b.l ^= bit;
+        z80.af.b.l ^= (BYTE)bit;
         UpdateVals();
 }
 //---------------------------------------------------------------------------
@@ -1781,7 +1781,7 @@ void __fastcall TDbg::F_Click(TObject *Sender)
         int f = (cp.x) / (F_->Width / 8);
 
         int bit = 0x80 >> f;
-        z80.af_.b.l ^= bit;
+        z80.af_.b.l ^= (BYTE)bit;
         UpdateVals();
 }
 //---------------------------------------------------------------------------

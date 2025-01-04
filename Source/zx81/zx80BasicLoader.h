@@ -20,7 +20,7 @@
 #define ZX80BASICLOADER_H
 
 #include "BasicLoader/IBasicLoader.h"
-#include <vcl.h>
+#include <vcl4.h>
 #include <string>
 #include "zx81config.h"
 

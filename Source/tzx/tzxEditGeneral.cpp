@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "tzxEditGeneral.h"
@@ -166,7 +166,7 @@ void TEditGeneralForm::DecodeData(int BlockNo)
                 }
                 else
                 {
-                        if (c>=128) c-=128;
+                        if (c>=128) c-=(unsigned char)128;
                         c = (emulator.machine == MACHINEZX80) ? ZX80CharSet[c] : ZX81CharSet[c];
                 }
 

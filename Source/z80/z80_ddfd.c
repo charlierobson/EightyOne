@@ -108,7 +108,7 @@ AddToMCycle(5);
 InsertMCycle(4);
 InsertMCycle(3);
 {
-  WORD wordtemp=REGISTER+(SBYTE)opcode_fetch(PC++);
+  WORD wordtemp=(WORD)(REGISTER+(SBYTE)opcode_fetch(PC++));
   BYTE bytetemp=readbyte(wordtemp);
   INC(bytetemp);
   writebyte(wordtemp,bytetemp);
@@ -122,7 +122,7 @@ AddToMCycle(5);
 InsertMCycle(4);
 InsertMCycle(3);
 {
-  WORD wordtemp=REGISTER+(SBYTE)opcode_fetch(PC++);
+  WORD wordtemp=(WORD)(REGISTER+(SBYTE)opcode_fetch(PC++));
   BYTE bytetemp=readbyte(wordtemp);
   DEC(bytetemp);
   writebyte(wordtemp,bytetemp);
@@ -135,7 +135,7 @@ InsertMCycle(3);
 AddToMCycle(5);
 InsertMCycle(3);
 {
-  WORD wordtemp=REGISTER+(SBYTE)opcode_fetch(PC++);
+  WORD wordtemp=(WORD)(REGISTER+(SBYTE)opcode_fetch(PC++));
   writebyte(wordtemp,opcode_fetch(PC++));
 }
 break;
@@ -507,7 +507,7 @@ case 0xcb:		/* {DD,FD}CBxx opcodes */
   WORD tempaddr; BYTE opcode3;
   InsertMCycle(3);
   contend( PC, 3 );
-  tempaddr = REGISTER + (SBYTE)opcode_fetch( PC++ );
+  tempaddr = (WORD)(REGISTER + (SBYTE)opcode_fetch( PC++ ));
   AddToMCycle(5);
   contend( PC, 4 );
   opcode3 = opcode_fetch( PC++ );

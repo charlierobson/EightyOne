@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "z80.h"
@@ -488,8 +488,8 @@ void TMemoryWindow::CreateBitmap(void)
 
         int bytesPerRow = mRowRenderer->BytesPerCell() * mRowRenderer->mDisplayCellsPerRow;
 
-        ScrollBar1->SmallChange = bytesPerRow;
-        ScrollBar1->LargeChange = 8 * ScrollBar1->SmallChange;
+        ScrollBar1->SmallChange = (short)bytesPerRow;
+        ScrollBar1->LargeChange = (short)(8 * ScrollBar1->SmallChange);
 
         ScrollBar1->Min = 0;
         ScrollBar1->Max = 65536 - (mRows * bytesPerRow) + bytesPerRow - 1;

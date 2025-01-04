@@ -20,6 +20,11 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8071
+#endif
+
 #include "765i.h"
 
 /*

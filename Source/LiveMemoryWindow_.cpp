@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <windows.h>
 #pragma hdrstop
 
@@ -59,7 +59,7 @@ void __fastcall TLiveMemoryWindow::Read(unsigned short address)
 
 void __fastcall TLiveMemoryWindow::Update(void)
 {
-        int touchCol = Touches1->Checked ? 128 : 0;
+        BYTE touchCol = Touches1->Checked ? (BYTE)128 : (BYTE)0;
 
         // should really be time based, not access count based
         ++_count;
@@ -150,7 +150,7 @@ void __fastcall TLiveMemoryWindow::FormMouseMove(TObject *Sender,
         if (Y > 255) Y = 255;
 
         long my = map(Y, 0, 256, _memStart * 4, _memEnd * 4 - 1);
-        unsigned short addr = my * 256 + X;
+        unsigned short addr = (unsigned short)(my * 256 + X);
 
         StatusBar1->Panels->Items[0]->Text = Format("$%0.4x",
                 ARRAYOFCONST((addr)));

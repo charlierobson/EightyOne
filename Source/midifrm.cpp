@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <windows.h>
 #include <mmsystem.h>
 #pragma hdrstop

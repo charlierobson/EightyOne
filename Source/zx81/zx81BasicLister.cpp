@@ -185,11 +185,11 @@ unsigned char zx81BasicLister::ConvertToZXCode(unsigned char code)
                 default:
                         if (code >= '0' && code <= '9')
                         {
-                                c = Number0 + (code - '0');
+                                c = (unsigned char)(Number0 + (code - '0'));
                         }
                         else
                         {
-                                c = LetterA + (code - 'A');
+                                c = (unsigned char)(LetterA + (code - 'A'));
                         }
                         break;
         }

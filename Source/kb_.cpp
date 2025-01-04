@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "kb_.h"
@@ -64,11 +64,11 @@ void __fastcall TKb::OKClick(TObject *Sender)
                 PCKeySetCursor('B', 'V', 'C', 'N', 1);
                 break;
         case 4:
-                PCKeySetCursor(toupper(CustomLeft->Text[1]),
-                                toupper(CustomDown->Text[1]),
-                                toupper(CustomUp->Text[1]),
-                                toupper(CustomRight->Text[1]),
-                                0);
+                PCKeySetCursor((char)toupper(CustomLeft->Text[1]),
+                               (char)toupper(CustomDown->Text[1]),
+                               (char)toupper(CustomUp->Text[1]),
+                               (char)toupper(CustomRight->Text[1]),
+                               (char)0);
         }
 
         if (RadioButton1->Checked) PCKeySetCTRL(0);

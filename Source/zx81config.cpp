@@ -21,7 +21,7 @@
 
 #include <string.h>
 #include <dir.h>
-#include <vcl.h>
+#include <vcl4.h>
 
 #include "zx81config.h"
 
@@ -74,9 +74,9 @@ void load_config(void)
         GetVersionNumber(versionNumberMajor, versionNumberMinor, versionNumberPart3, versionNumberPart4);
         
         emulator.emuid=EMUID;
-        emulator.major=versionNumberMajor;
-        emulator.minor=versionNumberMinor;
-        emulator.testver=versionNumberPart3;
+        emulator.major=(CFGBYTE)versionNumberMajor;
+        emulator.minor=(CFGBYTE)versionNumberMinor;
+        emulator.testver=(CFGBYTE)versionNumberPart3;
 
         emulator.machine=MACHINEZX81;
         

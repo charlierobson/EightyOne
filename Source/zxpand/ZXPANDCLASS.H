@@ -66,7 +66,7 @@ public:
    {
       // 3 bit address in bits 7:5
 
-      PORTA = address >> 5;
+      PORTA = (unsigned char)(address >> 5);
       PORTD = data;
 
       mode = 1;

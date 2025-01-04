@@ -44,6 +44,9 @@
  * between <=2% CPU use and *30*% CPU use pretty much at random...)
  */
 
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8071
+#endif
 
 #include "sound\sound.h"
 #include "sound\soundop.h"
@@ -148,7 +151,7 @@ void CSound::AYInit(void)
         v=AMPL_AY_TONE;
         for(f=15;f>0;f--)
         {
-                AYToneLevels[f]=(int)(v+0.5);
+                AYToneLevels[f]=(unsigned char)(v+0.5);
                 // 10^3/20 = 3dB
                 v/=1.4125375446;
         }
@@ -234,7 +237,7 @@ void CSound::AYOverlay(void)
 
         // convert change times to sample offsets
         for(f=0;f<AYChangeCount;f++)
-                AYChange[f].ofs=(AYChange[f].tstates*m_SampleRate)/machine.clockspeed;
+                AYChange[f].ofs=(unsigned short)((AYChange[f].tstates*m_SampleRate)/machine.clockspeed);
 
         for(f=0,ptr=Buffer;f<FrameSize;f++,ptr+=m_Channels)
         {
@@ -352,8 +355,8 @@ void CSound::AYOverlay(void)
                         {
                                 // chan c shouldn't be full vol on both channels
                                 int atv = *ptr * 3/4;
-                                ptr[0]=atv;
-                                ptr[1]=atv;
+                                ptr[0]=(unsigned char)atv;
+                                ptr[1]=(unsigned char)atv;
                         }
                 }
                 if((mixer&1)==0 || (mixer&0x08)==0)
@@ -396,12 +399,12 @@ void CSound::AYOverlay(void)
 // don't make the change immediately; record it for later,
 // to be made by sound_frame() (via sound_ay_overlay()).
 
-void CSound::AYWrite(int reg,int val, int frametstates)
+void CSound::AYWrite(int reg, int val, int frametstates)
 {
 
         //if(!sound_enabled || !sound_ay) return;
 
-        AYRegisterStore[reg]=val;
+        AYRegisterStore[reg]=(unsigned char)val;
 
         // accept r15, in case of the two-I/O-port 8910
         if(reg>=16) return;
@@ -411,8 +414,8 @@ void CSound::AYWrite(int reg,int val, int frametstates)
           if(AYChangeCount<AY_CHANGE_MAX)
         {
                 AYChange[AYChangeCount].tstates=frametstates>0?frametstates:0;
-                AYChange[AYChangeCount].reg=reg;
-                AYChange[AYChangeCount].val=val;
+                AYChange[AYChangeCount].reg=(unsigned char)reg;
+                AYChange[AYChangeCount].val=(unsigned char)val;
                 AYChangeCount++;
         }
 }
@@ -486,9 +489,9 @@ void CSound::Frame(void)
                 for(f=FillPos;f<FrameSize;f++)
                 {
                         BEEPER_OLDVAL_ADJUST;
-                        *ptr++=OldVal;
+                        *ptr++=(unsigned char)OldVal;
                         if(m_Channels == 2)
-                                *ptr++=OldVal;
+                                *ptr++=(unsigned char)OldVal;
                 }
         }
         //else
@@ -549,9 +552,9 @@ void CSound::Beeper(int on, int frametstates)
                 for(f=FillPos;f<newpos && f<FrameSize;f++)
                 {
                         BEEPER_OLDVAL_ADJUST;
-                        *ptr++=OldVal;
+                        *ptr++=(unsigned char)OldVal;
                         if(m_Channels==2)
-                        *ptr++=OldVal;
+                        *ptr++=(unsigned char)OldVal;
                 }
 
                 if(newpos<FrameSize)
@@ -567,9 +570,9 @@ void CSound::Beeper(int on, int frametstates)
                                         subval=OldVal;
 
                         // write subsample value
-                        *ptr=subval;
+                        *ptr=(unsigned char)subval;
                         if(m_Channels==2)
-                        *++ptr=subval;
+                        *++ptr=(unsigned char)subval;
                 }
         }
 

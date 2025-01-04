@@ -369,7 +369,7 @@ public:		// User declarations
         bool TStatesBreakPointHit(int Addr);
         void DelTempBreakPoints(void);
         bool BreakPointHit();
-        bool BPExeHit(int addr, breakpoint* const bp, int idx);
+        bool BPExeHit(int addr, breakpoint* const bp);
         void RefreshBreakpointList();
         void ResetBreakpointHits();
 

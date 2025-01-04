@@ -18,7 +18,7 @@
  * spec48snap.c
  *
  */
-#include <vcl.h>
+#include <vcl4.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -124,7 +124,7 @@ unsigned char *z80expandSpectra(unsigned char *in, int OutAddr, int Count)
                         byte=in[3];
                         while(repeat)
                         {
-                                SpectraMem[OutAddr] = byte;
+                                SpectraMem[OutAddr] = (BYTE)byte;
                                 OutAddr++;
                                 repeat--;
                                 Count--;
@@ -265,24 +265,24 @@ void spec_load_z80(char *fname)
         machine.initialise();
 
         z80.af.b.h = buf[0]; z80.af.b.l = buf[1];
-        z80.bc.w = buf[2] + 256*buf[3];
-        z80.hl.w = buf[4] + 256*buf[5];
-        z80.pc.w = buf[6] + 256*buf[7];
-        z80.sp.w = buf[8] + 256*buf[9];
+        z80.bc.w = (WORD)(buf[2] + 256*buf[3]);
+        z80.hl.w = (WORD)(buf[4] + 256*buf[5]);
+        z80.pc.w = (WORD)(buf[6] + 256*buf[7]);
+        z80.sp.w = (WORD)(buf[8] + 256*buf[9]);
         z80.i = buf[10];
-        z80.r = buf[11];
-        z80.de.w = buf[13] + 256*buf[14];
-        z80.bc_.w = buf[15] + 256*buf[16];
-        z80.de_.w = buf[17] + 256*buf[18];
-        z80.hl_.w = buf[19] + 256*buf[20];
+        z80.r = (WORD)(buf[11]);
+        z80.de.w = (WORD)(buf[13] + 256*buf[14]);
+        z80.bc_.w = (WORD)(buf[15] + 256*buf[16]);
+        z80.de_.w = (WORD)(buf[17] + 256*buf[18]);
+        z80.hl_.w = (WORD)(buf[19] + 256*buf[20]);
         z80.af_.b.h = buf[21];
         z80.af_.b.l = buf[22];
-        z80.iy.w = buf[23] + 256*buf[24];
-        z80.ix.w = buf[25] + 256*buf[26];
+        z80.iy.w = (WORD)(buf[23] + 256*buf[24]);
+        z80.ix.w = (WORD)(buf[25] + 256*buf[26]);
         z80.iff1 = buf[27];
         z80.iff2 = buf[28];
-        z80.im = buf[29]&3;
-        z80.r7=(buf[12]&1)<<7;
+        z80.im = (BYTE)(buf[29]&3);
+        z80.r7=(BYTE)((buf[12]&1)<<7);
         SPECBorder=(buf[12]>>1)&7;
         SPECNextBorder=SPECBorder;
         compressed=buf[12]&32;
@@ -367,7 +367,7 @@ void spec_load_z80(char *fname)
                         HW->ColourBox->ItemIndex = 1;
                         machine.colour = COLOURSPECTRA;
 
-                        spectrum.spectraColourSwitchOn = buf[87] & 0x01;
+                        spectrum.spectraColourSwitchOn = (CFGBYTE)(buf[87] & 0x01);
                         spectrum.spectraMode = buf[88];
                         SPECBorder = buf[89];
                         SPECNextBorder = SPECBorder;
@@ -398,7 +398,7 @@ void spec_load_z80(char *fname)
         }
         Form1->DisplayArt->Enabled = (machine.colour != COLOURSPECTRA);
 
-        z80.pc.w=buf[32]+ 256*buf[33];
+        z80.pc.w=(WORD)(buf[32]+ 256*buf[33]);
         if (speccy==SPECCYTC2048 || speccy==SPECCYTS2068 || speccy==SPECCYTC2068)
                 spec48_writeport(0xff,buf[36], &i);
         spec48_writeport(0x7ffd,buf[35], &i);
@@ -435,23 +435,23 @@ void spec_load_sna(char *fname)
         machine.initialise();
 
         z80.i = buf[0];
-        z80.hl_.w=buf[1] + 256*buf[2];
-        z80.de_.w=buf[3] + 256*buf[4];
-        z80.bc_.w=buf[5] + 256*buf[6];
-        z80.af_.w=buf[7] + 256*buf[8];
+        z80.hl_.w=(WORD)(buf[1] + 256*buf[2]);
+        z80.de_.w=(WORD)(buf[3] + 256*buf[4]);
+        z80.bc_.w=(WORD)(buf[5] + 256*buf[6]);
+        z80.af_.w=(WORD)(buf[7] + 256*buf[8]);
 
-        z80.hl.w=buf[9] + 256*buf[10];
-        z80.de.w=buf[11] + 256*buf[12];
-        z80.bc.w=buf[13] + 256*buf[14];
-        z80.iy.w=buf[15] + 256*buf[16];
-        z80.ix.w=buf[17] + 256*buf[18];
+        z80.hl.w=(WORD)(buf[9] + 256*buf[10]);
+        z80.de.w=(WORD)(buf[11] + 256*buf[12]);
+        z80.bc.w=(WORD)(buf[13] + 256*buf[14]);
+        z80.iy.w=(WORD)(buf[15] + 256*buf[16]);
+        z80.ix.w=(WORD)(buf[17] + 256*buf[18]);
 
-        z80.iff2=buf[19]&4;
+        z80.iff2=(BYTE)(buf[19]&4);
         z80.iff1=z80.iff2;
 
-        z80.r=buf[20]; z80.r7=z80.r&128;
-        z80.af.w=buf[21] + 256*buf[22];
-        z80.sp.w=buf[23] + 256*buf[24];
+        z80.r=buf[20]; z80.r7=(BYTE)(z80.r&128);
+        z80.af.w=(WORD)(buf[21] + 256*buf[22]);
+        z80.sp.w=(WORD)(buf[23] + 256*buf[24]);
         z80.im=buf[25];
         SPECBorder=buf[26];
         SPECNextBorder=SPECBorder;
@@ -468,12 +468,12 @@ void spec_load_sna(char *fname)
         if (len==49179)
         {
                 z80.pc.w=spec48_getbyte(z80.sp.w++);
-                z80.pc.w += 256*spec48_getbyte(z80.sp.w++);
+                z80.pc.w += (WORD)(256*spec48_getbyte(z80.sp.w++));
                 free(buf);
                 return;
         }
 
-        z80.pc.w=buf[49179] + 256*buf[49180];
+        z80.pc.w=(WORD)(buf[49179] + 256*buf[49180]);
 
         k=49183;
         for(i=0;i<8;i++)
@@ -505,7 +505,7 @@ void spec_save_sna(char *fname)
                 || spectrum.model==SPECCYPLUS2A
                 || spectrum.model==SPECCYPLUS3))
         {
-                z80.sp.w -= 2;
+                z80.sp.w -= (WORD)2;
                 spec48_setbyte(z80.sp.w, z80.pc.b.l);
                 spec48_setbyte(z80.sp.w+1, z80.pc.b.h);
         }
@@ -556,7 +556,7 @@ void spec_save_sna(char *fname)
                         if (!banks[i])
                                 for(j=0;j<16384;j++) fputc(RAMRead((i+4),j),f);
         }
-        else    z80.sp.w += 2;
+        else    z80.sp.w += (WORD)2;
         fclose(f);
 }
 
@@ -585,12 +585,12 @@ void z80_save_block(FILE *f, int bank, int z80block)
                         if (run>255) run=255;
                         buf[len++]=0xed;
                         buf[len++]=0xed;
-                        buf[len++]=run;
-                        buf[len++]=byte;
+                        buf[len++]=(WORD)run;
+                        buf[len++]=(WORD)byte;
                 }
                 else
                 {
-                        buf[len++]=byte;
+                        buf[len++]=(WORD)byte;
                         run=1;
                 }
 
@@ -635,12 +635,12 @@ void z80_save_spectra_block(FILE *f, int bank, int z80block)
                         if (run>255) run=255;
                         buf[len++]=0xed;
                         buf[len++]=0xed;
-                        buf[len++]=run;
-                        buf[len++]=byte;
+                        buf[len++]=(WORD)run;
+                        buf[len++]=(WORD)byte;
                 }
                 else
                 {
-                        buf[len++]=byte;
+                        buf[len++]=(WORD)byte;
                         run=1;
                 }
 
@@ -763,7 +763,7 @@ void spec_save_z80(char *fname)
                 */
 
                 // Only colour mode supported at present
-                BYTE spectraBits = spectrum.spectraColourSwitchOn ? 1 : 0;
+                BYTE spectraBits = (BYTE)(spectrum.spectraColourSwitchOn ? 1 : 0);
                 fputc(spectraBits, f);
 
                 /*

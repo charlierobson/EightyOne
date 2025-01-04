@@ -22,7 +22,7 @@
 #include <sys/stat.h>
 #include <io.h>
 #include <fcntl.h>
-#include <vcl.h>
+#include <vcl4.h>
 #include "zx81config.h"
 
 const int MaxRomCartridgeCapacity = 4 * 1024 * 1024;

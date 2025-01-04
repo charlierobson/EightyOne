@@ -23,8 +23,8 @@ object ProfilePlot: TProfilePlot
   TextHeight = 13
   object ScrollBarHorizontal: TScrollBar
     Left = 0
-    Top = 332
-    Width = 635
+    Top = 328
+    Width = 627
     Height = 17
     Align = alBottom
     LargeChange = 100
@@ -35,8 +35,8 @@ object ProfilePlot: TProfilePlot
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 349
-    Width = 635
+    Top = 345
+    Width = 627
     Height = 19
     Panels = <
       item

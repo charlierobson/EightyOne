@@ -1,4 +1,4 @@
-object Printer: TZXPrinter
+object ZXPrinter: TZXPrinter
   Left = 416
   Top = 115
   Anchors = [akLeft, akTop, akBottom]

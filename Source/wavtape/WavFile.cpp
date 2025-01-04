@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -114,7 +114,7 @@ bool TWavFile::LoadCSW(ZXString FName)
                 c=fgetc(f);
                 if (c==0) fread(&c,4,1,f);
 
-                for(i=0;i<c;i++) Data.Data[size++]=current? 255:0;
+                for(i=0;i<c;i++) Data.Data[size++]=(unsigned char)(current? 255:0);
                 current=1-current;
         }
 
@@ -226,15 +226,15 @@ unsigned char TWavFile::Sample(unsigned int SampleNo, int Channel)
                 break;
 
         case 2:
-                data = (* (( unsigned short *) (Data.Data + Pos))) / 256;
+                data = (unsigned char)((* (( unsigned short *) (Data.Data + Pos))) / 256);
                 break;
 
         default:
                 data=128;
         }
 
-        if (Signed==true) data = 128 + ((signed char) data);
-        data=255-data;
+        if (Signed==true) data = (unsigned char)(128 + ((signed char) data));
+        data=(unsigned char)(255-data);
 
         val=data-128;
 
@@ -245,7 +245,7 @@ unsigned char TWavFile::Sample(unsigned int SampleNo, int Channel)
         if (val>127) val=127;
         if (val<-127) val=-127;
 
-        data = val + 128;
+        data = (unsigned char)(val + 128);
         return(data);
 
 }

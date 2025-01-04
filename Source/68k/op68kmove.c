@@ -11,6 +11,12 @@
  *  23.05.2002  FAST1.0.1 code import: KR -> ANSI, restructuring
  *  30.10.2002  JH  Replaced "% 8" with "& 7". Helps lesser compilers to generate faster code.
  */
+
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8066
+#pragma warn -8071
+#endif
+
 #ifndef PROTOH
 //static char     sccsid[] = "$Id: op68kmove.c,v 1.2 2002/10/30 16:23:06 jhoenig Exp $";
 #include "68000.h"

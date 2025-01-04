@@ -27,27 +27,7 @@ static BYTE* instructionBytesBuffer;
 
 BYTE GetMem(int Addr)
 {
-	BYTE byteVal;
-
-        if (emulator.machine==MACHINESPECTRUM || emulator.machine==MACHINEACE || Addr<zx81.m1not)
-	{
-                byteVal = readFromMemory ? getbyte(Addr) : instructionBytesBuffer[Addr - instructionAddress];
-	}
-        else
-        {
-	        if (readFromMemory)
-		{
-		        byteVal = getbyte(Addr&32767);
-			if ((byteVal & 0x40) != 0x40)
-			{
-			        byteVal = 0x00;		// All character codes are replaced by NOPs
-                        }
-		}
-		else
-		{
-			byteVal = instructionBytesBuffer[Addr - instructionAddress];
-		}
-        }
+	BYTE byteVal = readFromMemory ? getbyte(Addr) : instructionBytesBuffer[Addr - instructionAddress];
 
 	return byteVal;
 }
@@ -92,7 +72,7 @@ ZXString TDbg::DisassembleAddress(int* Ad)
 
         Opcode = GetMem(Addr);
         StrAddr = "$"+ZXString::IntToHex(Addr,4);
-        StrCode += Hex8(Opcode);
+        StrCode = Hex8(Opcode);
         Addr++;
 
         if (Addr>=zx81.m1not && !(Opcode&64) && !(emulator.machine==MACHINEACE

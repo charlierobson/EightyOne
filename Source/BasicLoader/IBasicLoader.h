@@ -19,7 +19,7 @@
 #ifndef IBASICLOADER_H
 #define IBASICLOADER_H
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <string>
 #include <map>
 #include <vector>

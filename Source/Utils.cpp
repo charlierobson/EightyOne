@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <ctype.h>
 #include <stdio.h>
 #pragma hdrstop
@@ -178,11 +178,11 @@ void ConvertASCIIZX81(ZXString Str, BYTE *Output)
 
         while(i<=Str.Length() && p)
         {
-                c = toupper(Str[i]);
+                c = (char)toupper(Str[i]);
                 if (c=='_') c=' ';
 
                 p = strchr(ZXCharTable, c);
-                if (p) *(Output++) = p - ZXCharTable;
+                if (p) *(Output++) = (BYTE)(p - ZXCharTable);
                 i++;
         }
 
@@ -196,18 +196,18 @@ void ASCIIZX81(BYTE *in, BYTE *Out)
         char c, *p;
         unsigned int i;
 
-        if (!strlen((const char *)in)) return;
+        if (!strlen((const char*)in)) return;
 
         i=0;
         p=ZXCharTable;
 
-        while(i<strlen((const char *)in) && p)
+        while(i<strlen((const char*)in) && p)
         {
-                c = toupper(in[i]);
+                c = (char)toupper(in[i]);
                 if (c==' ') c='_';
 
                 p = strchr(ZXCharTable, c);
-                if (p) *(Out++) = p - ZXCharTable;
+                if (p) *(Out++) = (BYTE)(p - ZXCharTable);
                 i++;
         }
 
@@ -299,7 +299,7 @@ ZXString GetExt(ZXString Fname)
 
         Ext = Fname.SubString(pos, 1+len-pos);
 
-        for(pos=1; pos<=Ext.Length(); pos++) Ext[pos]=toupper(Ext[pos]);
+        for(pos=1; pos<=Ext.Length(); pos++) Ext[pos]=(char)toupper(Ext[pos]);
         return(Ext);
 }
 //---------------------------------------------------------------------------

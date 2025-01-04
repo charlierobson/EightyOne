@@ -59,9 +59,9 @@ int CDSnd::Initialise(HWND hWnd, int FPS, int BitsPerSample, int SampleRate, int
         // Set Sound Output Format - Stereo/22kHz/8Bit
 
         m_WFE.wFormatTag =  WAVE_FORMAT_PCM;
-        m_WFE.nChannels = m_Channels;
+        m_WFE.nChannels = (WORD)m_Channels;
         m_WFE.nSamplesPerSec = m_SampleRate;
-        m_WFE.wBitsPerSample = m_BitsPerSample;
+        m_WFE.wBitsPerSample = (WORD)m_BitsPerSample;
         m_WFE.nBlockAlign = m_WFE.nChannels;
         m_WFE.nAvgBytesPerSec = m_WFE.nChannels *
                         m_WFE.nSamplesPerSec * m_WFE.wBitsPerSample/8;

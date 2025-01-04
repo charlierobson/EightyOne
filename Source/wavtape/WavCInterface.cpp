@@ -27,7 +27,7 @@
 
 void WavRecordByte(int Byte)
 {
-        if (emulator.TZXout) TZX->RecordByte(Byte);
+        if (emulator.TZXout) TZX->RecordByte((unsigned char)Byte);
 }
 
 int WavFlashLoad(void)

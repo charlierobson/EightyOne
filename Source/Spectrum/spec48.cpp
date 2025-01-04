@@ -18,7 +18,7 @@
  * spec48.c
  *
  */
-#include <vcl.h>
+#include <vcl4.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -218,8 +218,8 @@ void SpecStartUp(void)
         int versionNumberPart4;
         GetVersionNumber(versionNumberMajor, versionNumberMinor, versionNumberPart3, versionNumberPart4);
 
-        RZXemulinfo.ver_major = versionNumberMajor;
-        RZXemulinfo.ver_minor = versionNumberMinor;
+        RZXemulinfo.ver_major = (rzx_u16)versionNumberMajor;
+        RZXemulinfo.ver_minor = (rzx_u16)versionNumberMinor;
         RZXError=rzx_init(&RZXemulinfo, RZXcallback);
 }
 
@@ -360,7 +360,7 @@ void spec48_initialise()
                 ZXPrinterReset();
         }
 
-        for(i=0;i<sizeof(SpecMem);i++) SpecMem[i]=random(256);
+        for(i=0;i<sizeof(SpecMem);i++) SpecMem[i]=(BYTE)random(256);
         for(i=0;i<sizeof(TimexMem);i++) TimexMem[i]=255;
         for(i=0;i<sizeof(PlusDMem);i++) PlusDMem[i]=255;
 
@@ -471,7 +471,7 @@ void spec48_initialise()
                 delay=6;
                 for(j=0;j<128;j++)
                 {
-                        if (delay>0) ContendArray[pos+j]= delay;
+                        if (delay>0) ContendArray[pos+j]=(BYTE)delay;
                         if (--delay==-2) delay=6;
                 }
 
@@ -627,33 +627,33 @@ void SPECLoadCheck(void)
 
 void spec48_WriteByte(int Address, int Data)
 {
-        LiveMemoryWindow->Write(Address);
+        LiveMemoryWindow->Write((unsigned short)Address);
 
         if (Address>=32768 && spectrum.model==SPECCY16) return;
 
         if (Address<16384)
         {
-                if ((Address==0x1000) && (machine.speech == SPEECH_TYPE_USPEECH)) sp0256_AL2.Write(Data);
+                if ((Address==0x1000) && (machine.speech == SPEECH_TYPE_USPEECH)) sp0256_AL2.Write((unsigned char)Data);
 
                 if (PlusDPaged)
                 {
                         Address ^= PlusDMemSwap;
                         if (spectrum.floppytype == FLOPPYBETA) return;
                         if (Address<8192) return;
-                        PlusDMem[Address]=Data;
+                        PlusDMem[Address]=(BYTE)Data;
 
                         if (spectrum.floppytype==FLOPPYOPUSD)
                         {
                                 if (Address>=14336) ;           // Undefined on Opus
                                 else if (Address>=12288)
-                                        OpusD6821Access(Address, Data, 1);              // 6821 PIA
+                                        OpusD6821Access((BYTE)Address, (BYTE)Data, 1);              // 6821 PIA
                                 else if (Address>=10240)        // WD1770 FDC
                                         switch(Address&3)
                                         {
-                                        case 0: floppy_write_cmdreg(Data); break;
-                                        case 1: floppy_write_trackreg(Data); break;
-                                        case 2: floppy_write_secreg(Data); break;
-                                        case 3: floppy_write_datareg(Data); break;
+                                        case 0: floppy_write_cmdreg((BYTE)Data); break;
+                                        case 1: floppy_write_trackreg((BYTE)Data); break;
+                                        case 2: floppy_write_secreg((BYTE)Data); break;
+                                        case 3: floppy_write_datareg((BYTE)Data); break;
                                         }
                         }
 
@@ -662,14 +662,14 @@ void spec48_WriteByte(int Address, int Data)
 
                 if (MFActive && (Address>8191))
                 {
-                        MFMem[Address]=Data;
+                        MFMem[Address]=(BYTE)Data;
                         return;
                 }
 
                 if (!(ZXCFPort&128))
                 {
                         if (!(ZXCFPort&64)) return;
-                        ZXCFMem[(((ZXCFPort&63)&(spectrum.ZXCFRAMSize-1))<<14)+Address]=Data;
+                        ZXCFMem[(((ZXCFPort&63)&(spectrum.ZXCFRAMSize-1))<<14)+Address]=(BYTE)Data;
                         return;
                 }
 
@@ -678,12 +678,12 @@ void spec48_WriteByte(int Address, int Data)
                         if (Address<8192)
                         {
                                 if (!divIDEPage0WP)
-                                        divIDEMem[Address+(divIDEPage0*8192)]=Data;
+                                        divIDEMem[Address+(divIDEPage0*8192)]=(BYTE)Data;
                         }
                         else
                         {
                                 if (!divIDEPage1WP)
-                                        divIDEMem[(Address&8191)+(divIDEPage1*8192)]=Data;
+                                        divIDEMem[(Address&8191)+(divIDEPage1*8192)]=(BYTE)Data;
                         }
                         return;
                 }
@@ -705,14 +705,14 @@ void spec48_WriteByte(int Address, int Data)
         if ((1<<(Address>>13)) & TIMEXPage)
         {
                 if (TimexWritable[(1<<(Address>>13))+8*TIMEXBank])
-                        TimexMem[65536*TIMEXBank+Address]=Data;
+                        TimexMem[65536*TIMEXBank+Address]=(BYTE)Data;
         }
         else
         {
-                RAMWrite(SPECBlk[Address>>14], Address, Data);
+                RAMWrite(SPECBlk[Address>>14], Address, (BYTE)Data);
                 if (machine.colour == COLOURSPECTRA)
                 {
-                        SpectraRAMWrite(Address, Data);
+                        SpectraRAMWrite(Address, (BYTE)Data);
                 }
         }
 
@@ -741,7 +741,7 @@ void spec48_writebyte(int Address, int Data)
 
 BYTE spec48_ReadByte(int Address)
 {
-        int data;
+        BYTE data;
 
         spectrumBasicRomPagedIn = false;
         spectrum128BasicRomPagedIn = false;
@@ -749,7 +749,7 @@ BYTE spec48_ReadByte(int Address)
         spectrumPlus2BasicRomPagedIn = false;
         spectrumPlus3BasicRomPagedIn = false;
 
-        LiveMemoryWindow->Read(Address);
+        LiveMemoryWindow->Read((unsigned short)Address);
 
         if (Address<16384)
         {
@@ -757,7 +757,7 @@ BYTE spec48_ReadByte(int Address)
                 {
                         data=sp0256_AL2.Busy();
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
 
                 if (PlusDPaged)
@@ -769,7 +769,7 @@ BYTE spec48_ReadByte(int Address)
                         {
                                 if (Address>=14336) data=255;   // Undefined on Opus
                                 else if (Address>=12288)        // 6821 PIA
-                                        data=OpusD6821Access(Address, 0, 0);
+                                        data=OpusD6821Access((BYTE)Address, 0, 0);
                                 else if (Address>=10240)        // WD1770 FDC
                                         switch(Address&3)
                                         {
@@ -781,7 +781,7 @@ BYTE spec48_ReadByte(int Address)
                         }
 
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
 
                 if (MFActive)
@@ -795,7 +795,7 @@ BYTE spec48_ReadByte(int Address)
                 {
                         data=ZXCFMem[(((ZXCFPort&63)&(spectrum.ZXCFRAMSize-1))<<14)+Address];
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
 
                 if (divIDEPaged)
@@ -803,21 +803,21 @@ BYTE spec48_ReadByte(int Address)
                         if (Address<8192) data=divIDEMem[Address+(divIDEPage0*8192)];
                         else data=divIDEMem[(Address&8191)+(divIDEPage1*8192)];
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
 
                 if (uSpeechPaged)
                 {
                         data=uSpeechMem[Address];
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
 
                 if (uSourcePaged)
                 {
                         data=uSourceMem[Address & 0x1FFF];
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
 
                 if ((romcartridge.type != ROMCARTRIDGENONE) && (romcartridge.type != ROMCARTRIDGETC2068) && (romcartridge.type != ROMCARTRIDGETS2068)  && (RomCartridgeCapacity != 0))
@@ -847,7 +847,7 @@ BYTE spec48_ReadByte(int Address)
                 data=RAMRead(SPECBlk[Address>>14], Address);
 
         noise = (noise<<8) | data;
-        return(data);
+        return data;
 }
 
 // Read from memory without accidentally invoking the ZXC ROM cartridge paging mechanism
@@ -889,7 +889,7 @@ BYTE spec48_opcode_fetch(int Address)
 
 void spec48_writeport(int Address, int Data, int *tstates)
 {
-        LogOutAccess(Address, Data);
+        LogOutAccess(Address, (BYTE)Data);
 
         if (spectrum.HDType == HDDIVIDE)
         {
@@ -953,7 +953,7 @@ void spec48_writeport(int Address, int Data, int *tstates)
         {
                 if (machine.plus3arabicPagedOut != (~Data & 0x01))
                 {
-                        machine.plus3arabicPagedOut = (~Data & 0x01);
+                        machine.plus3arabicPagedOut = (CFGBYTE)(~Data & 0x01);
 
                         int romlen;
 
@@ -973,32 +973,32 @@ void spec48_writeport(int Address, int Data, int *tstates)
         switch(Address&255)
         {
         case 0x1b:
-                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_cmdreg(Data);
+                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_cmdreg((BYTE)Data);
                 break;
 
         case 0x1f:       
-                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_set_motor(Data);
-                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_cmdreg(Data);
+                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_set_motor((BYTE)Data);
+                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_cmdreg((BYTE)Data);
                 break;
 
         case 0x3f:
                 if (spectrum.MFVersion==MF128) MFLockout=1;
                 if (machine.aytype==AY_TYPE_FULLER) SelectAYReg=Data&15;
-                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_trackreg(Data);
+                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_trackreg((BYTE)Data);
         case 0x5b:
-                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_trackreg(Data);
+                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_trackreg((BYTE)Data);
                 break;
 
         case 0x5f:
                 if (machine.aytype==AY_TYPE_FULLER) Sound.AYWrite(SelectAYReg, Data, frametstates);
-                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_secreg(Data);
+                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_secreg((BYTE)Data);
                 break;
 
         case 0x73:
-                if (machine.ts2050) d8251writeDATA(Data);
+                if (machine.ts2050) d8251writeDATA((BYTE)Data);
                 break;
         case 0x77:
-                if (machine.ts2050) d8251writeCTRL(Data);
+                if (machine.ts2050) d8251writeCTRL((BYTE)Data);
                 break;
 
         case 0x7b:
@@ -1006,11 +1006,11 @@ void spec48_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0x7f:
-                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_datareg(Data);
+                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_write_datareg((BYTE)Data);
                 break;
 
         case 0x9b:
-                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_secreg(Data);
+                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_secreg((BYTE)Data);
                 break;
 
         case 0xbb:
@@ -1054,19 +1054,19 @@ void spec48_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0xc7:
-                d8255_write(D8255PRTA,Data);
+                d8255_write(D8255PRTA,(BYTE)Data);
                 break;
 
         case 0xcf:
-                d8255_write(D8255PRTB,Data);
+                d8255_write(D8255PRTB,(BYTE)Data);
                 break;
 
         case 0xd7:
-                d8255_write(D8255PRTC,Data);
+                d8255_write(D8255PRTC,(BYTE)Data);
                 break;
 
         case 0xdb:
-                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_datareg(Data);
+                if (spectrum.floppytype==FLOPPYDISCIPLE) floppy_write_datareg((BYTE)Data);
                 break;
 
         case 0xdd:
@@ -1081,7 +1081,7 @@ void spec48_writeport(int Address, int Data, int *tstates)
                         // ensures by masking out the IORQ line
                         if ((machine.colour == COLOURSPECTRA) && spectrum.spectraColourSwitchOn)
                         {
-                                spectrum.spectraMode = Data;
+                                spectrum.spectraMode = (CFGBYTE)Data;
                                 DetermineSpectraDisplayBank();
                                 break;
                         }
@@ -1090,7 +1090,7 @@ void spec48_writeport(int Address, int Data, int *tstates)
                         break;
                 }
         case 0xe3:
-                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_cmdreg(Data);
+                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_cmdreg((BYTE)Data);
                 break;
 
         case 0xe7:
@@ -1099,7 +1099,7 @@ void spec48_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0xeb:
-                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_trackreg(Data);
+                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_trackreg((BYTE)Data);
                 break;
 
         case 0xef:
@@ -1113,11 +1113,11 @@ void spec48_writeport(int Address, int Data, int *tstates)
                         ATA_WriteRegister(Addr,Data);
                 }
                 if (spectrum.floppytype==FLOPPYIF1) IF1PortEFWrite(Data);
-                if (spectrum.floppytype==FLOPPYPLUSD) floppy_set_motor(Data);
+                if (spectrum.floppytype==FLOPPYPLUSD) floppy_set_motor((BYTE)Data);
                 break;
 
         case 0xf3:
-                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_secreg(Data);
+                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_secreg((BYTE)Data);
                 break;
 
         case 0xf4:
@@ -1135,13 +1135,13 @@ void spec48_writeport(int Address, int Data, int *tstates)
 
         case 0xf7:
                 if (spectrum.floppytype==FLOPPYIF1) IF1PortF7Write(Data);
-                if (spectrum.floppytype==FLOPPYPLUSD) PrinterWriteData(Data);
+                if (spectrum.floppytype==FLOPPYPLUSD) PrinterWriteData((unsigned char)Data);
                 break;
 
         case 0xfb:
-                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_datareg(Data);
-                if (spectrum.floppytype==FLOPPYDISCIPLE) PrinterWriteData(Data);
-                if (machine.zxprinter) ZXPrinterWritePort(Data);
+                if (spectrum.floppytype==FLOPPYPLUSD) floppy_write_datareg((BYTE)Data);
+                if (spectrum.floppytype==FLOPPYDISCIPLE) PrinterWriteData((unsigned char)Data);
+                if (machine.zxprinter) ZXPrinterWritePort((unsigned char)Data);
                 break;
         case 0xfd:
                 switch(Address>>8)
@@ -1149,20 +1149,20 @@ void spec48_writeport(int Address, int Data, int *tstates)
                 case 0x0f:
                         if ((emulator.machine == MACHINESPECTRUM) && (spectrum.model >= SPECCYPLUS2A))
                         {
-                                PrinterWriteData(Data);
+                                PrinterWriteData((unsigned char)Data);
                         }
                         break;
 
                 case 0x3f:
                         if ((emulator.machine == MACHINESPECTRUM) && (spectrum.model >= SPECCYPLUS2A))
                         {
-                                floppy_write_datareg(Data);
+                                floppy_write_datareg((BYTE)Data);
                         }
                         break;
 
                 case 0x7f:
                         if (!SPECBankEnable) break;
-                        SPECLast7ffd=Data;
+                        SPECLast7ffd=(BYTE)Data;
                         SPECBlk[0]= ((SPECLast1ffd>>1)&2) | ((Data>>4)&1);
                         SPECBlk[3]=4+(Data&7);
                         SPECVideoBank=(Data>>3)&1 ? 11:9;
@@ -1177,12 +1177,12 @@ void spec48_writeport(int Address, int Data, int *tstates)
                         if ((emulator.machine == MACHINESPECTRUM) && (spectrum.model >= SPECCYPLUS2A))
                         {
                                 spectrum.drivebusy = (Data&8) ? 1:0;
-                                floppy_set_motor(Data);
-                                PrinterSetStrobe(Data&16);
+                                floppy_set_motor((BYTE)Data);
+                                PrinterSetStrobe((unsigned char)(Data&16));
 
                                 if ((!SPECBankEnable) || spectrum.model<=SPECCY128)
                                         break;
-                                SPECLast1ffd=Data;
+                                SPECLast1ffd=(BYTE)Data;
                                 if (Data&1)
                                 {
                                         switch((Data>>1)&3)
@@ -1214,7 +1214,7 @@ void spec48_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0xff:
-                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_set_motor(Data);
+                if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) floppy_set_motor((BYTE)Data);
 
                 if (spectrum.model==SPECCYTC2048 || spectrum.model==SPECCYTS2068 || spectrum.model==SPECCYTC2068)
                 {
@@ -1257,6 +1257,7 @@ int spec48_contendio(int Address, int states, int time)
                 time += ContendArray[ContendCounter+states+time];
         return(time);
 
+/*
         time=0;
         if (Address&1)
         {
@@ -1290,6 +1291,7 @@ int spec48_contendio(int Address, int states, int time)
         }
 
         return(time);
+*/
 }
 
 
@@ -1308,18 +1310,18 @@ BYTE ReadPort(int Address, int *tstates)
         if (rzx.mode==RZX_PLAYBACK)
         {
                 RZXPortVal = rzx_get_input();
-                if (RZXPortVal>=0) return(RZXPortVal);
+                if (RZXPortVal>=0) return (BYTE)RZXPortVal;
                 //rzx_close();
         }
 
         if (spectrum.HDType==HDDIVIDE && ((Address&0xe3)==0xa3))
-                return(ATA_ReadRegister((Address>>2)&7));
+                return (BYTE)ATA_ReadRegister((Address>>2)&7);
 
         if ((spectrum.HDType==HDPITERSCF || spectrum.HDType==HDPITERS8B) && ((Address&0x3b)==0x2b))
-                return(ATA_ReadRegister(((Address>>2)&1) | ((Address>>5)&6)));
+                return (BYTE)ATA_ReadRegister(((Address>>2)&1) | ((Address>>5)&6));
 
         if ((spectrum.HDType==HDPITERS16B) && ((Address&0xe9)==0x69))
-                return(ATA_ReadRegister(((Address>>4)&1) | (Address&6)));
+                return (BYTE)ATA_ReadRegister(((Address>>4)&1) | (Address&6));
 
         switch(Address&255)
         {
@@ -1330,7 +1332,7 @@ BYTE ReadPort(int Address, int *tstates)
         case 0x1f:
                 if (spectrum.floppytype==FLOPPYBETA && PlusDPaged) return(floppy_read_statusreg());
                 if (spectrum.floppytype==FLOPPYDISCIPLE)
-                        return(PrinterBusy()<<6);
+                        return (BYTE)(PrinterBusy()<<6);
                 break;
 
         case 0x3f:
@@ -1395,7 +1397,7 @@ BYTE ReadPort(int Address, int *tstates)
                                 if (!MFLockout)
                                 {
                                         MFActive=1;
-                                        return((SPECLast7ffd&8)<<4);
+                                        return (BYTE)((SPECLast7ffd&8)<<4);
                                 }
                                 return(0xff);
 
@@ -1421,11 +1423,11 @@ BYTE ReadPort(int Address, int *tstates)
                         case 0x04:
                         case 0x05:
                         case 0x06:
-                        case 0x07: return(ATA_ReadRegister(a));
+                        case 0x07: return (BYTE)ATA_ReadRegister(a);
 
-                        case 0x08: return(ATA_ReadRegister(0));
-                        case 0x09: return(ATA_ReadRegister(8));
-                        case 0x10: return(ZXCFPort);
+                        case 0x08: return (BYTE)ATA_ReadRegister(0);
+                        case 0x09: return (BYTE)ATA_ReadRegister(8);
+                        case 0x10: return (BYTE)ZXCFPort;
                         default: break;
                         }
                 }
@@ -1438,7 +1440,7 @@ BYTE ReadPort(int Address, int *tstates)
 
         case 0xdd:
                 if (machine.aytype==AY_TYPE_ACE)
-                        return(Sound.AYRead(SelectAYReg));
+                        return (BYTE)Sound.AYRead(SelectAYReg);
                 break;
 
         case 0xdf:
@@ -1456,9 +1458,9 @@ BYTE ReadPort(int Address, int *tstates)
                         {
                                 switch((Address>>8)&255)
                                 {
-                                case 0xfb: return(mouse.x & 255);
-                                case 0xff: return(mouse.y & 255);
-                                case 0xfa: return(mouse.buttons);
+                                case 0xfb: return (BYTE)(mouse.x & 255);
+                                case 0xff: return (BYTE)(mouse.y & 255);
+                                case 0xfa: return (BYTE)(mouse.buttons);
                                 }
                         }
                         break;
@@ -1470,7 +1472,7 @@ BYTE ReadPort(int Address, int *tstates)
                 break;
 
         case 0xe7:
-                if (spectrum.floppytype==FLOPPYIF1) return(IF1PortE7Read(tstates));
+                if (spectrum.floppytype==FLOPPYIF1) return (BYTE)IF1PortE7Read(tstates);
                 if (spectrum.floppytype==FLOPPYPLUSD) PlusDPaged=1;
                 break;
 
@@ -1479,7 +1481,7 @@ BYTE ReadPort(int Address, int *tstates)
                 break;
 
         case 0xef:
-                if (spectrum.floppytype==FLOPPYIF1) return(IF1PortEFRead());
+                if (spectrum.floppytype==FLOPPYIF1) return (BYTE)IF1PortEFRead();
                 if (spectrum.HDType==HDPLUS3E)
                 {
                         int Addr=0;
@@ -1487,7 +1489,7 @@ BYTE ReadPort(int Address, int *tstates)
                         if (Address&4096) Addr |= 2;
                         if (Address&8192) Addr |= 4;
 
-                        return(ATA_ReadRegister(Addr));
+                        return (BYTE)ATA_ReadRegister(Addr);
                 }
                 break;
 
@@ -1497,18 +1499,18 @@ BYTE ReadPort(int Address, int *tstates)
 
         case 0xf4:
                 if (spectrum.model==SPECCYTC2048 || spectrum.model==SPECCYTS2068 || spectrum.model==SPECCYTC2068)
-                        return(TIMEXPage);
+                        return (BYTE)TIMEXPage;
                 break;
 
         case 0xf6:
                 if (machine.aytype==AY_TYPE_TIMEX)
-                        return(Sound.AYRead(SelectAYReg));
+                        return (BYTE)Sound.AYRead(SelectAYReg);
                 break;
 
         case 0xf7:
-                if (spectrum.floppytype==FLOPPYIF1) return(IF1PortF7Read());
+                if (spectrum.floppytype==FLOPPYIF1) return (BYTE)IF1PortF7Read();
                 if (spectrum.floppytype==FLOPPYPLUSD)
-                        return(PrinterBusy()<<7);
+                        return (BYTE)(PrinterBusy()<<7);
                 break;
 
         case 0xfb:
@@ -1519,8 +1521,8 @@ BYTE ReadPort(int Address, int *tstates)
         case 0xfd:
                 switch((Address>>8)&255)
                 {
-                case 0x0f:      return(PrinterBusy());
-                case 0xff:      return(Sound.AYRead(SelectAYReg));
+                case 0x0f:      return (BYTE)PrinterBusy();
+                case 0xff:      return (BYTE)Sound.AYRead(SelectAYReg);
                 case 0x3f:
                                 return(floppy_read_datareg());
                 case 0x2f:
@@ -1532,7 +1534,7 @@ BYTE ReadPort(int Address, int *tstates)
                 if (spectrum.floppytype==FLOPPYBETA && PlusDPaged)
                         return(floppy_get_state());
                 if (spectrum.model==SPECCYTC2048 || spectrum.model==SPECCYTS2068 || spectrum.model==SPECCYTC2068)
-                        return(TIMEXByte);
+                        return (BYTE)TIMEXByte;
                 break;
 
         default:
@@ -1547,9 +1549,9 @@ BYTE ReadPort(int Address, int *tstates)
                         if ((spectrum.model==SPECCYTC2048) || (spectrum.model==SPECCYTS2068) || (spectrum.model==SPECCYTC2068)) data=160;
 
                         SPECLoadCheck();
-                        if (WavPlaying()) data = (data&~64) | (GetEarState() ? 64:0);
+                        if (WavPlaying()) data = (BYTE)((data&~64) | (GetEarState() ? 64:0));
 
-                        keyb=Address/256;
+                        keyb=(BYTE)(Address/256);
                         for(i=0; i<8; i++) if (! (keyb & (1<<i)) ) data |= ZXKeyboard[i];
 
                         //if (z80.pc.w==0x05f3)
@@ -1558,12 +1560,12 @@ BYTE ReadPort(int Address, int *tstates)
                         //        if (TZXFlashLoad()) SPECFlashLoading=1;
                         //}
 
-                        return(~data);
+                        return (BYTE)(~data);
                 }
                 break;
         }
 
-        if (spectrum.model<=SPECCY128) return(FloatingBus);
+        if (spectrum.model<=SPECCY128) return (BYTE)FloatingBus;
 
         return(idleDataBus);
 }
@@ -1629,7 +1631,7 @@ int spec48_do_scanline(SCANLINE *CurScanLine)
 
 
                 add_blank(CurScanLine, backPorchBorrow*scale, BACKPORCHCOLOUR);
-                add_blank(CurScanLine, displayBorrow*scale, bpaper);
+                add_blank(CurScanLine, displayBorrow*scale, (BYTE)bpaper);
 
                 PBaseColour=paper;
                 sts=0;
@@ -1937,8 +1939,8 @@ int spec48_do_scanline(SCANLINE *CurScanLine)
                                         else
                                         {
                                                 if (tv.AdvancedEffects && !(TIMEXMode&4))
-                                                        CurScanLine->scanline[CurScanLine->scanline_len++]=altcolour;
-                                                CurScanLine->scanline[CurScanLine->scanline_len++]=colour;
+                                                        CurScanLine->scanline[CurScanLine->scanline_len++]=(BYTE)altcolour;
+                                                CurScanLine->scanline[CurScanLine->scanline_len++]=(BYTE)colour;
                                         }
                                         PBaseColour=BaseColour;
                                         shift_register <<= 1;

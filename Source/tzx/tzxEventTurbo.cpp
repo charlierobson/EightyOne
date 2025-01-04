@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -60,7 +60,7 @@ bool TTZXFile::EventTurbo(void)
                         if (emulator.machine==MACHINEACE)
                         {
                                 PilotLen=TZXSCALE(2011);
-                                PilotPulses=(data[0]!=0)? 1024:8192;
+                                PilotPulses=(unsigned short)((data[0]!=0)? 1024:8192);
                                 Sync1Len=TZXSCALE(600);
                                 Sync2Len=TZXSCALE(790);
                                 ZeroLen=TZXSCALE(801);
@@ -70,7 +70,7 @@ bool TTZXFile::EventTurbo(void)
                         else
                         {
                                 PilotLen=TZXSCALE(2325);
-                                PilotPulses=(data[0]>127)? 3223:8063;
+                                PilotPulses=(unsigned short)((data[0]>127)? 3223:8063);
                                 Sync1Len=TZXSCALE(667);
                                 Sync2Len=TZXSCALE(735);
                                 ZeroLen=TZXSCALE(855);
@@ -146,7 +146,7 @@ bool TTZXFile::EventTurbo(void)
                 if (CurrentBitCount<=0)
                 {
                         CurrentByte=*(data++);
-                        CurrentBitCount=(DataLen==1) ? UsedBits-1 : 7;
+                        CurrentBitCount=(BYTE)((DataLen==1) ? UsedBits-1 : 7);
                         DataLen--;
                         if (DataLen==-1)
                         {
@@ -162,7 +162,7 @@ bool TTZXFile::EventTurbo(void)
                         CurrentBitCount--;
                 }
 
-                CurrentBit=(CurrentByte&128);
+                CurrentBit=(BYTE)(CurrentByte&128);
                 EarState=!EarState;
                 TZXEventCounter+= CurrentBit ? OneLen : ZeroLen;
                 Pulses=1;

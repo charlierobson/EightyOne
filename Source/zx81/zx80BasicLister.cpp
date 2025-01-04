@@ -190,7 +190,7 @@ bool zx80BasicLister::ExtractLineDetails(int* address, LineInfo& lineInfo)
 
         int length = 0;    
         bool lastKeywordEndedWithSpace = false;
-        int b;
+        unsigned char b;
         bool endOfLine;
 
         lineInfo.displayLength = 4;     // Line number length
@@ -250,11 +250,11 @@ unsigned char zx80BasicLister::ConvertToZXCode(unsigned char code)
                 default:
                         if (code >= '0' && code <= '9')
                         {
-                                c = Number0 + (code - '0');
+                                c = (unsigned char)(Number0 + (code - '0'));
                         }
                         else
                         {
-                                c = LetterA + (code - 'A');
+                                c = (unsigned char)(LetterA + (code - 'A'));
                         }
                         break;
         }

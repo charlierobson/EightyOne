@@ -144,9 +144,9 @@ int z80_do_opcode()
       B=opcode_fetch(PC++);
       break;
     case 0x07:		/* RLCA */
-      A = ( A << 1 ) | ( A >> 7 );
-      F = ( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
-	( A & ( FLAG_C | FLAG_3 | FLAG_5 ) );
+      A = (BYTE)(( A << 1 ) | ( A >> 7 ));
+      F = (BYTE)(( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
+	( A & ( FLAG_C | FLAG_3 | FLAG_5 ) ));
       break;
     case 0x08:		/* EX AF,AF' */
       {
@@ -178,9 +178,9 @@ int z80_do_opcode()
       C=opcode_fetch(PC++);
       break;
     case 0x0f:		/* RRCA */
-      F = ( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) | ( A & FLAG_C );
-      A = ( A >> 1) | ( A << 7 );
-      F |= ( A & ( FLAG_3 | FLAG_5 ) );
+      F = (BYTE)(( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) | ( A & FLAG_C ));
+      A = (BYTE)(( A >> 1) | ( A << 7 ));
+      F |= (BYTE)(( A & ( FLAG_3 | FLAG_5 ) ));
       break;
     case 0x10:		/* DJNZ offset */
       tstates++;
@@ -223,9 +223,9 @@ int z80_do_opcode()
     case 0x17:		/* RLA */
       {
 	BYTE bytetemp = A;
-	A = ( A << 1 ) | ( F & FLAG_C );
-	F = ( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
-	  ( A & ( FLAG_3 | FLAG_5 ) ) | ( bytetemp >> 7 );
+	A = (BYTE)(( A << 1 ) | ( F & FLAG_C ));
+	F = (BYTE)(( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
+	  ( A & ( FLAG_3 | FLAG_5 ) ) | ( bytetemp >> 7 ));
       }
       break;
     case 0x18:		/* JR offset */
@@ -261,9 +261,9 @@ int z80_do_opcode()
     case 0x1f:		/* RRA */
       {
 	BYTE bytetemp = A;
-	A = ( A >> 1 ) | ( F << 7 );
-	F = ( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
-	  ( A & ( FLAG_3 | FLAG_5 ) ) | ( bytetemp & FLAG_C ) ;
+	A = (BYTE)(( A >> 1 ) | ( F << 7 ));
+	F = (BYTE)(( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
+	  ( A & ( FLAG_3 | FLAG_5 ) ) | ( bytetemp & FLAG_C ));
       }
       break;
     case 0x20:		/* JR NZ,offset */
@@ -301,7 +301,8 @@ int z80_do_opcode()
       break;
     case 0x27:		/* DAA */
       {
-	BYTE add = 0,carry= ( F & FLAG_C );
+	BYTE add = 0;
+	BYTE carry = (BYTE)( F & FLAG_C );
 	if( ( F & FLAG_H ) || ( (A & 0x0f)>9 ) ) add=6;
 	if( carry || (A > 0x9f ) ) add|=0x60;
 	if( A > 0x99 ) carry=1;
@@ -311,7 +312,7 @@ int z80_do_opcode()
 	  if( (A>0x90) && ( (A & 0x0f)>9) ) add|=0x60;
 	  ADD(add);
 	}
-	F = ( F & ~( FLAG_C | FLAG_P) ) | carry | parity_table[A];
+	F = (BYTE)(( F & ~( FLAG_C | FLAG_P) ) | carry | parity_table[A]);
       }
       break;
     case 0x28:		/* JR Z,offset */
@@ -344,8 +345,8 @@ int z80_do_opcode()
       break;
     case 0x2f:		/* CPL */
       A ^= 0xff;
-      F = ( F & ( FLAG_C | FLAG_P | FLAG_Z | FLAG_S ) ) |
-	( A & ( FLAG_3 | FLAG_5 ) ) | ( FLAG_N | FLAG_H );
+      F = (BYTE)(( F & ( FLAG_C | FLAG_P | FLAG_Z | FLAG_S ) ) |
+	( A & ( FLAG_3 | FLAG_5 ) ) | ( FLAG_N | FLAG_H ));
       break;
     case 0x30:		/* JR NC,offset */
       InsertMCycle(3);
@@ -370,7 +371,7 @@ int z80_do_opcode()
 	WORD wordtemp=opcode_fetch(PC++);
         InsertMCycle(3);
 	contend( PC, 3 );
-	wordtemp|=opcode_fetch(PC++) << 8;
+	wordtemp|=(WORD)(opcode_fetch(PC++) << 8);
         InsertMCycle(3);
 	contend( wordtemp, 3 );
 	writebyte(wordtemp,A);
@@ -413,7 +414,7 @@ int z80_do_opcode()
       break;
     case 0x37:		/* SCF */
       F &= ~( FLAG_N | FLAG_H );
-      F |= ( A & ( FLAG_3 | FLAG_5 ) ) | FLAG_C;
+      F |= (BYTE)(( A & ( FLAG_3 | FLAG_5 ) ) | FLAG_C);
       break;
     case 0x38:		/* JR C,offset */
       InsertMCycle(3);
@@ -432,7 +433,7 @@ int z80_do_opcode()
 	wordtemp = opcode_fetch(PC++);
         InsertMCycle(3);
 	contend( PC, 3 );
-	wordtemp|= ( opcode_fetch(PC++) << 8 );
+	wordtemp|= (WORD)( opcode_fetch(PC++) << 8 );
         InsertMCycle(3);
 	contend( wordtemp, 3 );
 	A=readbyte(wordtemp);
@@ -457,8 +458,8 @@ int z80_do_opcode()
       A=opcode_fetch(PC++);
       break;
     case 0x3f:		/* CCF */
-      F = ( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
-	( ( F & FLAG_C ) ? FLAG_H : FLAG_C ) | ( A & ( FLAG_3 | FLAG_5 ) );
+      F = (BYTE)(( F & ( FLAG_P | FLAG_Z | FLAG_S ) ) |
+	( ( F & FLAG_C ) ? FLAG_H : FLAG_C ) | ( A & ( FLAG_3 | FLAG_5 ) ));
       break;
     case 0x40:		/* LD B,B */
       break;
@@ -919,7 +920,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! ( F & FLAG_Z ) ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xc3:		/* JP nnnn */
       InsertMCycle(3);
@@ -932,7 +933,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! (F & FLAG_Z ) ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xc5:		/* PUSH BC */
       tstates++;
@@ -965,7 +966,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_Z ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xcb:		/* CBxx opcodes */
       {
@@ -987,7 +988,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_Z ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xcd:		/* CALL nnnn */
       InsertMCycle(3);
@@ -1021,14 +1022,14 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! ( F & FLAG_C ) ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xd3:		/* OUT (nn),A */
       {
 	WORD outtemp;
         InsertMCycle(3);
 	contend( PC, 4 );
-	outtemp = opcode_fetch( PC++ ) + ( A << 8 );
+	outtemp = (WORD)(opcode_fetch( PC++ ) + ( A << 8 ));
 	OUT( outtemp , A);
       }
       break;
@@ -1037,7 +1038,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! (F & FLAG_C ) ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xd5:		/* PUSH DE */
       tstates++;
@@ -1074,14 +1075,14 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_C ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xdb:		/* IN A,(nn) */
       {
 	WORD intemp;
         InsertMCycle(3);
 	contend( PC, 4 );
-	intemp = opcode_fetch( PC++ ) + ( A << 8 );
+	intemp = (WORD)(opcode_fetch( PC++ ) + ( A << 8 ));
         InsertMCycle(4);
         inputOutputMCycle = mCycleIndex;
 	contend_io( intemp, 3 );
@@ -1093,7 +1094,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_C ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xdd:		/* DDxx opcodes */
       {
@@ -1141,7 +1142,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! ( F & FLAG_P ) ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xe3:		/* EX (SP),HL */
       {
@@ -1161,7 +1162,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! (F & FLAG_P ) ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xe5:		/* PUSH HL */
       tstates++;
@@ -1194,7 +1195,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_P ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xeb:		/* EX DE,HL */
       {
@@ -1206,7 +1207,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_P ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xed:		/* EDxx opcodes */
       {
@@ -1247,7 +1248,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! ( F & FLAG_S ) ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xf3:		/* DI */
       IFF1=IFF2=0;
@@ -1257,7 +1258,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( ! (F & FLAG_S ) ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xf5:		/* PUSH AF */
       tstates++;
@@ -1294,7 +1295,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_S ) { JP(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xfb:		/* EI */
       IFF1=IFF2=1;
@@ -1304,7 +1305,7 @@ int z80_do_opcode()
       InsertMCycle(3);
       contend( PC, 3 ); contend( PC+1, 3 );
       if ( F & FLAG_S ) { CALL(); }
-      else PC+=2;
+      else PC+=(WORD)2;
       break;
     case 0xfd:		/* FDxx opcodes */
       {
@@ -1339,7 +1340,7 @@ int z80_do_opcode()
       break;
     }			/* Matches switch(opcode) { */
 
-    R = R & 127;
+    R = (WORD)(R & 127);
 
     z80.tstates = tstates;
     return tstates;

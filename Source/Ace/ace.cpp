@@ -18,7 +18,7 @@
  * ace.c
  *
  */
-#include <vcl.h>
+#include <vcl4.h>
 
 #include <stdlib.h>
 #include <fcntl.h>
@@ -88,13 +88,13 @@ void ace_initialise()
 
         ResetLastIOAccesses();
 
-        for(i=0;i<65536;i++) memory[i]=random(255);
+        for(i=0;i<65536;i++) memory[i]=(BYTE)random(255);
 
         romlen=memory_load(machine.CurRom, 0, 65536);
         emulator.romcrc=CRC32Block(memory,romlen);
         zx81.ROMTOP=romlen-1;
 
-        acelatch= (machine.colour==COLOURACE) ? 4:7;
+        acelatch= (BYTE)((machine.colour==COLOURACE) ? 4:7);
         ACETopBorder= (machine.NTSC) ? 32:56;
         ACELeftBorder=37*2+1;
 
@@ -121,7 +121,7 @@ void ace_writebyte(int Address, int Data)
 
         //noise = (noise<<8) | Data;
 
-        LiveMemoryWindow->Write(Address);
+        LiveMemoryWindow->Write((unsigned short)Address);
 
         if (machine.aytype == AY_TYPE_QUICKSILVA)
         {
@@ -134,7 +134,7 @@ void ace_writebyte(int Address, int Data)
                 return;
         }
 
-        if (Address==0x2700 && (Data&128)) acelatch=Data&127;
+        if (Address==0x2700 && (Data&128)) acelatch=(BYTE)(Data&127);
 
         if (Address>=0x2000 && Address<=0x23ff) Address += 0x400;
         if (Address>=0x2800 && Address<=0x2bff) Address += 0x400;
@@ -151,14 +151,14 @@ void ace_writebyte(int Address, int Data)
 
         if (machine.ace96k && z80.r7 && Address>=16384)
                 Address+=65536;
-        memory[Address]=Data;
+        memory[Address]=(BYTE)Data;
 }
 
 BYTE ace_ReadByte(int Address)
 {
-        int data;
+        BYTE data;
 
-        LiveMemoryWindow->Read(Address);
+        LiveMemoryWindow->Read((unsigned short)Address);
 
         if (Address>=0x2000 && Address<=0x23ff) Address += 0x400;
         if (Address>=0x2800 && Address<=0x2bff) Address += 0x400;
@@ -171,7 +171,7 @@ BYTE ace_ReadByte(int Address)
         if (machine.ace96k && z80.r7 && Address>=16384) Address+=65536;
         data=memory[Address];
         noise = (noise<<8) | data;
-        return(data);
+        return data;
 }
 
 // Called by emulated program
@@ -202,7 +202,7 @@ BYTE ace_opcode_fetch(int Address)
 
 void ace_writeport(int Address, int Data, int *tstates)
 {
-        LogOutAccess(Address, Data);
+        LogOutAccess(Address, (BYTE)Data);
 
         static int beeper=0;
 
@@ -225,22 +225,22 @@ void ace_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0x73:
-                if (machine.ts2050) d8251writeDATA(Data);
+                if (machine.ts2050) d8251writeDATA((BYTE)Data);
                 break;
         case 0x77:
-                if (machine.ts2050) d8251writeCTRL(Data);
+                if (machine.ts2050) d8251writeCTRL((BYTE)Data);
                 break;
 
         case 0xc7:
-                d8255_write(D8255PRTA,Data);
+                d8255_write(D8255PRTA, (BYTE)Data);
                 break;
 
         case 0xcf:
-                d8255_write(D8255PRTB,Data);
+                d8255_write(D8255PRTB, (BYTE)Data);
                 break;
 
         case 0xd7:
-                d8255_write(D8255PRTC,Data);
+                d8255_write(D8255PRTC, (BYTE)Data);
                 break;
 
         case 0xdd:
@@ -252,7 +252,7 @@ void ace_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0xfb:
-                if (machine.zxprinter) ZXPrinterWritePort(Data);
+                if (machine.zxprinter) ZXPrinterWritePort((BYTE)Data);
                 break;
 
         case 0xfd:
@@ -293,16 +293,16 @@ BYTE ReadInputPort(int Address, int *tstates)
 
                 if (GetEarState()) data |= 32;
 
-                keyb=Address/256;
+                keyb=(BYTE)(Address/256);
                 for(i=0; i<8; i++)
                 {
                         if (! (keyb & (1<<i)) ) data |= ZXKeyboard[i];
                 }
-                return(~data);
+                return (BYTE)(~data);
         }
 
         if ((spectrum.HDType==HDACECF) && ((Address&128) == 0))
-                return(ATA_ReadRegister((Address>>8)&0x07));
+                return (BYTE)(ATA_ReadRegister((Address>>8)&0x07));
 
         switch(Address&255)
         {
@@ -313,13 +313,13 @@ BYTE ReadInputPort(int Address, int *tstates)
                 if (machine.ts2050) return(d8251readCTRL());
 
         case 0xdd:
-                if (machine.aytype==AY_TYPE_ACE) return(Sound.AYRead(SelectAYReg));
+                if (machine.aytype==AY_TYPE_ACE) return (BYTE)(Sound.AYRead(SelectAYReg));
 
         case 0xfb:
                 if (machine.zxprinter) return(ZXPrinterReadPort(idleDataBus));
 
         case 0xff:
-                if (machine.aytype==AY_TYPE_BOLDFIELD) return(Sound.AYRead(SelectAYReg));
+                if (machine.aytype==AY_TYPE_BOLDFIELD) return (BYTE)(Sound.AYRead(SelectAYReg));
 
         default:
                 break;
@@ -352,7 +352,7 @@ int ace_do_scanline(SCANLINE *CurScanLine)
 
         if (clean_exit)
         {
-                add_blank(CurScanLine, borrow,paper*16);
+                add_blank(CurScanLine, borrow, (BYTE)(paper*16));
                 sts=0;
                 delay=ACELeftBorder - borrow*2;
                 chars=0;
@@ -442,7 +442,7 @@ int ace_do_scanline(SCANLINE *CurScanLine)
                                 noise>>=1;
                                 PrevBit= shift_register&128;
                         }
-                        CurScanLine->scanline[CurScanLine->scanline_len++]=colour;
+                        CurScanLine->scanline[CurScanLine->scanline_len++]=(BYTE)colour;
                         shift_register <<= 1;
                 }
                 DebugUpdate();

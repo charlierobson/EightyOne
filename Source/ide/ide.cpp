@@ -2,8 +2,8 @@
 #include <string.h>
 #include "ide.h"
 
-#define WriteWord(Base, WordNo, Value) { (Base)[(WordNo)*2]=(Value)&255; \
-                                         (Base)[(WordNo)*2 +1] = ((Value)>>8)&255; }
+#define WriteWord(Base, WordNo, Value) { (Base)[(WordNo)*2]=(byte)((Value)&255); \
+                                         (Base)[(WordNo)*2 +1] = (byte)(((Value)>>8)&255); }
 
 ATA_CHANNEL ATA_Channel;
 PHYSDRIVE PhysDrives[64];
@@ -60,9 +60,9 @@ void DetectPhysDrives(void)
                         if (bResult)
                         {
                                 heads=pdg.TracksPerCylinder;
-                                cyls=pdg.Cylinders.QuadPart;
+                                cyls=(int)pdg.Cylinders.QuadPart;
                                 secs=pdg.SectorsPerTrack;
-                                size1=(pdg.Cylinders.QuadPart
+                                size1=(unsigned long)(pdg.Cylinders.QuadPart
                                                 * (ULONG)pdg.TracksPerCylinder
                                                 * (ULONG)pdg.SectorsPerTrack);
                         }
@@ -79,7 +79,7 @@ void DetectPhysDrives(void)
                                         , NULL);
 
                         size2=0;
-                        if (bResult) size2=(*(__int64*)&(pi.PartitionLength))/512;
+                        if (bResult) size2=(unsigned long)((*(__int64*)&(pi.PartitionLength))/512);
 
                         if (cyls==0 && size2!=0) cyls=size2 / (heads*secs);
 
@@ -241,12 +241,12 @@ static void ATA_IncSectorNo(void)
 
                 SectorNo += 1;
 
-                ATA_Channel.head = (ATA_Channel.head & ~ATA_HEAD_HEAD)
-                                        | ((SectorNo >> 24) & ATA_HEAD_HEAD);
+                ATA_Channel.head = (byte)((ATA_Channel.head & ~ATA_HEAD_HEAD)
+                                        | ((SectorNo >> 24) & ATA_HEAD_HEAD));
 
-                ATA_Channel.cylinder_high = (SectorNo>>16) & 255;
-                ATA_Channel.cylinder_low = (SectorNo>>8) & 255;
-                ATA_Channel.sector = SectorNo & 255;
+                ATA_Channel.cylinder_high = (byte)((SectorNo>>16) & 255);
+                ATA_Channel.cylinder_low = (byte)((SectorNo>>8) & 255);
+                ATA_Channel.sector = (byte)(SectorNo & 255);
         }
         else
         {
@@ -257,12 +257,12 @@ static void ATA_IncSectorNo(void)
                         ATA_Channel.sector=1;
 
                         h= (ATA_Channel.head & ATA_HEAD_HEAD)+1;
-                        ATA_Channel.head= (h & ATA_HEAD_HEAD) | (ATA_Channel.head & ~ATA_HEAD_HEAD);
+                        ATA_Channel.head= (byte)((h & ATA_HEAD_HEAD) | (ATA_Channel.head & ~ATA_HEAD_HEAD));
 
 
                         if (h >= Drv->heads)
                         {
-                                ATA_Channel.head=ATA_Channel.head & ~ATA_HEAD_HEAD;
+                                ATA_Channel.head=(byte)(ATA_Channel.head & ~ATA_HEAD_HEAD);
                                 if (++ATA_Channel.cylinder_low == 0)
                                 {
                                         ATA_Channel.cylinder_low=0;
@@ -402,16 +402,16 @@ static void ATA_WriteData(int Data)
                         byte2=ATA_Channel.DataHighByte;
                         ATA_Channel.DataHighByte=-1;
                 }
-                ATA_Channel.buffer[ATA_Channel.data_counter++]=byte1;
-                ATA_Channel.buffer[ATA_Channel.data_counter++]=byte2;
+                ATA_Channel.buffer[ATA_Channel.data_counter++]=(byte)byte1;
+                ATA_Channel.buffer[ATA_Channel.data_counter++]=(byte)byte2;
                 break;
 
         case ATA_MODE_16BIT:
-                ATA_Channel.buffer[ATA_Channel.data_counter++]=Data;
+                ATA_Channel.buffer[ATA_Channel.data_counter++]=(byte)Data;
                 break;
         case ATA_MODE_16BIT_SWAPPED:
         case ATA_MODE_16BIT_WRSWAP:
-                ATA_Channel.buffer[ATA_Channel.data_counter^1]=Data;
+                ATA_Channel.buffer[ATA_Channel.data_counter^1]=(byte)Data;
                 ATA_Channel.data_counter++;
                 break;
         }
@@ -496,7 +496,7 @@ static void ATA_Execute(int Data)
 
         Drv->error = ATA_ERR_OK;
         Drv->status &= ~ATA_ERR;
-        Drv->status &= ~ATA_BUSY;
+        Drv->status &= (byte)(~ATA_BUSY);
         Drv->status |= ATA_DRDY;
 
         //ATA_Channel.error = ATA_ERR_OK;
@@ -768,7 +768,7 @@ int ATA_LoadHDF(int drive, _TCHAR *FileName)
                         return(1);
                 }
 
-                if (strncmp((const char *)Drv->hdf.sig, "RS-IDE", 6) || (Drv->hdf.id != 0x1a))
+                if (strncmp((char*)Drv->hdf.sig, "RS-IDE", 6) || (Drv->hdf.id != 0x1a))
                 {
                         fclose(f);
                         return(1);
@@ -846,8 +846,8 @@ void ATA_Reset(void)
                 ATA_Channel.DataHighByte=-1;
                 ATA_Channel.drive[0].error=0x01;
                 ATA_Channel.drive[1].error=0x01;
-                ATA_Channel.drive[0].status=ATA_Channel.drive[0].AccessMode ? 0x50:0x00;
-                ATA_Channel.drive[1].status=ATA_Channel.drive[1].AccessMode ? 0x50:0x00;
+                ATA_Channel.drive[0].status=(byte)(ATA_Channel.drive[0].AccessMode ? 0x50:0x00);
+                ATA_Channel.drive[1].status=(byte)(ATA_Channel.drive[1].AccessMode ? 0x50:0x00);
         }
         else
         {
@@ -897,14 +897,14 @@ void ATA_WriteRegister(int Register, int Data)
         case ATA_REG_CMD:       ATA_Execute(Data); break;
         case ATA_REG_DATA:      ATA_WriteData(Data); break;
         case ATA_REG_HIGH:      ATA_Channel.DataHighByte=Data; break;
-        case ATA_REG_FEATURE:   ATA_Channel.feature=Data;
+        case ATA_REG_FEATURE:   ATA_Channel.feature=(byte)Data;
                                 ATA_Execute(SET_FEATURE); break;
-        case ATA_REG_SEC_CNT:   ATA_Channel.sector_count=Data; break;
-        case ATA_REG_SEC:       ATA_Channel.sector=Data; break;
-        case ATA_REG_CYL_LOW:   ATA_Channel.cylinder_low=Data; break;
-        case ATA_REG_CYL_HIGH:  ATA_Channel.cylinder_high=Data; break;
+        case ATA_REG_SEC_CNT:   ATA_Channel.sector_count=(byte)Data; break;
+        case ATA_REG_SEC:       ATA_Channel.sector=(byte)Data; break;
+        case ATA_REG_CYL_LOW:   ATA_Channel.cylinder_low=(byte)Data; break;
+        case ATA_REG_CYL_HIGH:  ATA_Channel.cylinder_high=(byte)Data; break;
         case ATA_REG_HEAD:
-                                ATA_Channel.head=Data;
+                                ATA_Channel.head=(byte)Data;
                                 ATA_Channel.cur_drive =
                                         Data&ATA_HEAD_DEVICE ? 1 : 0;
         default:                break;

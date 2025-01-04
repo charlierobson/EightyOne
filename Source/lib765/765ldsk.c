@@ -20,6 +20,11 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8071
+#endif
+
 #include "config.h"
 #ifdef HAVE_LIBDSK_H
 #include <stdio.h>

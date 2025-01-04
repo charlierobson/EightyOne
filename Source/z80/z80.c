@@ -74,15 +74,15 @@ static void z80_init_tables(void)
 
         for(i=0;i<0x100;i++)
         {
-                sz53_table[i]= i & ( FLAG_3 | FLAG_5 | FLAG_S );
+                sz53_table[i]= (BYTE)(i & ( FLAG_3 | FLAG_5 | FLAG_S ));
                 j=i; parity=0;
                 for(k=0;k<8;k++)
                 {
-                        parity ^= j & 1;
+                        parity ^= (BYTE)(j & 1);
                         j >>=1;
                 }
 
-                parity_table[i]= ( parity ? 0 : FLAG_P );
+                parity_table[i]= (BYTE)(( parity ? 0 : FLAG_P ));
                 sz53p_table[i] = sz53_table[i] | parity_table[i];
         }
 
@@ -141,7 +141,7 @@ int z80_interrupt(int bus)
                         }
                         case 2:
 	                {
-	                        WORD vectorAddress = (I << 8) + bus;
+	                        WORD vectorAddress = (WORD)((I << 8) + bus);
         	                PCL = readbyte(vectorAddress++);
                                 PCH = readbyte(vectorAddress);
 	                        StackChange += 2;

@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "kbstatus.h"
@@ -637,9 +637,9 @@ void PCKeyUp(WORD key)
                 if (KeyMap[i].WinKey == key) /* &&
                         ((KeyMap[i].Shift==PCShift) || (KeyMap[i].Shift==0))) */
                 {
-                        ZXKeyboard[KeyMap[i].Addr1] &= ~KeyMap[i].Data1;
+                        ZXKeyboard[KeyMap[i].Addr1] &= (BYTE)(~KeyMap[i].Data1);
                         if (KeyMap[i].Addr2!=255)
-                                ZXKeyboard[KeyMap[i].Addr2] &= ~KeyMap[i].Data2;
+                                ZXKeyboard[KeyMap[i].Addr2] &= (BYTE)(~KeyMap[i].Data2);
 
                         //if (PCShift==2) ZXKeyboard[kbA8] |= kbD0;
                 }

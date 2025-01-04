@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "tzxEditText.h"
@@ -41,8 +41,7 @@ __fastcall TEditTextForm::TEditTextForm(TComponent* Owner)
 void TEditTextForm::Go(int BlockNo, int Mx, int My)
 {
         int i,len;
-        char c;
-        unsigned char *p;
+        char c,*p;
         ZXString text;
 
         Top = My - Height/2;
@@ -73,9 +72,9 @@ void TEditTextForm::Go(int BlockNo, int Mx, int My)
         text=Edit->Text;
         len=text.Length();
         free(TZXFile.Tape[BlockNo].Data.Data);
-        p=(unsigned char *)malloc(len);
-        TZXFile.Tape[BlockNo].Head.Text.TextLen=len;
-        TZXFile.Tape[BlockNo].Data.Data=p;
+        p=(char *)malloc(len);
+        TZXFile.Tape[BlockNo].Head.Text.TextLen=(unsigned short)len;
+        TZXFile.Tape[BlockNo].Data.Data=(unsigned char*)p;
 
         for(i=0;i<len;i++) p[i]=text[i+1];
 }

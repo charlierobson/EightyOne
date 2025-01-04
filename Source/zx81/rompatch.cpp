@@ -19,7 +19,7 @@
  * rompatch.cpeepeep
  */
 
-#include <vcl.h>
+#include <vcl4.h>
 
 #include "z80.h"
 #include "zx81.h"
@@ -89,7 +89,7 @@ bool ZX81LambdaGetByteStartLoading(int& pc)
         WavStart();
         if (TZXByte!=TZX_BYTE_EMPTY)
         {
-                z80.bc.b.l=TZXByte;
+                z80.bc.b.l=(BYTE)TZXByte;
                 pc=pop16();
                 TZXByte=TZX_BYTE_EMPTY;
                 TZXEventCounter=0;
@@ -146,7 +146,7 @@ bool ZX80GetByteStartLoading(int& pc)
         WavStart();
         if (TZXByte!=TZX_BYTE_EMPTY)
         {
-                memory[z80.hl.w]=TZXByte;
+                memory[z80.hl.w]=(BYTE)TZXByte;
                 pc=0x0248;
                 TZXByte=TZX_BYTE_EMPTY;
                 TZXEventCounter=0;

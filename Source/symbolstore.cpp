@@ -1,4 +1,4 @@
-#include <vcl.h>
+#include <vcl4.h>
 #include ".\symbolstore.h"
 
 #include <assert.h>

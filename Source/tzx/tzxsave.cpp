@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -40,8 +40,8 @@ void TTZXFile::WriteByte(FILE *f, unsigned char a)
 void TTZXFile::WriteWord(FILE *f, int c)
 {
         unsigned short a,b;
-        a=c&255; c>>=8;
-        b=c&255;
+        a=(unsigned short)(c&255); c>>=8;
+        b=(unsigned short)(c&255);
 
         WriteByte(f, a);
         WriteByte(f, b);
@@ -59,10 +59,10 @@ void TTZXFile::WriteDWord(FILE *f, int c)
 
 void TTZXFile::Write3Bytes(FILE *f, int d)
 {
-        unsigned int a,b,c;
-        a=d&255; d>>=8;
-        b=d&255; d>>=8;
-        c=d&255;
+        unsigned char a,b,c;
+        a=(unsigned char)(d&255); d>>=8;
+        b=(unsigned char)(d&255); d>>=8;
+        c=(unsigned char)(d&255);
 
         WriteByte(f,a);
         WriteByte(f,b);
@@ -76,7 +76,7 @@ void TTZXFile::WriteBytes(FILE *f, int len, void *buf)
 
 void TTZXFile::SaveROMBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteWord(f, Tape[Block].Pause);
         WriteWord(f, Tape[Block].Head.ROM.DataLen);
         WriteBytes(f, Tape[Block].Head.ROM.DataLen,
@@ -85,7 +85,7 @@ void TTZXFile::SaveROMBlock(int Block, FILE *f)
 
 void TTZXFile::SaveTurboBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteWord(f, Tape[Block].Head.Turbo.PilotLen);
         WriteWord(f, Tape[Block].Head.Turbo.Sync1Len);
         WriteWord(f, Tape[Block].Head.Turbo.Sync2Len);
@@ -100,7 +100,7 @@ void TTZXFile::SaveTurboBlock(int Block, FILE *f)
 }
 void TTZXFile::SaveToneBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteWord(f, Tape[Block].Head.Tone.PulseLen);
         WriteWord(f, Tape[Block].Head.Tone.NoPulses);
 }
@@ -108,7 +108,7 @@ void TTZXFile::SaveToneBlock(int Block, FILE *f)
 void TTZXFile::SavePulseBlock(int Block, FILE *f)
 {
         int i;
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteByte(f, Tape[Block].Head.Pulse.NoPulses);
 
         for(i=0; i<Tape[Block].Head.Pulse.NoPulses;i++)
@@ -117,7 +117,7 @@ void TTZXFile::SavePulseBlock(int Block, FILE *f)
 
 void TTZXFile::SaveDataBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteWord(f, Tape[Block].Head.Data.Len0);
         WriteWord(f, Tape[Block].Head.Data.Len1);
         WriteByte(f, Tape[Block].Head.Data.FinalBits);
@@ -129,7 +129,7 @@ void TTZXFile::SaveDataBlock(int Block, FILE *f)
 
 void TTZXFile::SaveDRecBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteWord(f, Tape[Block].Head.DRec.SampleLen);
         WriteWord(f, Tape[Block].Pause);
         WriteWord(f, Tape[Block].Head.DRec.FinalBits);
@@ -140,11 +140,11 @@ void TTZXFile::SaveDRecBlock(int Block, FILE *f)
 
 void TTZXFile::SaveCSWBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteDWord(f, 11+Tape[Block].Head.CSW.BlockLen);
         Write3Bytes(f, Tape[Block].Head.CSW.SampleRate);
-        WriteByte(f, Tape[Block].Head.CSW.Compression);
-        WriteByte(f, Tape[Block].Head.CSW.Flags);
+        WriteByte(f, (unsigned char)Tape[Block].Head.CSW.Compression);
+        WriteByte(f, (unsigned char)Tape[Block].Head.CSW.Flags);
         WriteDWord(f, Tape[Block].Head.CSW.NoPulses);
         WriteBytes(f, Tape[Block].Head.CSW.BlockLen,
                         Tape[Block].Data.Data);
@@ -167,7 +167,7 @@ void TTZXFile::SaveGeneralBlock(int Block, FILE *f)
                 i += Tape[Block].Head.General.DataLen;
         }
 
-        WriteByte(f,Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteDWord(f, i);
         WriteWord(f,Tape[Block].Pause);
         WriteDWord(f, Tape[Block].Head.General.TOTP);
@@ -178,8 +178,8 @@ void TTZXFile::SaveGeneralBlock(int Block, FILE *f)
         }
         else
         {
-                WriteByte(f, Tape[Block].Head.General.NPP-1);
-                WriteByte(f, Tape[Block].Head.General.ASP);
+                WriteByte(f, (unsigned char)(Tape[Block].Head.General.NPP-1));
+                WriteByte(f, (unsigned char)Tape[Block].Head.General.ASP);
         }
         WriteDWord(f, Tape[Block].Head.General.TOTD);
         if (Tape[Block].Head.General.TOTD==0)
@@ -189,8 +189,8 @@ void TTZXFile::SaveGeneralBlock(int Block, FILE *f)
         }
         else
         {
-                WriteByte(f, Tape[Block].Head.General.NPD-1);
-                WriteByte(f, Tape[Block].Head.General.ASD);
+                WriteByte(f, (unsigned char)(Tape[Block].Head.General.NPD-1));
+                WriteByte(f, (unsigned char)Tape[Block].Head.General.ASD);
         }
 
         if (Tape[Block].Head.General.TOTP>0)
@@ -255,38 +255,38 @@ void TTZXFile::SaveGeneralBlock(int Block, FILE *f)
 
 void TTZXFile::SavePauseBlock(int Block, FILE *f)
 {
-        WriteByte(f,Tape[Block].BlockID);
-        WriteWord(f,Tape[Block].Pause);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
+        WriteWord(f, Tape[Block].Pause);
 }
 
 void TTZXFile::SaveGStartBlock(int Block, FILE *f)
 {
-        WriteByte(f,Tape[Block].BlockID);
-        WriteByte(f,Tape[Block].Head.GStart.NameLen);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
+        WriteByte(f, Tape[Block].Head.GStart.NameLen);
         WriteBytes(f, Tape[Block].Head.GStart.NameLen
                         ,Tape[Block].Data.Data);
 }
 
 void TTZXFile::SaveGEndBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
 }
 
 void TTZXFile::SaveJumpBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteByte(f, Tape[Block].Head.Jump.JumpRel);
 }
 
 void TTZXFile::SaveLStartBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteWord(f, Tape[Block].Head.LStart.Repeats);
 }
 
 void TTZXFile::SaveLEndBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
 }
 
 void TTZXFile::SaveSBlock(int Block, FILE *f)
@@ -295,20 +295,20 @@ void TTZXFile::SaveSBlock(int Block, FILE *f)
 }
 void TTZXFile::SaveStop48KBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteByte(f, 0);
 }
 
 void TTZXFile::SaveSetLevelBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
-        WriteDWord(f,1);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
+        WriteDWord(f, 1);
         WriteByte(f, Tape[Block].Head.SetLevel.Level);
 }
 
 void TTZXFile::SaveTextBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteByte(f, Tape[Block].Head.Text.TextLen);
         WriteBytes(f, Tape[Block].Head.Text.TextLen,
                         Tape[Block].Data.Data);
@@ -316,7 +316,7 @@ void TTZXFile::SaveTextBlock(int Block, FILE *f)
 
 void TTZXFile::SaveMessageBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteByte(f, Tape[Block].Head.Message.Time);
         WriteByte(f, Tape[Block].Head.Message.TextLen);
         WriteBytes(f, Tape[Block].Head.Message.TextLen,
@@ -325,7 +325,7 @@ void TTZXFile::SaveMessageBlock(int Block, FILE *f)
 
 void TTZXFile::SaveArchiveBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteWord(f, Tape[Block].Head.Archive.BlockLen + 1);
         WriteByte(f, Tape[Block].Head.Archive.NoStrings);
         WriteBytes(f, Tape[Block].Head.Archive.BlockLen
@@ -336,7 +336,7 @@ void TTZXFile::SaveHWTypeBlock(int Block, FILE *f)
 {
         int i;
 
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteByte(f, Tape[Block].Head.HWType.NoTypes);
 
         for(i=0;i<Tape[Block].Head.HWType.NoTypes;i++)
@@ -352,7 +352,7 @@ void TTZXFile::SaveCustomBlock(int Block, FILE *f)
 }
 void TTZXFile::SaveGlueBlock(int Block, FILE *f)
 {
-        WriteByte(f, Tape[Block].BlockID);
+        WriteByte(f, (unsigned char)Tape[Block].BlockID);
         WriteDWord(f,0);
         WriteDWord(f,0);
 }
@@ -451,7 +451,7 @@ bool TTZXFile::SaveT81File(ZXString FileName)
         if (!f) return(false);
         this->FileName=FileName;
 
-        WriteBytes(f, 4, (void *)T81_HEADER_ID);
+        WriteBytes(f, 4, (void*)T81_HEADER_ID);
 
         for(i=0;i<Blocks;i++)
         {
@@ -505,8 +505,8 @@ bool TTZXFile::SavePFile(ZXString FileName)
         i=0;
         while(i<Blocks && Tape[i].BlockID != TZX_BLOCK_GENERAL) i++;
 
-        p=(char *)Tape[i].Data.Data;
-        namelen=ZX81Strlen((unsigned char *)p);
+        p=(char*)Tape[i].Data.Data;
+        namelen=ZX81Strlen((unsigned char*)p);
         p+=namelen;
 
         WriteBytes(f, Tape[i].Head.General.DataLen-namelen,p);

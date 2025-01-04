@@ -19,7 +19,7 @@
  *
  */
 
-#include <vcl.h>
+#include <vcl4.h>
 
 #include <stdlib.h>
 #include <fcntl.h>
@@ -285,7 +285,7 @@ void zx81_initialise()
         romlen=memory_load(romname.c_str(), 0, 65536);
         emulator.romcrc=CRC32Block(memory,romlen);
 
-        if (zx81.extfont) font_load(_TEXT("lambda8300characterset.bin"),(char *)font,512);
+        if (zx81.extfont) font_load(_TEXT("lambda8300characterset.bin"),(char*)font,512);
 
         if ((zx81.chrgen==CHRGENDK) && (!chromaSelected || (chromaSelected && !zx81.RAM816k)))
         {
@@ -468,7 +468,7 @@ void zx81_WriteByte(int Address, int Data)
 {
         bool g007RamWrite;
 
-        LiveMemoryWindow->Write(Address);
+        LiveMemoryWindow->Write((unsigned short)Address);
 
         noise = (noise<<8) | Data;
 
@@ -481,7 +481,7 @@ void zx81_WriteByte(int Address, int Data)
                 BYTE data;
                 if (WriteRomCartridge(Address, (BYTE*)&data))
                 {
-                        LiveMemoryWindow->Write(Address);
+                        LiveMemoryWindow->Write((unsigned short)Address);
                         return;
                 }
         }
@@ -517,7 +517,7 @@ void zx81_WriteByte(int Address, int Data)
                         if (zx97.protectb0 && ((d8255_read(D8255PRTB)&15)==0)) return;
                         if (zx97.protectb115 && ((d8255_read(D8255PRTB)&15)>0)) return;
 
-                        zx97.bankmem[(Address&16383) +  16384*(d8255_read(D8255PRTB)&15)]=Data;
+                        zx97.bankmem[(Address&16383) +  16384*(d8255_read(D8255PRTB)&15)]=(unsigned char)Data;
                         return;
                 }
 
@@ -527,15 +527,15 @@ void zx81_WriteByte(int Address, int Data)
 
         // The RAM of the Chroma interface has precedence over devices connected behind it, e.g. ZXpand,
         // which it ensures by masking out the MREQ line
-        if (ChromaRAMWrite(Address, Data, memory, font))
+        if (ChromaRAMWrite(Address, (BYTE)Data, memory, font))
         {
-                LiveMemoryWindow->Write(Address);
+                LiveMemoryWindow->Write((unsigned short)Address);
                 return;
         }
 
         if ((zx81.chrgen == CHRGENQS) && !chromaSelected && (Address >= 0x8400) && (Address < 0x8800))
         {
-                font[Address-0x8400]=Data;
+                font[Address-0x8400]=(BYTE)Data;
                 goto writeMem;
         }
 
@@ -546,7 +546,7 @@ void zx81_WriteByte(int Address, int Data)
         {
                 if (Address>=0x2000 && Address<0x4000)
                 {
-                        ZX1541Mem[Address-0x2000]=Data;
+                        ZX1541Mem[Address-0x2000]=(BYTE)Data;
                         return;
                 }
 
@@ -554,7 +554,7 @@ void zx81_WriteByte(int Address, int Data)
                 {
                         Address -= 0x8000;
                         if (ZX1541PORT&2) Address+=0x4000;
-                        ZX1541Mem[Address+8192]=Data;
+                        ZX1541Mem[Address+8192]=(BYTE)Data;
                         return;
                 }
         }
@@ -579,7 +579,7 @@ void zx81_WriteByte(int Address, int Data)
         if (Address<=zx81.ROMTOP && machine.protectROM)
         {
                 if ((zx81.truehires==HIRESMEMOTECH) && (Address<1024))
-                        memhrg[Address]=Data;
+                        memhrg[Address]=(BYTE)Data;
                 return;
         }
 
@@ -590,7 +590,7 @@ void zx81_WriteByte(int Address, int Data)
         }
         else if (zx81.truehires == HIRESQUICKSILVA && Address >= 0xA000 && Address < 0xB800)
         {
-                memory[Address] = Data;
+                memory[Address] = (BYTE)Data;
                 goto writeMem;
         }
 
@@ -625,7 +625,7 @@ void zx81_WriteByte(int Address, int Data)
         if (Address>8191 && Address<16384 && zx81.RAM816k && zx81.RAM816kWriteProtected && !g007RamWrite) return;
         
 writeMem:
-        memory[Address]=Data;
+        memory[Address]=(BYTE)Data;
 }
 
 // Write to memory without accidentally invoking the ZXC ROM cartridge paging mechanism
@@ -655,15 +655,14 @@ int video = 0;
 
 BYTE zx81_ReadByte(int Address)
 {
-        LiveMemoryWindow->Read(Address);
+        BYTE data;
 
-        int data;
+        LiveMemoryWindow->Read((unsigned short)Address);
 
         // A ROM cartridge has highest precedence over the 0K-16K region, which it
         // ensures by masking out the MREQ line
         if ((romcartridge.type != ROMCARTRIDGENONE) && (RomCartridgeCapacity != 0))
         {
-                BYTE data;
                 if (ReadRomCartridge(Address, (BYTE*)&data))
                 {
                         return data;
@@ -678,7 +677,7 @@ BYTE zx81_ReadByte(int Address)
         {
                 Address = (Address&1023)+8192;
                 data=memory[Address];
-                return(data);
+                return (BYTE)data;
         }
 
         // ZX97 has various bank switched modes - check out the website for details
@@ -690,9 +689,9 @@ BYTE zx81_ReadByte(int Address)
 
                 if (Address>=49152)
                 {
-                        data=zx97.bankmem[(Address&16383) + (d8255_read(D8255PRTB)&15)*16384];
+                        data=(BYTE)(zx97.bankmem[(Address&16383) + (d8255_read(D8255PRTB)&15)*16384]);
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
         }
 
@@ -705,7 +704,7 @@ BYTE zx81_ReadByte(int Address)
                 {
                         data=ZX1541Mem[Address-0x2000];
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
 
                 if (Address>=0x8000 && Address<0xc000)
@@ -714,7 +713,7 @@ BYTE zx81_ReadByte(int Address)
                         if (ZX1541PORT&2) Address+=0x4000;
                         data=ZX1541Mem[Address+8192];
                         noise = (noise<<8) | data;
-                        return(data);
+                        return data;
                 }
         }
 
@@ -841,7 +840,7 @@ BYTE zx81_ReadByte(int Address)
                         data=memory[Address+8192];
 
         noise = (noise<<8) | data;
-        return(data);
+        return data;
 }
 
 // Read from memory without accidentally invoking the ZXC ROM cartridge paging mechanism
@@ -901,8 +900,8 @@ BYTE zx81_opcode_fetch(int Address)
 {
         static int calls = 0;
         int inv;
-        int opcode, bit6, update=0;
-        BYTE data;
+        int bit6, update=0;
+        BYTE opcode, data;
 
         // very rough timing here;
         // assuming a 1mhz call rate it will be 1ms every 1000 calls.
@@ -1030,11 +1029,11 @@ BYTE zx81_opcode_fetch(int Address)
 
                 if (chr128 || qsChars || chroma80Chr128)
                 {
-                        data = ((data&128)>>1)|(data&63);
+                        data = (BYTE)(((data&128)>>1)|(data&63));
                 }
                 else
                 {
-                    data = data&63;
+                    data = (BYTE)(data&63);
                 }
 
                 // If I points to ROM, OR I points anywhere else for
@@ -1126,16 +1125,16 @@ BYTE zx81_opcode_fetch(int Address)
                 SetChromaColours();
 
                 noise |= data;
-                return(opcode);
+                return opcode;
         }
 }
 
 void zx81_writeport(int Address, int Data, int *tstates)
 {
-        LogOutAccess(Address, Data);
+        LogOutAccess(Address, (BYTE)Data);
 
         // The Chroma IO port is fully decoded
-        if (ChromaIOWrite(Address, Data))
+        if (ChromaIOWrite(Address, (BYTE)Data))
         {
                 if (!LastInstruction) LastInstruction=LASTINSTOUTFF;
                 if (allowSoundOutput) Sound.Beeper(1,frametstates);
@@ -1147,7 +1146,7 @@ void zx81_writeport(int Address, int Data, int *tstates)
 
         // Note that the Parrot only decodes A7, A5, and A4.
         //  If these are all 0, then the Parrot performs I/O.
-        if ((machine.speech == SPEECH_TYPE_PARROT) && ((Address&0xB0)==0)) sp0256_AL2.Write(Data);
+        if ((machine.speech == SPEECH_TYPE_PARROT) && ((Address&0xB0)==0)) sp0256_AL2.Write((BYTE)Data);
 
         switch(Address&255)
         {
@@ -1175,16 +1174,16 @@ void zx81_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0x73:
-                if (machine.ts2050) d8251writeDATA(Data);
+                if (machine.ts2050) d8251writeDATA((BYTE)Data);
                 break;
 
         case 0x77:
-                if (machine.ts2050) d8251writeCTRL(Data);
+                if (machine.ts2050) d8251writeCTRL((BYTE)Data);
                 break;
 
         case 0xbf:
                 if (spectrum.floppytype==FLOPPYZX1541)
-                        ZX1541PORT=Data;
+                        ZX1541PORT=(BYTE)Data;
 
                         Data>>=2;
 
@@ -1195,16 +1194,16 @@ void zx81_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0xc7:
-                d8255_write(D8255PRTA,Data);
+                d8255_write(D8255PRTA, (BYTE)Data);
                 break;
 
         case 0xcf:
                 if (machine.aytype==AY_TYPE_ZONX) SelectAYReg=Data&15;
-                else d8255_write(D8255PRTB,Data);
+                else d8255_write(D8255PRTB, (BYTE)Data);
                 break;
 
         case 0xd7:
-                d8255_write(D8255PRTC,Data);
+                d8255_write(D8255PRTC, (BYTE)Data);
                 break;
 
         case 0xdf:
@@ -1217,7 +1216,7 @@ void zx81_writeport(int Address, int Data, int *tstates)
                 break;
 
         case 0xfb:
-                if (machine.zxprinter) ZXPrinterWritePort(Data);
+                if (machine.zxprinter) ZXPrinterWritePort((BYTE)Data);
                 break;
 
         case 0xfd:
@@ -1267,18 +1266,18 @@ BYTE ReadInputPort(int Address, int *tstates)
                 if (!GetEarState()) data |= 128;
 
                 LastInstruction=LASTINSTINFE;
-                keyb=Address/256;
+                keyb=(BYTE)(Address/256);
                 for(i=0; i<8; i++)
                 {
                         if (! (keyb & (1<<i)) ) data |= ZXKeyboard[i];
                 }
 
-                return(~data);
+                return (BYTE)(~data);
         }
         else
         {
                 if ((spectrum.HDType==HDPITERSCF || spectrum.HDType==HDPITERS8B) && ((Address&0x3b)==0x2b))
-                        return(ATA_ReadRegister(((Address>>2)&1) | ((Address>>5)&6)));
+                        return (BYTE)(ATA_ReadRegister(((Address>>2)&1) | ((Address>>5)&6)));
 
                 // Note that the Parrot only decodes A7, A5, and A4.
                 //  If these are all 0, then the Parrot performs I/O.
@@ -1295,11 +1294,11 @@ BYTE ReadInputPort(int Address, int *tstates)
                 }
 
                 case 0x7:
-                        if (zxpand) return zxpand->IO_Read(Address>>8);
+                        if (zxpand) return (BYTE)zxpand->IO_Read(Address>>8);
                         return 0xfd;
 
                 case 0x17:
-                        if (zxpand) return zxpand->IO_ReadStatus();
+                        if (zxpand) return (BYTE)zxpand->IO_ReadStatus();
                         return 0;
 
                 case 0x41:
@@ -1333,12 +1332,12 @@ BYTE ReadInputPort(int Address, int *tstates)
                                 if (!IECIsATN()) a |= 32;
                                 if (!IECIsClock()) a |= 64;
                                 if (!IECIsData()) a |= 128;
-                                return(a);
+                                return (BYTE)a;
                         }
 
                 case 0xdd:
                         if (machine.aytype==AY_TYPE_ACE)
-                                return(Sound.AYRead(SelectAYReg));
+                                return (BYTE)Sound.AYRead(SelectAYReg);
 
                 case 0xf5:
                         beeper = 1-beeper;
@@ -1534,7 +1533,7 @@ int zx81_do_scanline(SCANLINE *CurScanLine)
                         else
                         {
                                 withinDisplayDriver = ((z80.pc.w >= 0x01ED && z80.pc.w <= 0x020F) || (z80.pc.w >= 0x12C0 && z80.pc.w <= 0x1336) ||
-                                                       (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) || (withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2)));
+                                                       (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) ||  (withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2)));
                         }
                 }
 
@@ -1551,7 +1550,7 @@ int zx81_do_scanline(SCANLINE *CurScanLine)
                 }
 
                 LastInstruction = LASTINSTNONE;
-                z80.pc.w = PatchTest(z80.pc.w);
+                z80.pc.w = (WORD)PatchTest(z80.pc.w);
                 int ts = z80_do_opcode();
 
                 if (BasicLister->Visible && zx81rom && ((z80.pc.w == 0x0709 && (z80.af.b.l & FLAG_Z)) || z80.pc.w == 0x072B))
@@ -1687,7 +1686,7 @@ int zx81_do_scanline(SCANLINE *CurScanLine)
 
                         int clockIndex = i/2;
                         bool firstUserProgramInstructionClock = nmiGeneratorEnabled && (clockIndex == 0);
-                        zx81_DrawPixel(CurScanLine, lineClockCounter - clockIndex, colour, nmiDetectedDuringInstruction, interruptResponse, z80Halted, inOperationActive, outOperationActive, firstUserProgramInstructionClock);
+                        zx81_DrawPixel(CurScanLine, lineClockCounter - clockIndex, (BYTE)colour, nmiDetectedDuringInstruction, interruptResponse, z80Halted, inOperationActive, outOperationActive, firstUserProgramInstructionClock);
 
                         shift_register <<= 1;
                         shift_reg_inv <<= 1;
@@ -1895,7 +1894,7 @@ int zx81_do_scanline(SCANLINE *CurScanLine)
 
                         while (nmiResponseActualDuration > 0)
                         {
-                                zx81_DrawClockCycle(CurScanLine, lineClockCounter, colour, nmiDetectedDuringInstruction, NonMaskableInterrupt);
+                                zx81_DrawClockCycle(CurScanLine, lineClockCounter, (BYTE)colour, nmiDetectedDuringInstruction, NonMaskableInterrupt);
                                 lineClockCounter--;
                                 nmiResponseActualDuration--;
                         }
@@ -2118,7 +2117,7 @@ int zx80_do_scanline(SCANLINE *CurScanLine)
                                 else
                                 {
                                         withinDisplayDriver = ((z80.pc.w >= 0x01ED && z80.pc.w <= 0x020F) || (z80.pc.w >= 0x12C0 && z80.pc.w <= 0x1336) ||
-                                                               (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) || (withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2)));
+                                                               (z80.pc.w >= 0x1666 && z80.pc.w <= 0x166B) ||  (withinDisplayDriver && (z80.pc.w >= 0x0D74 && z80.pc.w <= 0x0DA2)));
                                 }
                         }
 
@@ -2136,7 +2135,7 @@ int zx80_do_scanline(SCANLINE *CurScanLine)
                 }
 
                 LastInstruction = LASTINSTNONE;
-                z80.pc.w = PatchTest(z80.pc.w);
+                z80.pc.w = (WORD)PatchTest(z80.pc.w);
                 int ts = z80_do_opcode();
 
                 if (BasicLister->Visible &&
@@ -2233,7 +2232,7 @@ int zx80_do_scanline(SCANLINE *CurScanLine)
                         bool interruptResponseActive = (i >= (instructionPixels - interruptResponsePixels));
                         InterruptResponseType interruptResponse = interruptResponseActive ? MaskableInterrupt : NoInterrupt;
 
-                        zx80_DrawPixel(CurScanLine, colour, interruptResponse, z80Halted, inOperationActive);
+                        zx80_DrawPixel(CurScanLine, (BYTE)colour, interruptResponse, z80Halted, inOperationActive);
 
                         shift_register <<= 1;
                         shift_reg_inv <<= 1;

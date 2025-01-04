@@ -20,7 +20,13 @@
 #pragma option push
 #pragma warn -8004
 
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8066
+#pragma warn -8071
+#endif
+
 #ifndef PROTOH
+
 //static char     sccsid[] = "$Id: op68karith.c,v 1.6 2002/10/30 16:23:06 jhoenig Exp $";
 #include "68000.h"
 #include "op68k.h"

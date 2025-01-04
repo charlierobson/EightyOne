@@ -18,7 +18,7 @@
  * cr81.cpp
  *
  */
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <io.h>

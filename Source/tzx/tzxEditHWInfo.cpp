@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "tzxEditHWInfo.h"
@@ -49,8 +49,8 @@ void TEditHWInfoForm::GetRadio(struct TZXHWInfo **p, int *Blocks, int type, int 
 
         (*p) = (struct TZXHWInfo *)realloc( (void *) (*p), ((*Blocks)+1) * sizeof(struct TZXHWInfo) );
 
-        (*p)[*Blocks].Type = type;
-        (*p)[*Blocks].ID = id;
+        (*p)[*Blocks].Type = (unsigned short)type;
+        (*p)[*Blocks].ID = (unsigned short)id;
 
         if (r1->Checked) (*p)[*Blocks].Information = 3;
         if (r2->Checked) (*p)[*Blocks].Information = 1;
@@ -193,7 +193,7 @@ void TEditHWInfoForm::Go(int BlockNo, int Mx, int My)
         {
                 if (TZXFile.Tape[BlockNo].Data.HWTypes) free(TZXFile.Tape[BlockNo].Data.HWTypes);
                 TZXFile.Tape[BlockNo].Data.HWTypes = p;
-                TZXFile.Tape[BlockNo].Head.HWType.NoTypes=Blocks;
+                TZXFile.Tape[BlockNo].Head.HWType.NoTypes=(unsigned short)Blocks;
         }
         else    TZXFile.DeleteBlock(BlockNo);
 }

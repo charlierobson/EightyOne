@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <io.h>
 #pragma hdrstop
 
@@ -209,8 +209,8 @@ void __fastcall TP3Drive::FormShow(TObject *Sender)
                 }
                 ATA_GetCHS(0, &c, &h, &s, &size);
                 HD0C->Text=c;
-                HD0H->Text=h; HD0HUD->Position=h; HD0HUD->Min=1; HD0HUD->Max=15;
-                HD0S->Text=s; HD0SUD->Position=s; HD0SUD->Min=1; HD0SUD->Max=255;
+                HD0H->Text=h; HD0HUD->Position=(short)h; HD0HUD->Min=1; HD0HUD->Max=15;
+                HD0S->Text=s; HD0SUD->Position=(short)s; HD0SUD->Min=1; HD0SUD->Max=255;
                 if (HD0Text->Text[1]=='\\' && HD0Text->Text[2]=='\\')
                 {
                         HD0CHS->Visible=true; HD0C->Visible=true; HD0H->Visible=true;
@@ -235,8 +235,8 @@ void __fastcall TP3Drive::FormShow(TObject *Sender)
                 }
                 ATA_GetCHS(1, &c, &h, &s, &size);
                 HD1C->Text=c;
-                HD1H->Text=h; HD1HUD->Position=h; HD1HUD->Min=1; HD1HUD->Max=15;
-                HD1S->Text=s; HD1SUD->Position=s; HD1SUD->Min=1; HD1SUD->Max=255;
+                HD1H->Text=h; HD1HUD->Position=(short)h; HD1HUD->Min=1; HD1HUD->Max=15;
+                HD1S->Text=s; HD1SUD->Position=(short)s; HD1SUD->Min=1; HD1SUD->Max=255;
                 if (HD1Text->Text[1]=='\\' && HD1Text->Text[2]=='\\')
                 {
                         HD1CHS->Visible=true; HD1C->Visible=true; HD1H->Visible=true;
@@ -473,8 +473,8 @@ void __fastcall TP3Drive::HD0FSBtnClick(TObject *Sender)
         HD0ReadOnly->Checked=ATA_GetReadOnly(0);
 
         HD0C->Text=c;
-        HD0H->Text=h; HD0HUD->Position=h; HD0HUD->Min=1; HD0HUD->Max=15;
-        HD0S->Text=s; HD0SUD->Position=s; HD0SUD->Min=1; HD0SUD->Max=255;
+        HD0H->Text=h; HD0HUD->Position=(short)h; HD0HUD->Min=1; HD0HUD->Max=15;
+        HD0S->Text=s; HD0SUD->Position=(short)s; HD0SUD->Min=1; HD0SUD->Max=255;
         if (HD0Text->Text[1]=='\\' && HD0Text->Text[2]=='\\')
         {
                 HD0CHS->Visible=true;
@@ -561,8 +561,8 @@ void __fastcall TP3Drive::HD1FSBtnClick(TObject *Sender)
         ATA_GetCHS(1, &c, &h, &s, &size);
         HD1ReadOnly->Checked=ATA_GetReadOnly(1);
         HD1C->Text=c;
-        HD1H->Text=h; HD1HUD->Position=h; HD1HUD->Min=1; HD1HUD->Max=15;
-        HD1S->Text=s; HD1SUD->Position=s; HD1SUD->Min=1; HD1SUD->Max=255;
+        HD1H->Text=h; HD1HUD->Position=(short)h; HD1HUD->Min=1; HD1HUD->Max=15;
+        HD1S->Text=s; HD1SUD->Position=(short)s; HD1SUD->Min=1; HD1SUD->Max=255;
         if (HD1Text->Text[1]=='\\' && HD1Text->Text[2]=='\\')
         {
                 HD1CHS->Visible=true; HD1C->Visible=true; HD1H->Visible=true;
@@ -696,8 +696,8 @@ void __fastcall TP3Drive::HD0HUDClick(TObject *Sender, TUDBtnType Button)
         s=HD0SUD->Position;
         c=size/(h*s); if (c>65535) c=65535;
 
-        HD0H->Text=h; HD0HUD->Position=h; HD0HUD->Min=1; HD0HUD->Max=15;
-        HD0S->Text=s; HD0SUD->Position=s; HD0SUD->Min=1; HD0SUD->Max=255;
+        HD0H->Text=h; HD0HUD->Position=(short)h; HD0HUD->Min=1; HD0HUD->Max=15;
+        HD0S->Text=s; HD0SUD->Position=(short)s; HD0SUD->Min=1; HD0SUD->Max=255;
         HD0C->Text=c;
 
         ATA_SetCHS(0, c, h, s);
@@ -715,8 +715,8 @@ void __fastcall TP3Drive::HD1HUDClick(TObject *Sender, TUDBtnType Button)
         s=HD0SUD->Position;
         c=size/(h*s); if (c>65535) c=65535;
 
-        HD1H->Text=h; HD1HUD->Position=h; HD1HUD->Min=1; HD1HUD->Max=15;
-        HD1S->Text=s; HD1SUD->Position=s; HD1SUD->Min=1; HD1SUD->Max=255;
+        HD1H->Text=h; HD1HUD->Position=(short)h; HD1HUD->Min=1; HD1HUD->Max=15;
+        HD1S->Text=s; HD1SUD->Position=(short)s; HD1SUD->Min=1; HD1SUD->Max=255;
         HD1C->Text=c;
 
         ATA_SetCHS(1, c, h, s);

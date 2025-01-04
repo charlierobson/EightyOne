@@ -1485,9 +1485,9 @@ object HW: THW
         OnClick = ZXpandEmulationInfoClick
       end
       object SpeechBoxLbl: TLabel
-        Left = 40
+        Left = 41
         Top = 116
-        Width = 41
+        Width = 40
         Height = 13
         Alignment = taRightJustify
         Caption = 'Speech:'
@@ -2051,7 +2051,7 @@ object HW: THW
         Top = 16
         Width = 201
         Height = 21
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 0
         OnChange = RomBoxChange
       end

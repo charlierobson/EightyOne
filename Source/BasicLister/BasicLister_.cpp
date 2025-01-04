@@ -18,7 +18,7 @@
 
  //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "BasicLister_.h"

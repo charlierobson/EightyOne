@@ -750,7 +750,7 @@ case 0x80:	/* LD B,RES 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0xfe;
+B=(BYTE)(readbyte(tempaddr) & 0xfe);
 writebyte(tempaddr, B);
 break;
 
@@ -758,7 +758,7 @@ case 0x81:	/* LD C,RES 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0xfe;
+C=(BYTE)(readbyte(tempaddr) & 0xfe);
 writebyte(tempaddr, C);
 break;
 
@@ -766,7 +766,7 @@ case 0x82:	/* LD D,RES 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0xfe;
+D=(BYTE)(readbyte(tempaddr) & 0xfe);
 writebyte(tempaddr, D);
 break;
 
@@ -774,7 +774,7 @@ case 0x83:	/* LD E,RES 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0xfe;
+E=(BYTE)(readbyte(tempaddr) & 0xfe);
 writebyte(tempaddr, E);
 break;
 
@@ -782,7 +782,7 @@ case 0x84:	/* LD H,RES 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0xfe;
+H=(BYTE)(readbyte(tempaddr) & 0xfe);
 writebyte(tempaddr, H);
 break;
 
@@ -790,7 +790,7 @@ case 0x85:	/* LD L,RES 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0xfe;
+L=(BYTE)(readbyte(tempaddr) & 0xfe);
 writebyte(tempaddr, L);
 break;
 
@@ -805,7 +805,7 @@ case 0x87:	/* LD A,RES 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0xfe;
+A=(BYTE)(readbyte(tempaddr) & 0xfe);
 writebyte(tempaddr, A);
 break;
 
@@ -813,7 +813,7 @@ case 0x88:	/* LD B,RES 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0xfd;
+B=(BYTE)(readbyte(tempaddr) & 0xfd);
 writebyte(tempaddr, B);
 break;
 
@@ -821,7 +821,7 @@ case 0x89:	/* LD C,RES 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0xfd;
+C=(BYTE)(readbyte(tempaddr) & 0xfd);
 writebyte(tempaddr, C);
 break;
 
@@ -829,7 +829,7 @@ case 0x8a:	/* LD D,RES 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0xfd;
+D=(BYTE)(readbyte(tempaddr) & 0xfd);
 writebyte(tempaddr, D);
 break;
 
@@ -837,7 +837,7 @@ case 0x8b:	/* LD E,RES 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0xfd;
+E=(BYTE)(readbyte(tempaddr) & 0xfd);
 writebyte(tempaddr, E);
 break;
 
@@ -845,7 +845,7 @@ case 0x8c:	/* LD H,RES 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0xfd;
+H=(BYTE)(readbyte(tempaddr) & 0xfd);
 writebyte(tempaddr, H);
 break;
 
@@ -853,7 +853,7 @@ case 0x8d:	/* LD L,RES 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0xfd;
+L=(BYTE)(readbyte(tempaddr) & 0xfd);
 writebyte(tempaddr, L);
 break;
 
@@ -868,7 +868,7 @@ case 0x8f:	/* LD A,RES 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0xfd;
+A=(BYTE)(readbyte(tempaddr) & 0xfd);
 writebyte(tempaddr, A);
 break;
 
@@ -876,7 +876,7 @@ case 0x90:	/* LD B,RES 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0xfb;
+B=(BYTE)(readbyte(tempaddr) & 0xfb);
 writebyte(tempaddr, B);
 break;
 
@@ -884,7 +884,7 @@ case 0x91:	/* LD C,RES 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0xfb;
+C=(BYTE)(readbyte(tempaddr) & 0xfb);
 writebyte(tempaddr, C);
 break;
 
@@ -892,7 +892,7 @@ case 0x92:	/* LD D,RES 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0xfb;
+D=(BYTE)(readbyte(tempaddr) & 0xfb);
 writebyte(tempaddr, D);
 break;
 
@@ -900,7 +900,7 @@ case 0x93:	/* LD E,RES 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0xfb;
+E=(BYTE)(readbyte(tempaddr) & 0xfb);
 writebyte(tempaddr, E);
 break;
 
@@ -908,7 +908,7 @@ case 0x94:	/* LD H,RES 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0xfb;
+H=(BYTE)(readbyte(tempaddr) & 0xfb);
 writebyte(tempaddr, H);
 break;
 
@@ -916,7 +916,7 @@ case 0x95:	/* LD L,RES 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0xfb;
+L=(BYTE)(readbyte(tempaddr) & 0xfb);
 writebyte(tempaddr, L);
 break;
 
@@ -931,7 +931,7 @@ case 0x97:	/* LD A,RES 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0xfb;
+A=(BYTE)(readbyte(tempaddr) & 0xfb);
 writebyte(tempaddr, A);
 break;
 
@@ -939,7 +939,7 @@ case 0x98:	/* LD B,RES 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0xf7;
+B=(BYTE)(readbyte(tempaddr) & 0xf7);
 writebyte(tempaddr, B);
 break;
 
@@ -947,7 +947,7 @@ case 0x99:	/* LD C,RES 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0xf7;
+C=(BYTE)(readbyte(tempaddr) & 0xf7);
 writebyte(tempaddr, C);
 break;
 
@@ -955,7 +955,7 @@ case 0x9a:	/* LD D,RES 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0xf7;
+D=(BYTE)(readbyte(tempaddr) & 0xf7);
 writebyte(tempaddr, D);
 break;
 
@@ -963,7 +963,7 @@ case 0x9b:	/* LD E,RES 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0xf7;
+E=(BYTE)(readbyte(tempaddr) & 0xf7);
 writebyte(tempaddr, E);
 break;
 
@@ -971,7 +971,7 @@ case 0x9c:	/* LD H,RES 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0xf7;
+H=(BYTE)(readbyte(tempaddr) & 0xf7);
 writebyte(tempaddr, H);
 break;
 
@@ -979,7 +979,7 @@ case 0x9d:	/* LD L,RES 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0xf7;
+L=(BYTE)(readbyte(tempaddr) & 0xf7);
 writebyte(tempaddr, L);
 break;
 
@@ -994,7 +994,7 @@ case 0x9f:	/* LD A,RES 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0xf7;
+A=(BYTE)(readbyte(tempaddr) & 0xf7);
 writebyte(tempaddr, A);
 break;
 
@@ -1002,7 +1002,7 @@ case 0xa0:	/* LD B,RES 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0xef;
+B=(BYTE)(readbyte(tempaddr) & 0xef);
 writebyte(tempaddr, B);
 break;
 
@@ -1010,7 +1010,7 @@ case 0xa1:	/* LD C,RES 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0xef;
+C=(BYTE)(readbyte(tempaddr) & 0xef);
 writebyte(tempaddr, C);
 break;
 
@@ -1018,7 +1018,7 @@ case 0xa2:	/* LD D,RES 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0xef;
+D=(BYTE)(readbyte(tempaddr) & 0xef);
 writebyte(tempaddr, D);
 break;
 
@@ -1026,7 +1026,7 @@ case 0xa3:	/* LD E,RES 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0xef;
+E=(BYTE)(readbyte(tempaddr) & 0xef);
 writebyte(tempaddr, E);
 break;
 
@@ -1034,7 +1034,7 @@ case 0xa4:	/* LD H,RES 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0xef;
+H=(BYTE)(readbyte(tempaddr) & 0xef);
 writebyte(tempaddr, H);
 break;
 
@@ -1042,7 +1042,7 @@ case 0xa5:	/* LD L,RES 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0xef;
+L=(BYTE)(readbyte(tempaddr) & 0xef);
 writebyte(tempaddr, L);
 break;
 
@@ -1057,7 +1057,7 @@ case 0xa7:	/* LD A,RES 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0xef;
+A=(BYTE)(readbyte(tempaddr) & 0xef);
 writebyte(tempaddr, A);
 break;
 
@@ -1065,7 +1065,7 @@ case 0xa8:	/* LD B,RES 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0xdf;
+B=(BYTE)(readbyte(tempaddr) & 0xdf);
 writebyte(tempaddr, B);
 break;
 
@@ -1073,7 +1073,7 @@ case 0xa9:	/* LD C,RES 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0xdf;
+C=(BYTE)(readbyte(tempaddr) & 0xdf);
 writebyte(tempaddr, C);
 break;
 
@@ -1081,7 +1081,7 @@ case 0xaa:	/* LD D,RES 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0xdf;
+D=(BYTE)(readbyte(tempaddr) & 0xdf);
 writebyte(tempaddr, D);
 break;
 
@@ -1089,7 +1089,7 @@ case 0xab:	/* LD E,RES 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0xdf;
+E=(BYTE)(readbyte(tempaddr) & 0xdf);
 writebyte(tempaddr, E);
 break;
 
@@ -1097,7 +1097,7 @@ case 0xac:	/* LD H,RES 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0xdf;
+H=(BYTE)(readbyte(tempaddr) & 0xdf);
 writebyte(tempaddr, H);
 break;
 
@@ -1105,7 +1105,7 @@ case 0xad:	/* LD L,RES 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0xdf;
+L=(BYTE)(readbyte(tempaddr) & 0xdf);
 writebyte(tempaddr, L);
 break;
 
@@ -1120,7 +1120,7 @@ case 0xaf:	/* LD A,RES 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0xdf;
+A=(BYTE)(readbyte(tempaddr) & 0xdf);
 writebyte(tempaddr, A);
 break;
 
@@ -1128,7 +1128,7 @@ case 0xb0:	/* LD B,RES 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0xbf;
+B=(BYTE)(readbyte(tempaddr) & 0xbf);
 writebyte(tempaddr, B);
 break;
 
@@ -1136,7 +1136,7 @@ case 0xb1:	/* LD C,RES 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0xbf;
+C=(BYTE)(readbyte(tempaddr) & 0xbf);
 writebyte(tempaddr, C);
 break;
 
@@ -1144,7 +1144,7 @@ case 0xb2:	/* LD D,RES 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0xbf;
+D=(BYTE)(readbyte(tempaddr) & 0xbf);
 writebyte(tempaddr, D);
 break;
 
@@ -1152,7 +1152,7 @@ case 0xb3:	/* LD E,RES 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0xbf;
+E=(BYTE)(readbyte(tempaddr) & 0xbf);
 writebyte(tempaddr, E);
 break;
 
@@ -1160,7 +1160,7 @@ case 0xb4:	/* LD H,RES 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0xbf;
+H=(BYTE)(readbyte(tempaddr) & 0xbf);
 writebyte(tempaddr, H);
 break;
 
@@ -1168,7 +1168,7 @@ case 0xb5:	/* LD L,RES 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0xbf;
+L=(BYTE)(readbyte(tempaddr) & 0xbf);
 writebyte(tempaddr, L);
 break;
 
@@ -1183,7 +1183,7 @@ case 0xb7:	/* LD A,RES 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0xbf;
+A=(BYTE)(readbyte(tempaddr) & 0xbf);
 writebyte(tempaddr, A);
 break;
 
@@ -1191,7 +1191,7 @@ case 0xb8:	/* LD B,RES 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) & 0x7f;
+B=(BYTE)(readbyte(tempaddr) & 0x7f);
 writebyte(tempaddr, B);
 break;
 
@@ -1199,7 +1199,7 @@ case 0xb9:	/* LD C,RES 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) & 0x7f;
+C=(BYTE)(readbyte(tempaddr) & 0x7f);
 writebyte(tempaddr, C);
 break;
 
@@ -1207,7 +1207,7 @@ case 0xba:	/* LD D,RES 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) & 0x7f;
+D=(BYTE)(readbyte(tempaddr) & 0x7f);
 writebyte(tempaddr, D);
 break;
 
@@ -1215,7 +1215,7 @@ case 0xbb:	/* LD E,RES 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) & 0x7f;
+E=(BYTE)(readbyte(tempaddr) & 0x7f);
 writebyte(tempaddr, E);
 break;
 
@@ -1223,7 +1223,7 @@ case 0xbc:	/* LD H,RES 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) & 0x7f;
+H=(BYTE)(readbyte(tempaddr) & 0x7f);
 writebyte(tempaddr, H);
 break;
 
@@ -1231,7 +1231,7 @@ case 0xbd:	/* LD L,RES 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) & 0x7f;
+L=(BYTE)(readbyte(tempaddr) & 0x7f);
 writebyte(tempaddr, L);
 break;
 
@@ -1246,7 +1246,7 @@ case 0xbf:	/* LD A,RES 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) & 0x7f;
+A=(BYTE)(readbyte(tempaddr) & 0x7f);
 writebyte(tempaddr, A);
 break;
 
@@ -1254,7 +1254,7 @@ case 0xc0:	/* LD B,SET 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x01;
+B=(BYTE)(readbyte(tempaddr) | 0x01);
 writebyte(tempaddr, B);
 break;
 
@@ -1262,7 +1262,7 @@ case 0xc1:	/* LD C,SET 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x01;
+C=(BYTE)(readbyte(tempaddr) | 0x01);
 writebyte(tempaddr, C);
 break;
 
@@ -1270,7 +1270,7 @@ case 0xc2:	/* LD D,SET 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x01;
+D=(BYTE)(readbyte(tempaddr) | 0x01);
 writebyte(tempaddr, D);
 break;
 
@@ -1278,7 +1278,7 @@ case 0xc3:	/* LD E,SET 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x01;
+E=(BYTE)(readbyte(tempaddr) | 0x01);
 writebyte(tempaddr, E);
 break;
 
@@ -1286,7 +1286,7 @@ case 0xc4:	/* LD H,SET 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x01;
+H=(BYTE)(readbyte(tempaddr) | 0x01);
 writebyte(tempaddr, H);
 break;
 
@@ -1294,7 +1294,7 @@ case 0xc5:	/* LD L,SET 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x01;
+L=(BYTE)(readbyte(tempaddr) | 0x01);
 writebyte(tempaddr, L);
 break;
 
@@ -1309,7 +1309,7 @@ case 0xc7:	/* LD A,SET 0,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x01;
+A=(BYTE)(readbyte(tempaddr) | 0x01);
 writebyte(tempaddr, A);
 break;
 
@@ -1317,7 +1317,7 @@ case 0xc8:	/* LD B,SET 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x02;
+B=(BYTE)(readbyte(tempaddr) | 0x02);
 writebyte(tempaddr, B);
 break;
 
@@ -1325,7 +1325,7 @@ case 0xc9:	/* LD C,SET 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x02;
+C=(BYTE)(readbyte(tempaddr) | 0x02);
 writebyte(tempaddr, C);
 break;
 
@@ -1333,7 +1333,7 @@ case 0xca:	/* LD D,SET 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x02;
+D=(BYTE)(readbyte(tempaddr) | 0x02);
 writebyte(tempaddr, D);
 break;
 
@@ -1341,7 +1341,7 @@ case 0xcb:	/* LD E,SET 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x02;
+E=(BYTE)(readbyte(tempaddr) | 0x02);
 writebyte(tempaddr, E);
 break;
 
@@ -1349,7 +1349,7 @@ case 0xcc:	/* LD H,SET 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x02;
+H=(BYTE)(readbyte(tempaddr) | 0x02);
 writebyte(tempaddr, H);
 break;
 
@@ -1357,7 +1357,7 @@ case 0xcd:	/* LD L,SET 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x02;
+L=(BYTE)(readbyte(tempaddr) | 0x02);
 writebyte(tempaddr, L);
 break;
 
@@ -1372,7 +1372,7 @@ case 0xcf:	/* LD A,SET 1,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x02;
+A=(BYTE)(readbyte(tempaddr) | 0x02);
 writebyte(tempaddr, A);
 break;
 
@@ -1380,7 +1380,7 @@ case 0xd0:	/* LD B,SET 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x04;
+B=(BYTE)(readbyte(tempaddr) | 0x04);
 writebyte(tempaddr, B);
 break;
 
@@ -1388,7 +1388,7 @@ case 0xd1:	/* LD C,SET 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x04;
+C=(BYTE)(readbyte(tempaddr) | 0x04);
 writebyte(tempaddr, C);
 break;
 
@@ -1396,7 +1396,7 @@ case 0xd2:	/* LD D,SET 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x04;
+D=(BYTE)(readbyte(tempaddr) | 0x04);
 writebyte(tempaddr, D);
 break;
 
@@ -1404,7 +1404,7 @@ case 0xd3:	/* LD E,SET 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x04;
+E=(BYTE)(readbyte(tempaddr) | 0x04);
 writebyte(tempaddr, E);
 break;
 
@@ -1412,7 +1412,7 @@ case 0xd4:	/* LD H,SET 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x04;
+H=(BYTE)(readbyte(tempaddr) | 0x04);
 writebyte(tempaddr, H);
 break;
 
@@ -1420,7 +1420,7 @@ case 0xd5:	/* LD L,SET 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x04;
+L=(BYTE)(readbyte(tempaddr) | 0x04);
 writebyte(tempaddr, L);
 break;
 
@@ -1435,7 +1435,7 @@ case 0xd7:	/* LD A,SET 2,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x04;
+A=(BYTE)(readbyte(tempaddr) | 0x04);
 writebyte(tempaddr, A);
 break;
 
@@ -1443,7 +1443,7 @@ case 0xd8:	/* LD B,SET 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x08;
+B=(BYTE)(readbyte(tempaddr) | 0x08);
 writebyte(tempaddr, B);
 break;
 
@@ -1451,7 +1451,7 @@ case 0xd9:	/* LD C,SET 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x08;
+C=(BYTE)(readbyte(tempaddr) | 0x08);
 writebyte(tempaddr, C);
 break;
 
@@ -1459,7 +1459,7 @@ case 0xda:	/* LD D,SET 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x08;
+D=(BYTE)(readbyte(tempaddr) | 0x08);
 writebyte(tempaddr, D);
 break;
 
@@ -1467,7 +1467,7 @@ case 0xdb:	/* LD E,SET 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x08;
+E=(BYTE)(readbyte(tempaddr) | 0x08);
 writebyte(tempaddr, E);
 break;
 
@@ -1475,7 +1475,7 @@ case 0xdc:	/* LD H,SET 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x08;
+H=(BYTE)(readbyte(tempaddr) | 0x08);
 writebyte(tempaddr, H);
 break;
 
@@ -1483,7 +1483,7 @@ case 0xdd:	/* LD L,SET 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x08;
+L=(BYTE)(readbyte(tempaddr) | 0x08);
 writebyte(tempaddr, L);
 break;
 
@@ -1498,7 +1498,7 @@ case 0xdf:	/* LD A,SET 3,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x08;
+A=(BYTE)(readbyte(tempaddr) | 0x08);
 writebyte(tempaddr, A);
 break;
 
@@ -1506,7 +1506,7 @@ case 0xe0:	/* LD B,SET 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x10;
+B=(BYTE)(readbyte(tempaddr) | 0x10);
 writebyte(tempaddr, B);
 break;
 
@@ -1514,7 +1514,7 @@ case 0xe1:	/* LD C,SET 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x10;
+C=(BYTE)(readbyte(tempaddr) | 0x10);
 writebyte(tempaddr, C);
 break;
 
@@ -1522,7 +1522,7 @@ case 0xe2:	/* LD D,SET 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x10;
+D=(BYTE)(readbyte(tempaddr) | 0x10);
 writebyte(tempaddr, D);
 break;
 
@@ -1530,7 +1530,7 @@ case 0xe3:	/* LD E,SET 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x10;
+E=(BYTE)(readbyte(tempaddr) | 0x10);
 writebyte(tempaddr, E);
 break;
 
@@ -1538,7 +1538,7 @@ case 0xe4:	/* LD H,SET 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x10;
+H=(BYTE)(readbyte(tempaddr) | 0x10);
 writebyte(tempaddr, H);
 break;
 
@@ -1546,7 +1546,7 @@ case 0xe5:	/* LD L,SET 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x10;
+L=(BYTE)(readbyte(tempaddr) | 0x10);
 writebyte(tempaddr, L);
 break;
 
@@ -1561,7 +1561,7 @@ case 0xe7:	/* LD A,SET 4,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x10;
+A=(BYTE)(readbyte(tempaddr) | 0x10);
 writebyte(tempaddr, A);
 break;
 
@@ -1569,7 +1569,7 @@ case 0xe8:	/* LD B,SET 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x20;
+B=(BYTE)(readbyte(tempaddr) | 0x20);
 writebyte(tempaddr, B);
 break;
 
@@ -1577,7 +1577,7 @@ case 0xe9:	/* LD C,SET 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x20;
+C=(BYTE)(readbyte(tempaddr) | 0x20);
 writebyte(tempaddr, C);
 break;
 
@@ -1585,7 +1585,7 @@ case 0xea:	/* LD D,SET 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x20;
+D=(BYTE)(readbyte(tempaddr) | 0x20);
 writebyte(tempaddr, D);
 break;
 
@@ -1593,7 +1593,7 @@ case 0xeb:	/* LD E,SET 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x20;
+E=(BYTE)(readbyte(tempaddr) | 0x20);
 writebyte(tempaddr, E);
 break;
 
@@ -1601,7 +1601,7 @@ case 0xec:	/* LD H,SET 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x20;
+H=(BYTE)(readbyte(tempaddr) | 0x20);
 writebyte(tempaddr, H);
 break;
 
@@ -1609,7 +1609,7 @@ case 0xed:	/* LD L,SET 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x20;
+L=(BYTE)(readbyte(tempaddr) | 0x20);
 writebyte(tempaddr, L);
 break;
 
@@ -1624,7 +1624,7 @@ case 0xef:	/* LD A,SET 5,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x20;
+A=(BYTE)(readbyte(tempaddr) | 0x20);
 writebyte(tempaddr, A);
 break;
 
@@ -1632,7 +1632,7 @@ case 0xf0:	/* LD B,SET 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x40;
+B=(BYTE)(readbyte(tempaddr) | 0x40);
 writebyte(tempaddr, B);
 break;
 
@@ -1640,7 +1640,7 @@ case 0xf1:	/* LD C,SET 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x40;
+C=(BYTE)(readbyte(tempaddr) | 0x40);
 writebyte(tempaddr, C);
 break;
 
@@ -1648,7 +1648,7 @@ case 0xf2:	/* LD D,SET 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x40;
+D=(BYTE)(readbyte(tempaddr) | 0x40);
 writebyte(tempaddr, D);
 break;
 
@@ -1656,7 +1656,7 @@ case 0xf3:	/* LD E,SET 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x40;
+E=(BYTE)(readbyte(tempaddr) | 0x40);
 writebyte(tempaddr, E);
 break;
 
@@ -1664,7 +1664,7 @@ case 0xf4:	/* LD H,SET 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x40;
+H=(BYTE)(readbyte(tempaddr) | 0x40);
 writebyte(tempaddr, H);
 break;
 
@@ -1672,7 +1672,7 @@ case 0xf5:	/* LD L,SET 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x40;
+L=(BYTE)(readbyte(tempaddr) | 0x40);
 writebyte(tempaddr, L);
 break;
 
@@ -1687,7 +1687,7 @@ case 0xf7:	/* LD A,SET 6,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x40;
+A=(BYTE)(readbyte(tempaddr) | 0x40);
 writebyte(tempaddr, A);
 break;
 
@@ -1695,7 +1695,7 @@ case 0xf8:	/* LD B,SET 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-B=readbyte(tempaddr) | 0x80;
+B=(BYTE)(readbyte(tempaddr) | 0x80);
 writebyte(tempaddr, B);
 break;
 
@@ -1703,7 +1703,7 @@ case 0xf9:	/* LD C,SET 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-C=readbyte(tempaddr) | 0x80;
+C=(BYTE)(readbyte(tempaddr) | 0x80);
 writebyte(tempaddr, C);
 break;
 
@@ -1711,7 +1711,7 @@ case 0xfa:	/* LD D,SET 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-D=readbyte(tempaddr) | 0x80;
+D=(BYTE)(readbyte(tempaddr) | 0x80);
 writebyte(tempaddr, D);
 break;
 
@@ -1719,7 +1719,7 @@ case 0xfb:	/* LD E,SET 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-E=readbyte(tempaddr) | 0x80;
+E=(BYTE)(readbyte(tempaddr) | 0x80);
 writebyte(tempaddr, E);
 break;
 
@@ -1727,7 +1727,7 @@ case 0xfc:	/* LD H,SET 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-H=readbyte(tempaddr) | 0x80;
+H=(BYTE)(readbyte(tempaddr) | 0x80);
 writebyte(tempaddr, H);
 break;
 
@@ -1735,7 +1735,7 @@ case 0xfd:	/* LD L,SET 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-L=readbyte(tempaddr) | 0x80;
+L=(BYTE)(readbyte(tempaddr) | 0x80);
 writebyte(tempaddr, L);
 break;
 
@@ -1750,6 +1750,6 @@ case 0xff:	/* LD A,SET 7,(REGISTER+dd) */
 tstates += 8;
 InsertMCycle(4);
 InsertMCycle(3);
-A=readbyte(tempaddr) | 0x80;
+A=(BYTE)(readbyte(tempaddr) | 0x80);
 writebyte(tempaddr, A);
 break;

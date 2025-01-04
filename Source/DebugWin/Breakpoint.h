@@ -110,7 +110,14 @@ struct breakpoint
                                 break;
 
                         case GreaterThanEquals:
-                                addrMatch = (curAddr >= Addr) && (curAddr <= zx81.RAMTOP);
+                                if (Addr <= zx81.RAMTOP)
+                                {
+                                        addrMatch = (curAddr >= Addr) && (curAddr <= zx81.RAMTOP);
+                                }
+                                else
+                                {
+                                        addrMatch = (curAddr >= Addr);
+                                }
                                 break;
 
                         case Range:

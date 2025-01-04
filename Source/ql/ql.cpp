@@ -18,7 +18,7 @@
  * ql.c
  *
  */
-#include <VCL.h>
+#include <vcl4.h>
 
 #include <stdlib.h>
 #include <fcntl.h>
@@ -56,7 +56,7 @@ int QLTopBorder, QLLeftBorder, QLFlash, QLFlashCount, QLMode=0;
 void ql_initialise()
 {
         int i, romlen;
-        for(i=0;i<(1024*1024);i++) memory[i]=random(256);
+        for(i=0;i<(1024*1024);i++) memory[i]=(BYTE)random(256);
         for(i=0;i<0x20000;i++) memory[i]=0;
         for(i=0x40000;i<=0xfffff;i++) memory[i]=0;
         romlen=memory_load(machine.CurRom, 0, 65536);
@@ -79,7 +79,7 @@ void ql_writebyte(int Address, int Data)
 {
         Address&=0x00ffffff;
         if (Address<0x20000 || Address>0x3ffff) return;
-        memory[Address&0xfffff]=Data;
+        memory[Address&0xfffff]=(BYTE)Data;
 }
 
 BYTE ql_readbyte(int Address)
@@ -123,7 +123,7 @@ int ql_do_scanline(SCANLINE *CurScanLine)
 
         if (clean_exit)
         {
-                add_blank(CurScanLine,borrow,paper*16);
+                add_blank(CurScanLine,borrow,(BYTE)(paper*16));
                 sts=0;
                 delay=QLLeftBorder - borrow*2;
                 pixels=0;
@@ -176,7 +176,7 @@ int ql_do_scanline(SCANLINE *CurScanLine)
 
                         }
 
-                        CurScanLine->scanline[CurScanLine->scanline_len++]=colour;
+                        CurScanLine->scanline[CurScanLine->scanline_len++]=(BYTE)colour;
                 }
                 DebugUpdate68k();
         } while(loop>0 && !emulation_stop && sts<MaxScanLen);

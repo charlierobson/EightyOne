@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <io.h>
 
 #pragma hdrstop
@@ -232,7 +232,7 @@ void PrinterSetStrobe(unsigned char Strobe)
         if (Strobe & !LastStrobe)
         {
                 BusyTime=1000;
-                ParallelPort->SendData(PortData);
+                ParallelPort->SendData((unsigned char)PortData);
         }
 
         LastStrobe=Strobe;

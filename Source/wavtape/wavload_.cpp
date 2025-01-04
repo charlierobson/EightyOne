@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "wavload_.h"
@@ -659,7 +659,7 @@ void __fastcall TWavLoad::ConvertNextBlock1Click(TObject *Sender)
         int byte, Silence;
         BYTE  *Data;
 
-        if (emulator.machine == MACHINESPECTRUM || emulator.machine == MACHINESPECTRUM) return;
+        if (emulator.machine == MACHINESPECTRUM || emulator.machine == MACHINEACE) return;
         
         int StartTapePos;
 
@@ -698,7 +698,7 @@ void __fastcall TWavLoad::ConvertNextBlock1Click(TObject *Sender)
         {
                 if (start) start=false;
                 ByteCount++;
-                *(dataptr++) = byte;
+                *(dataptr++) = (BYTE)byte;
                 if (!Data)
                 {
                         if ((zx81File && byte & 0x80) || !zx81File) Data=dataptr;
@@ -725,7 +725,7 @@ void __fastcall TWavLoad::ConvertNextBlock1Click(TObject *Sender)
         }
 
         TZX->AddBlock(NULL,Silence);
-        if (ByteCount>32) TZX->AddBlock((char *)inbuf, ByteCount);
+        if (ByteCount>32) TZX->AddBlock((char*)inbuf, (int)ByteCount);
         TZX->MergeBlocks();
         TZX->UpdateTable(false);
 

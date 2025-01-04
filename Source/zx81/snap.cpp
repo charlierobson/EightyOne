@@ -21,7 +21,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <vcl.h>
+#include <vcl4.h>
 #include <fcntl.h>
 #include <io.h>
 #include <mem.h>
@@ -75,17 +75,17 @@ _TCHAR *get_token(FILE *f)
         int buflen;
         char c;
 
-        c=fgetc(f);
-        while(isspace(c) && !feof(f)) c=fgetc(f);
+        c=(char)fgetc(f);
+        while(isspace(c) && !feof(f)) c=(char)fgetc(f);
 
         buflen=0;
         buffer[buflen++]=c;
 
-        c=fgetc(f);
+        c=(char)fgetc(f);
         while(!isspace(c) && !feof(f) && buflen<255)
         {
                 buffer[buflen++]=c;
-                c=fgetc(f);
+                c=(char)fgetc(f);
         }
 
         buffer[buflen]='\0';
@@ -137,21 +137,21 @@ void load_snap_cpu(FILE *f)
                         return;
                 }
 
-                if (!_tcscmp(tok,_TEXT("PC"))) z80.pc.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("SP"))) z80.sp.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("HL"))) z80.hl.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("DE"))) z80.de.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("BC"))) z80.bc.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("AF"))) z80.af.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("HL_"))) z80.hl_.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("DE_"))) z80.de_.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("BC_"))) z80.bc_.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("AF_"))) z80.af_.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("IX"))) z80.ix.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("IY"))) z80.iy.w = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("IM"))) z80.im = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("IF1"))) z80.iff1 = hex2dec(get_token(f));
-                if (!_tcscmp(tok,_TEXT("IF2"))) z80.iff2 = hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("PC"))) z80.pc.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("SP"))) z80.sp.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("HL"))) z80.hl.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("DE"))) z80.de.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("BC"))) z80.bc.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("AF"))) z80.af.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("HL_"))) z80.hl_.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("DE_"))) z80.de_.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("BC_"))) z80.bc_.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("AF_"))) z80.af_.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("IX"))) z80.ix.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("IY"))) z80.iy.w = (WORD)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("IM"))) z80.im = (BYTE)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("IF1"))) z80.iff1 = (BYTE)hex2dec(get_token(f));
+                if (!_tcscmp(tok,_TEXT("IF2"))) z80.iff2 = (BYTE)hex2dec(get_token(f));
                 if (!_tcscmp(tok,_TEXT("HT"))) z80.halted = hex2dec(get_token(f));
                 if (!_tcscmp(tok,_TEXT("IR")))
                 {
@@ -159,9 +159,9 @@ void load_snap_cpu(FILE *f)
 
                         a=hex2dec(get_token(f));
 
-                        z80.i = (a>>8) & 255;
-                        z80.r = a & 255;
-                        z80.r7 = a & 128;
+                        z80.i = (BYTE)((a>>8) & 255);
+                        z80.r = (WORD)(a & 255);
+                        z80.r7 = (BYTE)(a & 128);
                 }
         }
 }
@@ -231,7 +231,7 @@ void load_snap_chrgen(FILE *f)
                 }
                 else if ((HW->ChrGenBox->Text == "Quicksilva") && !_tcscmp(tok,_TEXT("ENABLED")))
                 {
-                        zx81.enableQSchrgen = hex2dec(get_token(f));
+                        zx81.enableQSchrgen = (CFGBYTE)hex2dec(get_token(f));
                         Form1->QSChrEnable->Checked = zx81.enableQSchrgen;
                 }
                 else if ((HW->ChrGenBox->Text == "Quicksilva") && (*tok=='*'))
@@ -241,13 +241,13 @@ void load_snap_chrgen(FILE *f)
 
                         while(Count--)
                         {
-                                font[Addr-0x8400] = Chr;
+                                font[Addr-0x8400] = (BYTE)Chr;
 
                                 if (machine.colour == COLOURCHROMA)
                                 {
-                                        memory[Addr] = Chr;
-                                        memory[Addr + 0x4000] = Chr;
-                                        memory[Addr - 0x6000] = Chr;
+                                        memory[Addr] = (BYTE)Chr;
+                                        memory[Addr + 0x4000] = (BYTE)Chr;
+                                        memory[Addr - 0x6000] = (BYTE)Chr;
                                 }
 
                                 Addr++;
@@ -256,13 +256,13 @@ void load_snap_chrgen(FILE *f)
                 else
                 {
                         Chr=hex2dec(tok);
-                        font[Addr-0x8400]=Chr;
+                        font[Addr-0x8400]=(BYTE)Chr;
 
                         if (machine.colour == COLOURCHROMA)
                         {
-                                memory[Addr] = Chr;
-                                memory[Addr + 0x4000] = Chr;
-                                memory[Addr - 0x6000] = Chr;
+                                memory[Addr] = (BYTE)Chr;
+                                memory[Addr + 0x4000] = (BYTE)Chr;
+                                memory[Addr - 0x6000] = (BYTE)Chr;
                         }
                         Addr++;
                 }
@@ -379,22 +379,22 @@ void load_snap_colour(FILE *f)
                 }
                 else if (chroma && !_tcscmp(tok,_TEXT("CHROMA_MODE")))
                 {
-                        zx81.chromaMode = hex2dec(get_token(f));
+                        zx81.chromaMode = (CFGBYTE)hex2dec(get_token(f));
                 }
                 else if (chroma && !_tcscmp(tok,_TEXT("COLOUR_ENABLED")))
                 {
-                        zx81.chromaColourSwitchOn = hex2dec(get_token(f));
+                        zx81.chromaColourSwitchOn = (CFGBYTE)hex2dec(get_token(f));
                         Form1->ChromaColourEnable->Checked = zx81.chromaColourSwitchOn;
                 }
                 else if (chroma && *tok=='*')
                 {
                         Count=hex2dec(tok+1);
                         Chr=hex2dec(get_token(f));
-                        while(Count--) memory[Addr++]=Chr;
+                        while(Count--) memory[Addr++]=(BYTE)Chr;
                 }
                 else if (chroma)
                 {
-                        memory[Addr++]=hex2dec(tok);
+                        memory[Addr++]=(BYTE)hex2dec(tok);
                 }
         }
 }
@@ -530,11 +530,11 @@ void load_snap_mem(FILE *f)
                 {
                         Count=hex2dec(tok+1);
                         Chr=hex2dec(get_token(f));
-                        while(Count--) memory[Addr++]=Chr;
+                        while(Count--) memory[Addr++]=(BYTE)Chr;
                 }
                 else
                 {
-                        memory[Addr++]=hex2dec(tok);
+                        memory[Addr++]=(BYTE)hex2dec(tok);
                 }
         }
 }
@@ -632,7 +632,7 @@ void load_snap_ace(FILE *f)
 
         while(!eof)
         {
-                c=fgetc(f);
+                c=(unsigned char)fgetc(f);
 
                 if (c!=0xED) memory[memptr++]=c;
                 else
@@ -642,7 +642,7 @@ void load_snap_ace(FILE *f)
                         if (!len) eof=1;
                         else
                         {
-                                c=fgetc(f);
+                                c=(unsigned char)fgetc(f);
                                 while(len--) memory[memptr++]=c;
                         }
                 }
@@ -995,7 +995,7 @@ int save_snap_ace(_TCHAR *filename)
 	memory[memptr+2]=0x00; memory[memptr+3]=0x00;
 
 	memptr=0x2080;
-	memory[memptr]=0x00; memory[memptr+1]=(zx81.RAMTOP+1)/256;
+	memory[memptr]=0x00; memory[memptr+1]=(BYTE)((zx81.RAMTOP+1)/256);
 	memory[memptr+2]=0x00; memory[memptr+3]=0x00;
 
 	memptr=0x0284;

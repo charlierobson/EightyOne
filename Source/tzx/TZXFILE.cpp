@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -129,7 +129,7 @@ void TTZXFile::EraseAll(void)
 void TTZXFile::NewTZX(void)
 {
         EraseAll();
-        AddTextBlock((char *)"Created using the EightyOne emulator");
+        AddTextBlock((char*)"Created using the EightyOne emulator");
         //AddHWTypeBlock(0x00, 0x0c);
         CurBlock=1;
         AutoStart=true;
@@ -182,7 +182,7 @@ ZXString TTZXFile::GetBlockName(int BlockNo)
         switch(BlockID)
         {
         case 0x10:
-                data=(char *)Tape[BlockNo].Data.Data;
+                data=(char*)Tape[BlockNo].Data.Data;
                 if ((data[0]==0) && (Tape[BlockNo].Head.ROM.DataLen==19
                                         || Tape[BlockNo].Head.ROM.DataLen==20))
                 {
@@ -474,7 +474,7 @@ ZXString TTZXFile::GetFName(int BlockNo)
 
         if (Tape[BlockNo].BlockID != TZX_BLOCK_GENERAL) return("");
 
-        p=(char *)Tape[BlockNo].Data.Data;
+        p=(char*)Tape[BlockNo].Data.Data;
 
         do
         {
@@ -483,7 +483,7 @@ ZXString TTZXFile::GetFName(int BlockNo)
                 if (c&128)
                 {
                         end=true;
-                        c=c&127;
+                        c=(char)(c&127);
                 }
 
                 if (c==0) Name += " ";

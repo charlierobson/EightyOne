@@ -1,3 +1,7 @@
+#if __CODEGEARC__ < 0x0620
+#pragma warn -8080
+#endif
+
 #include <stdlib.h>
 #include <mem.h>
 #include <string.h>
@@ -118,7 +122,7 @@ BYTE OpusD6821Access(BYTE reg, BYTE Data, BYTE Dir)
                         if (Control_A&4)
                         {
                                 Data_Reg_A &= ~64;
-                                Data_Reg_A |= ((~PrinterBusy())&64)<<6;
+                                Data_Reg_A |= (BYTE)(((~PrinterBusy())&64)<<6);
                                 return(Data_Reg_A);
                         }
                         else
@@ -180,13 +184,13 @@ void floppy_set_motor(BYTE Data)
         {
         case FLOPPYPLUS3:
                 if (USEFDC765DLL) u765_SetMotorState(Data);
-                else if (p3_fdc) fdc_set_motor(p3_fdc, (Data&8) ? 15:0);
+                else if (p3_fdc) fdc_set_motor(p3_fdc, (fdc_byte)((Data&8) ? 15:0));
                 break;
 
         case FLOPPYDISCIPLE:
                 PlusDCur=&PlusDDrives[1-(Data&1)];
                 PlusDCur->side=(Data&2)>>1;
-                PrinterSetStrobe(Data&64);
+                PrinterSetStrobe((unsigned char)(Data&64));
                 break;
 
         case FLOPPYPLUSD:
@@ -204,7 +208,7 @@ void floppy_set_motor(BYTE Data)
                 }
 
                 PlusDCur->side=(Data&128)>>7;
-                PrinterSetStrobe(Data&64);
+                PrinterSetStrobe((unsigned char)(Data&64));
                 break;
 
         case FLOPPYOPUSD:
@@ -242,7 +246,7 @@ void floppy_write_trackreg(BYTE Data)
 
 void floppy_write_secreg(BYTE Data)
 {
-        if (spectrum.floppytype==FLOPPYOPUSD) wd1770_sec_write(PlusDCur, Data+1);
+        if (spectrum.floppytype==FLOPPYOPUSD) wd1770_sec_write(PlusDCur, (BYTE)(Data+1));
         else wd1770_sec_write(PlusDCur, Data);
 }
 
@@ -309,7 +313,7 @@ BYTE floppy_read_trackreg(void)
 
 BYTE floppy_read_secreg(void)
 {
-        if (spectrum.floppytype==FLOPPYOPUSD) return(wd1770_sec_read(PlusDCur)-1);
+        if (spectrum.floppytype==FLOPPYOPUSD) return (BYTE)(wd1770_sec_read(PlusDCur)-1);
         else return(wd1770_sec_read(PlusDCur));
 }
 
@@ -609,7 +613,7 @@ void floppy_eject(int drive)
         {
                 if (USEFDC765DLL)
                 {
-                        u765_EjectDisk(drive);
+                        u765_EjectDisk((BYTE)drive);
                 }
                 else
                 {
@@ -772,8 +776,8 @@ void floppy_setimage(int drive, _TCHAR *filename)
 
                 if (USEFDC765DLL)
                 {
-                        if (u765_DiskInserted(drive))
-                                u765_EjectDisk(drive);
+                        if (u765_DiskInserted((BYTE)drive))
+                                u765_EjectDisk((BYTE)drive);
 #if _UNICODE
                         if (_tcslen(filename))
                         {
@@ -782,7 +786,7 @@ void floppy_setimage(int drive, _TCHAR *filename)
                             u765_InsertDisk(temp,drive);
                         }
 #else
-                        if (_tcslen(filename)) u765_InsertDisk(filename,drive);
+                        if (_tcslen(filename)) u765_InsertDisk(filename,(BYTE)drive);
 #endif
                         u765_DiskInserted(0);
                         return;
@@ -940,6 +944,10 @@ void LarkenSaveTrack(int Drive, int TrackNo, unsigned char *buf)
 
         memcpy(p, buf, 1984);
 }
+
+
+
+
 
 
 

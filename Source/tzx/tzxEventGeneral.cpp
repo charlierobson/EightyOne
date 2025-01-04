@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #include <stdio.h>
 #pragma hdrstop
 
@@ -37,12 +37,12 @@
 #define SetEarState(State)                                      \
         switch(State)                                           \
         {                                                       \
-        case 0: PulseList++; break;        \
+        case 0: PulseList++; break;                             \
         case 1: EarState = !EarState; PulseList++; break;       \
         case 2: EarState = 0; PulseList++; break;               \
         case 3: EarState = 1; PulseList++; break;               \
         }                                                       \
-        if ((emulator.machine != MACHINESPECTRUM)                     \
+        if ((emulator.machine != MACHINESPECTRUM)               \
                 && (WavLoad->IgnoreZX81==false) )               \
                         EarState=!EarState;                     \
 
@@ -72,12 +72,12 @@ bool TTZXFile::EventGeneral(void)
 
                 while(Syms)
                 {
-                        SymbolSize +=1;
+                        SymbolSize +=(unsigned char)1;
                         Syms >>= 1;
                 }
 
-                SymbolMask = (1<<SymbolSize) -1;
-                SymbolShift = 8-SymbolSize;
+                SymbolMask = (unsigned char)((1<<SymbolSize) -1);
+                SymbolShift = (unsigned char)(8-SymbolSize);
                 SymbolMask <<= SymbolShift;
 
                 usedbits=8-(DataLen*8 - Tape[CurBlock].Head.General.TOTD*SymbolSize);
@@ -201,8 +201,8 @@ bool TTZXFile::EventGeneral(void)
 
                         CurBlockProgress++;
 
-                        if (DataLen==2) CurrentBitCount += usedbits;
-                        else CurrentBitCount+=8;
+                        if (DataLen==2) CurrentBitCount += (unsigned char)usedbits;
+                        else CurrentBitCount+=(unsigned char)8;
 
                         if (!--DataLen)
                         {

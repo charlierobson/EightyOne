@@ -21,7 +21,7 @@
 
 //---------------------------------------------------------------------------
 
-#include <vcl.h>
+#include <vcl4.h>
 #pragma hdrstop
 
 #include "tzxEditArchive.h"
@@ -170,9 +170,9 @@ void TEditArchiveInfo::Go(int BlockNo, int Mx, int My)
         free(TZXFile.Tape[BlockNo].Data.Data);
         p=(unsigned char *)malloc(text.Length());
         memcpy(p, text.c_str(), text.Length());
-        TZXFile.Tape[BlockNo].Head.Archive.NoStrings=nstrings;
+        TZXFile.Tape[BlockNo].Head.Archive.NoStrings=(unsigned short)nstrings;
         TZXFile.Tape[BlockNo].Data.Data=p;
-        TZXFile.Tape[BlockNo].Head.Archive.BlockLen=text.Length();
+        TZXFile.Tape[BlockNo].Head.Archive.BlockLen=(unsigned short)text.Length();
 }
 
 void __fastcall TEditArchiveInfo::OKClick(TObject *Sender)

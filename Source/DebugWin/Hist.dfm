@@ -39,8 +39,8 @@ object HistoryBox: THistoryBox
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 378
-    Width = 463
+    Top = 374
+    Width = 455
     Height = 19
     Panels = <>
     SimplePanel = False
@@ -48,7 +48,7 @@ object HistoryBox: THistoryBox
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 463
+    Width = 455
     Height = 25
     ButtonHeight = 21
     ButtonWidth = 48

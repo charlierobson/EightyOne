@@ -20,7 +20,6 @@
  */
 
 #include <windows.h>
-#include <vcl.h>
 #include "zx81config.h"
 #include "midi.h"
 
@@ -81,7 +80,7 @@ void CMidi::Write(int Byte)
                         else return;
                 }
 
-        MidiBuffer[MidiBufferLen++]=Byte;
+        MidiBuffer[MidiBufferLen++]=(unsigned char)Byte;
 
         if ((((MidiBuffer[0]&0xfd) == 0xf1) || ((MidiBuffer[0]&0xe0) == 0xc0))
                 && (MidiBufferLen<2)) return;
@@ -105,7 +104,7 @@ void CMidi::Start(void)
         Stop();
         if (Device==-2) return;
 
-        if (midiOutOpen((LPHMIDIOUT)(&outHandle), Device, 0, 0, CALLBACK_NULL))
+        if (midiOutOpen((LPHMIDIOUT)&outHandle, Device, 0, 0, CALLBACK_NULL))
                 outHandle=NULL;
 }
 
