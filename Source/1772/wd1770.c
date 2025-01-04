@@ -25,9 +25,7 @@
 
 */
 
-#if __CODEGEARC__ < 0x0620
 #pragma warn -8071
-#endif
 
 #include <errno.h>
 #include <stdlib.h>

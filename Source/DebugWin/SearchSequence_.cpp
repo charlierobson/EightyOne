@@ -1,8 +1,7 @@
 //---------------------------------------------------------------------------
 
-#if __CODEGEARC__ < 0x0620
 #pragma warn -8066
-#endif
+#pragma warn -8008
 
 #include <vcl4.h>
 #pragma hdrstop

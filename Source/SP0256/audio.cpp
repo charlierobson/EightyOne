@@ -23,9 +23,7 @@
     along with SP0256_CTS256A-AL2.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#if __CODEGEARC__ < 0x0620
 #pragma warn -8080
-#endif
 
 #include "audio.h"
 

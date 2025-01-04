@@ -710,10 +710,12 @@ void __fastcall TForm1::ResetZX811Click(TObject *Sender)
 void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
 {
         TIniFile *ini;
-        DIR *dir;
         ZXString TempFile;
 
+#if __CODEGEARC__ < 0x0620
+        DIR *dir;
         struct dirent *ent;
+#endif
 
         Dbg->DisableMemoryWindowAutoUpdates();
 
