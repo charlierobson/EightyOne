@@ -372,6 +372,8 @@ public:		// User declarations
         bool BPExeHit(int addr, breakpoint* const bp);
         void RefreshBreakpointList();
         void ResetBreakpointHits();
+        void ClearSkipAddresses();
+        void Reset();
 
         bool AddBreakPoint(struct breakpoint& bp);
         int FindBreakPointEntry(int index, struct breakpoint& bp, bool editing);

@@ -59,7 +59,7 @@ void load_snap_interfaces(FILE *f);
 void load_snap_advanced(FILE* f);
 void load_snap_drives(FILE* f);
 void ProcessTag(_TCHAR* tok, FILE* f);
-void InitialiseHardware();
+//void InitialiseHardware();
 
 extern void HWSetMachine(int machine, int speccy);
 extern void DebugUpdate();
@@ -729,12 +729,13 @@ int do_load_snap(_TCHAR *filename, bool resetHardware)
         DebugUpdate();
         return(1);
 }
-
+/*
 void InitialiseHardware()
 {
         HWSetMachine(MACHINEZX81, NULL);
 
         InitialiseChroma();
+<<<<<<< HEAD
         
         SetComboBox(HW->ColourBox, (_TCHAR *)_TEXT("None"));
         SetComboBox(HW->SoundCardBox, (_TCHAR *)_TEXT("None"));
@@ -742,6 +743,16 @@ void InitialiseHardware()
         SetComboBox(HW->HiResBox, (_TCHAR *)_TEXT("None"));
         SetComboBox(HW->RomCartridgeBox, (_TCHAR *)_TEXT("None"));
         SetComboBox(HW->ZXC1ConfigurationBox, (_TCHAR *)_TEXT("32K"));
+=======
+
+        SetComboBox(HW->SpeechBox, "None");        
+        SetComboBox(HW->ColourBox, "None");
+        SetComboBox(HW->SoundCardBox, "None");
+        SetComboBox(HW->ChrGenBox, "Sinclair");
+        SetComboBox(HW->HiResBox, "None");
+        SetComboBox(HW->RomCartridgeBox, "None");
+        SetComboBox(HW->ZXC1ConfigurationBox, "32K");
+>>>>>>> bfb1020aa9ce2e49f8d183e9905fc6aee7bfe46e
         HW->ZXC1ConfigurationBox->Visible = false;
         HW->RomCartridgeFileBox->Left = 86;
         HW->RomCartridgeFileBox->Width = 281;
@@ -781,6 +792,7 @@ void InitialiseHardware()
         zx81.enableQSchrgen = false;
         zx81.chromaColourSwitchOn = false;
 }
+*/
 
 int load_snap(_TCHAR *filename)
 {

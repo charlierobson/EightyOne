@@ -1347,7 +1347,8 @@ BYTE far gmReset[] = {
     0xF0,0x7E,0x7F,0x09,0x01,0xF7
 };
 
-void midiReset(void) {
+void midiReset(void)
+{
     unsigned int i;
     for(i = 0; i < sizeof(gmReset); ++i)
         serialWrite(gmReset[i]);
