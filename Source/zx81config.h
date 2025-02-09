@@ -361,6 +361,7 @@ typedef struct
         char ROMUSPEECH[256];
         char ROMUSOURCE[256];
         char ROMMWCFIDE[256];
+        char ROMZX1541[256];
         char ROMLARKEN81[256];
         char ROMDKTRONICS[256];
         char ROMKAYDE[256];

@@ -208,7 +208,8 @@ BYTE memory[1024 * 1024];
 BYTE font[1024];                //Allows for both non-inverted and inverted for the QS Chars Board
 BYTE memhrg[1024];              //The internal ZX81 RAM is overlaid over the ROM at 0K-1K
 BYTE ZXKeyboard[8];
-BYTE ZX1541Mem[(8+32)*1024]; // ZX1541 has 8k EEPROM and 32k RAM
+BYTE ZX1541ROMOverlay[8*1024]; // ZX1541 has 8k EEPROM
+BYTE ZX1541Mem[32*1024]; // ZX1541 has 32k RAM
 BYTE ZX1541PORT=0;
 
 int QsHiResAddress;
@@ -337,6 +338,11 @@ void zx81_initialise()
 
                 memory[12300]=69;
                 memory[12301]=0;
+        }
+
+        if (spectrum.floppytype==FLOPPYZX1541)
+        {
+                memoryLoadToAddress(emulator.ROMZX1541, (void*)ZX1541ROMOverlay, sizeof(ZX1541ROMOverlay));
         }
 
         if (spectrum.HDType==HDPITERSCF)
@@ -560,17 +566,11 @@ void zx81_WriteByte(int Address, int Data)
 
         if (spectrum.floppytype==FLOPPYZX1541 && !(ZX1541PORT&1))
         {
-                if (Address>=0x2000 && Address<0x4000)
-                {
-                        ZX1541Mem[Address-0x2000]=(BYTE)Data;
-                        return;
-                }
-
                 if (Address>=0x8000 && Address<0xc000)
                 {
                         Address -= 0x8000;
                         if (ZX1541PORT&2) Address+=0x4000;
-                        ZX1541Mem[Address+8192]=(BYTE)Data;
+                        ZX1541Mem[Address]=(BYTE)Data;
                         return;
                 }
         }
@@ -719,7 +719,7 @@ BYTE zx81_ReadByte(int Address)
         {
                 if (Address>=0x2000 && Address<0x4000)
                 {
-                        data=ZX1541Mem[Address-0x2000];
+                        data=ZX1541ROMOverlay[Address-0x2000];
                         noise = (noise<<8) | data;
                         return data;
                 }
@@ -728,7 +728,7 @@ BYTE zx81_ReadByte(int Address)
                 {
                         Address -= 0x8000;
                         if (ZX1541PORT&2) Address+=0x4000;
-                        data=ZX1541Mem[Address+8192];
+                        data=ZX1541Mem[Address];
                         noise = (noise<<8) | data;
                         return data;
                 }

@@ -3402,7 +3402,6 @@ void THW::SaveSettings(TIniFile* ini)
 
         WriteNVMemory(divIDEMem, 1,  8192,  "divide.nv");
         WriteNVMemory(ZXCFMem,   64, 16384, "zxcf.nv");
-        WriteNVMemory(ZX1541Mem, 1,  8192,  "zx1541.nv");
 }
 //---------------------------------------------------------------------------
 
@@ -3413,7 +3412,6 @@ void THW::LoadSettings(TIniFile* ini)
 
         ReadNVMemory(divIDEMem, 1,  8192,  "divide.nv");
         ReadNVMemory(ZXCFMem,   64, 16384, "zxcf.nv");
-        ReadNVMemory(ZX1541Mem, 1,  8192,  "zx1541.nv");
 }
 //---------------------------------------------------------------------------
 
