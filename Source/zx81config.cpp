@@ -174,7 +174,7 @@ void load_config(void)
         strcpy(emulator.ROMMWCFIDE, mwcfideRom.c_str());
         AnsiString larken81Rom = fdcRomsFolder + AnsiString("larken81.rom");
         strcpy(emulator.ROMLARKEN81, larken81Rom.c_str());
-        AnsiString zx1541Rom = fdcRomsFolder + AnsiString("ZX154B1.BIN");
+        AnsiString zx1541Rom = fdcRomsFolder + AnsiString("zx1541.rom");
         strcpy(emulator.ROMZX1541, zx1541Rom.c_str());
         AnsiString interface1Ed1Rom = fdcRomsFolder + AnsiString("interface1.edition1.rom");
         strcpy(emulator.ROMINTERFACE1ED1, interface1Ed1Rom.c_str());
