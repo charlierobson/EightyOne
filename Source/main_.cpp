@@ -1166,6 +1166,7 @@ void TForm1::LoadSettings(TIniFile *ini)
         ConnectJoystick2->Checked         = ini->ReadBool("MAIN", "ConnectJoystick2",         ConnectJoystick2->Checked);
         EnableJoystick1AutoFire->Checked  = ini->ReadBool("MAIN", "EnableJoystick1AutoFire",  EnableJoystick1AutoFire->Checked);
         EnableJoystick2AutoFire->Checked  = ini->ReadBool("MAIN", "EnableJoystick2AutoFire",  EnableJoystick2AutoFire->Checked);
+        SwapJoysticks->Checked            = ini->ReadBool("MAIN", "SwapJoysticks",            SwapJoysticks->Checked);
 
         divIDEJumperEClosed->Checked    = ini->ReadBool("MAIN", "divIDEJumperEClosed",    divIDEJumperEClosed->Checked);
         ZXCFUploadJumperClosed->Checked = ini->ReadBool("MAIN", "ZXCFUploadJumperClosed", ZXCFUploadJumperClosed->Checked);
@@ -1203,6 +1204,7 @@ void TForm1::LoadSettings(TIniFile *ini)
         machine.joystick2Connected       = (CFGBYTE)(ConnectJoystick2->Checked         ? 1 : 0);
         machine.joystick1AutoFireEnabled = (CFGBYTE)(EnableJoystick1AutoFire->Checked  ? 1 : 0);
         machine.joystick2AutoFireEnabled = (CFGBYTE)(EnableJoystick2AutoFire->Checked  ? 1 : 0);
+        machine.joysticksSwapped         = (CFGBYTE)(SwapJoysticks->Checked            ? 1 : 0);
         spectrum.spectrum128Keypad       = (CFGBYTE)(ConnectSpectrum128Keypad->Checked ? 1 : 0);
         spectrum.spectraColourSwitchOn   = (CFGBYTE)(SpectraColourEnable->Checked      ? 1 : 0);
         zx81.chromaColourSwitchOn        = (CFGBYTE)(ChromaColourEnable->Checked       ? 1 : 0);
@@ -1282,6 +1284,7 @@ void TForm1::SaveSettings(TIniFile *ini)
         ini->WriteBool("MAIN", "ConnectJoystick2",         ConnectJoystick2->Checked);
         ini->WriteBool("MAIN", "EnableJoystick1AutoFire",  EnableJoystick1AutoFire->Checked);
         ini->WriteBool("MAIN", "EnableJoystick2AutoFire",  EnableJoystick2AutoFire->Checked);
+        ini->WriteBool("MAIN", "SwapJoysticks",            SwapJoysticks->Checked);
 
         ini->WriteBool("MAIN", "divIDEJumperEClosed",    divIDEJumperEClosed->Checked);
         ini->WriteBool("MAIN", "ZXCFUploadJumperClosed", ZXCFUploadJumperClosed->Checked);
@@ -2877,6 +2880,14 @@ void __fastcall TForm1::SimpleIdeRomEnabledClick(TObject *Sender)
 {
         SimpleIdeRomEnabled->Checked = !SimpleIdeRomEnabled->Checked;
         spectrum.simpleIdeRomEnabled = SimpleIdeRomEnabled->Checked;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SwapJoysticksClick(TObject *Sender)
+{
+        SwapJoysticks->Checked = !SwapJoysticks->Checked;
+        machine.joysticksSwapped = SwapJoysticks->Checked;
+        InitialiseJoysticks();
 }
 //---------------------------------------------------------------------------
 

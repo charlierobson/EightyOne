@@ -188,6 +188,7 @@ __published:	// IDE-managed Components
         TMenuItem *SimpleIdeRomEnabled;
         TMenuItem *N18;
         TMenuItem *PrinterPort;
+        TMenuItem *SwapJoysticks;
         void __fastcall FormCreate(TObject *Sender);
         void __fastcall FormResize(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key,
@@ -308,6 +309,7 @@ __published:	// IDE-managed Components
         void __fastcall ConnectJoystick2Click(TObject *Sender);
         void __fastcall ZoomFullScreenClick(TObject *Sender);
         void __fastcall SimpleIdeRomEnabledClick(TObject *Sender);
+        void __fastcall SwapJoysticksClick(TObject *Sender);
 private:	// User declarations
         int fps;
         bool startup;

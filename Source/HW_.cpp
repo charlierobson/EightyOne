@@ -1528,10 +1528,13 @@ void THW::ConfigureJoystick()
 
                 Form1->EnableJoystick1AutoFire->Checked = false;
                 Form1->EnableJoystick2AutoFire->Checked = false;
+
+                Form1->SwapJoysticks->Checked = false;
         }
 
         Form1->EnableJoystick1AutoFire->Enabled = Form1->ConnectJoystick1->Checked;
         Form1->EnableJoystick2AutoFire->Enabled = Form1->ConnectJoystick2->Checked;
+        Form1->SwapJoysticks->Enabled = Form1->ConnectJoystick1->Enabled || Form1->ConnectJoystick2->Enabled;
 
         if (machine.joystickInterfaceType != JOYSTICK_NONE)
         {
