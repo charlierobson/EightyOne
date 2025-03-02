@@ -3740,6 +3740,7 @@ void THW::AccessIniFile(TIniFile* ini, IniFileAccessType accessType)
 
         //---- ADVANCED TAB ----
 
+        AccessIniFileString(ini,  accessType, "HARDWARE", "RomFile",                  Hwform.RomBoxText);
         AccessIniFileBoolean(ini, accessType, "HARDWARE", "ProtectRom",               Hwform.ProtectROMChecked);
         AccessIniFileBoolean(ini, accessType, "HARDWARE", "NTSC",                     Hwform.NTSCChecked);
         AccessIniFileBoolean(ini, accessType, "HARDWARE", "8KRAM",                    Hwform.EnableLowRAMChecked);
