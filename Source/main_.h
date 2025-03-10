@@ -43,12 +43,13 @@ class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
         TMainMenu *MainMenu1;
-        TMenuItem *RemoveCart1;
+        TMenuItem *FileMenu1;
         TMenuItem *NewTape1;
         TMenuItem *CloseTape1;
         TMenuItem *N3;
         TMenuItem *Exit1;
         TMenuItem *View1;
+        TMenuItem *Tools1;
         TMenuItem *Zoom1;
         TMenuItem *N1001;
         TMenuItem *N2001;
@@ -348,8 +349,9 @@ public:		// User declarations
         int BaseHeight;
         bool FullScreen;
         int RenderMode;
-        int SaveX, SaveY, SaveW, SaveH;
+        int SaveX, SaveY, SaveW, SaveH, SaveWinW, SaveWinH;
         int SaveScrW, SaveScrH, SaveScrBpp;
+        LONG_PTR SaveStyle, SaveExStyle;
         void __fastcall AppMessage(TMsg &Msg, bool &Handled);
         void LoadSettings(TIniFile *ini);
         void SaveSettings(TIniFile *ini);

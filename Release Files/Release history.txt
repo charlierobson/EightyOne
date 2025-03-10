@@ -9,6 +9,7 @@ Version 1.42 - 08/03/2025 (by John Stroebel and Paul Farrow)
   - Bottom 3 volume levels of AY sound output were being capped to 0.
   - The Apply button was not being enable after browsing for a ROM cartridge file.
   - Removed a redundant initialisation call to the sound subsystem.
+  - Fixed inconsistent coverage and content between rendering modes whilst FullScreen.
 * Enhancements:
   - Added an Automatic selection to Fullscreen display options, which uses the screen
     resolution detected at application start. Also changed default width setting to
