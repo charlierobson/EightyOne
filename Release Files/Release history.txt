@@ -14,6 +14,7 @@ Version 1.42 - 01/04/2025 (by John Stroebel and Paul Farrow)
   - Default button ROM setting for Lambda 8300 did not match program default.
   - Corrected typo and formatting of the Lambda 8300 colour interface instructions.
   - Fixed stuck keys when application loses focus.
+  - Fixed possible infinite loop when using DirectDraw video.
 * Enhancements:
   - Added an Automatic selection to Fullscreen display options, which uses the screen
     resolution detected at application start. Also changed default width setting to

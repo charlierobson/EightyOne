@@ -163,8 +163,8 @@ int DDInit(void)
 
         if (Form1->FullScreen)
         {
-                //hRet = m_pDD->SetCooperativeLevel(hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
-                m_pDD->SetCooperativeLevel(hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
+                hRet = m_pDD->SetCooperativeLevel(hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
+                if(DDError(hRet != DD_OK,"DDSetCoopFull")) return(false);
                 hRet = m_pDD->SetDisplayMode(FScreen.Width, FScreen.Height, FScreen.Bpp,NULL,NULL);
 
         }
@@ -419,7 +419,8 @@ void DDAccurateUpdateDisplay(bool singlestep)
         rDest.bottom += p.y;
 
         //if (Form1->FullScreen) DDDrawBorder();
-        while(1)
+        int count=4;
+        while(count-->0)
         {
                 hRet = m_pddsFrontBuffer->Blt(&rDest, DDFrame, &rcsource, DDBLT_WAIT, NULL);
 
